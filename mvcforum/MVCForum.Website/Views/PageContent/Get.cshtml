@@ -1,0 +1,84 @@
+﻿@model MVCForum.Website.Controllers.PageContentViewModel
+
+@{
+    Layout = null;
+}
+@helper EditProperty()
+{
+    if (Model.IsEditable)
+    {
+        <a  class="" style="cursor: pointer; font-size: 10px !important;" data-toggle="modal" data-target="#@Model.ContentFriendlyId-Editor">
+            [Edit]
+        </a>
+    }
+}
+
+@if (Model.IsEditable)
+{
+
+    <div id="@Model.ContentFriendlyId-Editor" class="modal fade">
+        <div class="modal-dialog">
+            @using (Html.BeginForm("Save", "PageContent", FormMethod.Post))
+            {
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        @Html.HiddenFor(p => p.ContentFriendlyId)
+                        @Html.HiddenFor(p => p.ContentId)
+                        @Html.HiddenFor(p => p.IsMarkdown)
+                        <div id="">
+                            <div class="row-fluid">
+                                <div class="span12 topiccontent">
+                                    @if (Model.IsMarkdown)
+                                    {<div class="editor-field editorholder">
+                                        @Html.EditorFor(model => model.Content)
+                                        @Html.ValidationMessageFor(model => model.Content)
+                                    </div>
+
+                                    }
+                                    else
+                                    {
+                                        <div class="editor-field">
+                                            @Html.TextAreaFor(p => p.Content)
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Save Changes" />
+                    </div>
+                </div><!-- /.modal-content -->
+            }
+        </div><!-- /.modal-dialog -->
+    </div>
+        <!-- /.modal -->
+
+}
+
+@if (Model.IsMarkdown)
+{
+
+    <div id="@Model.ContentFriendlyId-Content">
+     
+        @Html.Raw(AppHelpers.ConvertPostContent(Model.Content))
+        @EditProperty()
+    </div>
+}
+else
+{
+    <div id="@Model.ContentFriendlyId-Content">
+     
+        @Html.Raw(Model.Content)
+        @EditProperty()
+    </div>
+}
+

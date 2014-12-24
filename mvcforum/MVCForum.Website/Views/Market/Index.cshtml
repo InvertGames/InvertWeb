@@ -1,0 +1,15 @@
+﻿@model MVCForum.Website.ViewModels.MarketViewModel
+
+@{
+    //Layout = null;
+}
+
+@foreach (var product in Model.NewestProducts)
+{
+    <h3>@product.Title</h3>
+    <hr />
+    <p>@product.Description</p>
+    
+    <a href="@Url.Action("PurchaseCheckout",new { productId = product.Id})" type="button" class="btn btn-success" >Buy Now</a>
+
+}

@@ -1,0 +1,27 @@
+﻿@model dynamic
+
+@{
+    ViewBag.ShowSidebar = false;
+}
+
+@section jumbotron {
+    @Html.PageContent("uFrameJumboTron", false)
+}
+<div class="row">
+    @for (var i = 1; i <= 4; i++)
+    {
+        <div class="col-md-3">
+            <div class="panel">
+                <div class="panel-body">
+                    <h4><strong>@Html.PageContent(string.Format("uFrameNote{0}Title", i), false)</strong>
+                        <small>@Html.PageContent(string.Format("uFrameNote{0}SubTitle", i), false)</small></h4>
+                    <p>@Html.PageContent(string.Format("uFrameNote{0}Description", i), false)</p>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    
+</div>
+@Html.PageContent("uFrameContent", true)

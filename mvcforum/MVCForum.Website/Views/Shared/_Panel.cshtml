@@ -1,0 +1,10 @@
+﻿@model string
+@{
+    Layout = null;
+}
+<div class="panel panel-default">
+    <div class="panel-heading">@Html.PageContent(Model + "Heading", false)</div>
+    <div class="panel-body">
+        @Html.PageContent(Model + "Body",true)
+    </div>
+</div>

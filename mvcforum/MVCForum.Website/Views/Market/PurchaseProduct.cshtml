@@ -1,0 +1,141 @@
+﻿@model MVCForum.Website.ViewModels.MarketProductPurchaseViewModel
+
+@{
+    ViewBag.Title = "PurchaseProduct";
+}
+@section title {
+    <h1>Billing Information <small></small></h1>
+}
+<br />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(p => p.MarketProductPurchaseOptionId)
+        <div class="form-group ">
+            <div class="col-md-1">
+                <label>Quantity:</label>
+                @Html.TextBox("quantity", Model.NumberOfSeats)
+                @Html.ValidationMessageFor(model => model.ErrorMessage, "", new { @class = "text-danger" })
+
+            </div>
+
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Card Information</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+
+                    <div class="col-md-10">
+                        <label>Name On Card:</label>
+                        @Html.EditorFor(model => model.Card.CardName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ErrorMessage, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+                        <label>Card Number:</label>
+                        @Html.EditorFor(model => model.Card.CardNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MarketProductPurchaseOptionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="col-md-2">
+
+                        <label>Exp Month:</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Card.ExpMonth, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.NumberOfSeats, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Exp Year:</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Card.ExpYear, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.NumberOfSeats, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>CVV:</label>
+                        @Html.EditorFor(model => model.Card.Cvv, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NumberOfSeats, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Billing Address</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+
+                    <div class="col-md-10">
+                        <label>Address Line 1:</label>
+                        @Html.EditorFor(model => model.Card.AddressLine1, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NumberOfSeats, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-md-10">
+                        <label>Address Line 2:</label>
+                        @Html.EditorFor(model => model.Card.AddressLine2, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NumberOfSeats, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-md-2">
+                        <label>City:</label>
+                        @Html.EditorFor(model => model.Card.CardCity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NumberOfSeats, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>State:</label>
+                        @Html.EditorFor(model => model.Card.State, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NumberOfSeats, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Country:</label>
+                        @Html.EditorFor(model => model.Card.Country, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NumberOfSeats, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Terms And Conditions</h3>
+                <p>Please read the terms and conditions.</p>
+            </div>
+            <div class="panel-body">
+                <pre style="overflow: scroll;height: 300px;">
+               
+                        Here is the long ass license.
+               
+                </pre>
+                <div class="row col-md-offset-0"><input type="checkbox" onclick="if ($(this).val()) $('#complete').removeAttr('disabled'); else $('#complete').addAttr('disabled'); " /> I Agree to the terms and conditions.</div>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input id="complete" type="submit" value="Complete Purchase" class="btn btn-success btn-lg" disabled="disabled" />
+            </div>
+        </div>
+    </div>
+}

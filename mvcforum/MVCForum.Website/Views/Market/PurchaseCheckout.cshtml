@@ -1,0 +1,226 @@
+﻿@using Microsoft.Ajax.Utilities
+@using MVCForum.Website.ViewModels
+@model MVCForum.Website.ViewModels.MarketProductViewModel
+
+@{
+    ViewBag.Title = "Purchase";
+
+    //    Layout = "~/Themes/Dark/Views/Home/Activity.cshtml";
+}
+@section side {
+<div class="panel panel-default" style="margin-top: 15px; background-color: #f3f3f3">
+
+    <div class="panel-body">
+        <h2 style="text-align: center;"><small>Starting at: </small><strong>$@Model.PriceLow</strong></h2>
+        <table class="table table-condensed">
+            <tr><td>Seller: </td><td>@Model.Seller</td></tr>
+            <tr><td>License: </td><td>@Model.LicenseName</td></tr>
+        </table>
+        <p>
+            <a href="#" class="btn btn-primary btn-large" role="button">One-Click Subscribe</a>
+
+        </p><small>One-click purchases immediately charge your account.</small>
+    </div>
+</div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.Action("SideAdminPanel", "Members")
+
+    }
+    @Html.Action("SideSearch", "Search")
+    @Html.Action("PopularTags", "Tag")
+    @Html.Action("CurrentWeekHighPointUsers", "Point")
+}
+@section title {
+    @if (Model.AllowEditing)
+    {
+        if (Model.IsLive)
+        {
+            <span class="badge-success">Live</span>
+        }
+        else
+        {
+            <span class="badge-important">Not Live</span>
+        }
+
+    }
+    <h1 style="font-weight: bold; ">@Model.Title @EditProperty("Title") <small>@Model.ProductType @EditProperty("ProductType")</small></h1>
+    <br/>
+    <br/>
+}
+
+@helper Editor(string name, HtmlString content)
+{
+    using (Html.BeginForm("SaveProperty", "Market", new { propertyName = name }, FormMethod.Post))
+    {
+        @Html.HiddenFor(p => p.ProductId)
+        <div id="@name-Editor" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="">
+                            @Html.Raw(content)
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Save Changes" />
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    }
+}
+@helper UploadFile(string action, string id)
+{
+    <div class="row-fluid">
+        @using (Html.BeginForm(action, "Market", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="offset2 col-md-8">
+                <span style="display: none;" class="ajaxspinner" title="Please Wait">Please Wait</span>
+                <input type="submit" value="Upload" class="btn postuploadbutton" />
+                <input type="file" name="Files" id="files" value="" multiple="multiple" />
+                <input type="hidden" name="UploadPostId" id="UploadPostId" value="@id" />
+            </div>
+        }
+    </div>
+}
+@helper EditProperty(string name)
+{
+    if (Model.AllowEditing)
+    {
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#@name-Editor">
+            Edit
+        </button>
+    }
+}
+@helper DescriptionEditor()
+{
+    <div class="row-fluid">
+        <div class="span12 topiccontent">
+            <div class="editor-field editorholder">
+                @Html.EditorFor(model => model.Description)
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+    </div>
+}
+@if (Model.AllowEditing)
+{
+    @Editor("Title", Html.EditorFor(p => p.Title))
+    @Editor("ProductType", Html.EditorFor(p => p.ProductType))
+    @Editor("Description", new HtmlString(DescriptionEditor().ToHtmlString()))
+    @*@Editor("Description", Html.EditorFor(p=>p.))*@
+}
+
+<div style="margin-top: -42px;">
+
+    <ul class="nav nav-tabs" id="myTab" style="width: 100%;">
+        <li class="active"><a data-toggle="tab" href="#details">Details</a></li>
+        <li><a data-toggle="tab" href="#reviews">Reviews <span class="badge">@Model.Reviews.Count()</span></a></li>
+        <li><a data-toggle="tab" href="#purchase">Purchase</a></li>
+
+    </ul>
+
+    <div class="tab-content" style="padding-top: 10px !important;">
+        <div class="tab-pane active" id="details">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <img id="main-image" src="@Url.Content(Model.MainImageUrl)" class="img-responsive img-thumbnail" />
+
+                </div>
+                @*<div class="col-md-4 text-center">
+
+
+
+            </div>*@
+            </div>
+            <br />
+            <div class="row">
+
+                @foreach (var image in @Model.Images)
+                {
+                    <div class="col-md-3">
+
+                        <img src="@Url.Content(image.Url)" onclick="$('#main-image').attr('src', ($(this).attr('src')))" class=" img-thumbnail" />
+                    </div>
+
+                }
+            </div>
+            @if (Model.AllowEditing)
+            {
+                <div class="row text-center">
+                    <br />
+                    <button class="btn btn-info" onclick=" $('#image-upload-container').removeClass('hidden'); $(this).hide(); ">Upload More Images</button>
+                    <div id="image-upload-container" class="hidden">
+                        @UploadFile("UploadProductImage", Model.ProductId.ToString())
+                    </div>
+
+                </div>
+            }
+            
+            <h3>Description @EditProperty("Description")</h3>
+            @Html.Raw(AppHelpers.ConvertPostContent(Model.Description))
+
+
+        </div>
+        <div class="tab-pane" id="reviews">
+            <br />
+            @foreach (var review in Model.Reviews)
+            {
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <div class="postmemberavatar">
+                            <a href="@Html.Raw(review.User.NiceUrl)">
+                                <img src="@review.User.MemberImage(AppConstants.GravatarPostSize)" alt="@review.User.UserName">
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+                            Rating: @Html.Partial("_Stars", review.Rating)
+                        </div>
+                        <div class="row">
+                            @Html.Raw(review.Comments)
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+            }
+        </div>
+        <div class="tab-pane" id="purchase">
+
+            @foreach (var option in Model.PurchaseOptions)
+            {
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h4>@(option.PlanName)</h4></div>
+
+                        <table class="table">
+                            <tr><td><strong>Buy In:</strong></td><td>$@(option.BuyInPrice)</td></tr>
+                            <tr><td>Per Month:</td><td>$@(option.RecurringPrice)</td></tr>
+                        </table>
+                        <div class="panel-footer">
+                            <a href="@Url.Action("PurchaseProduct", "Market", new { productOptionsId = option.Id })" class="btn btn-success">Purchase Plan</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+
+

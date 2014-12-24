@@ -1,0 +1,30 @@
+﻿@using MVCForum.Website.Application
+
+@{    
+    ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
+    ViewBag.MetaDesc = Html.Settings().MetaDesc;
+    ViewBag.ShowSidebar = false;
+}
+
+
+
+@section jumbotron {
+    @Html.PageContent("uFrameJumboTron", false)
+}
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.Panel("NewLetter")
+    </div>
+    <div class="col-md-6">
+        @Html.Panel("TwitterFeed")
+    </div>
+</div>
+
+@Html.Action("LatestTopics", "Home")
+@*
+    If you want to show categories on the home page instead of topics
+    Just uncomment this action out and delete this text (And comment out the above action)
+    @Html.Action("ListMainCategories", "Category")
+*@
+

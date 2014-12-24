@@ -1,0 +1,13 @@
+﻿@model int
+@for (var i = 0; i < 5; i++)
+{
+    if (i >= Model)
+    {
+        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+    }
+    else
+    {
+        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+    }
+
+}
