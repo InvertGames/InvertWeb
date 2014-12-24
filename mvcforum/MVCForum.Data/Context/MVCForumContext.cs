@@ -44,6 +44,7 @@ namespace MVCForum.Data.Context
         public DbSet<MarketProductLicense> MarketProductLicense { get; set; }
         public DbSet<MarketProductPurchaseOption> MarketProductPurchaseOption { get; set; }
         public DbSet<PageContent> PageContent { get; set; }
+        public DbSet<PageContentList> PageContentList { get; set; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -59,6 +60,20 @@ namespace MVCForum.Data.Context
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Entity<PageContent>()
                 .HasKey(p => p.Id);
+            modelBuilder.Entity<PageContent>()
+                .HasOptional(p => p.ContentList)
+                .WithMany(p => p.ContentItems)
+                .Map(p=>p.MapKey("ContentList_Id"))
+                .WillCascadeOnDelete();
+                
+            modelBuilder.Entity<PageContentList>()
+               .HasKey(p => p.Id);
+            modelBuilder.Entity<PageContentList>()
+                .HasMany(p => p.ContentItems)
+                .WithOptional(p => p.ContentList)
+                .Map(p => p.MapKey("ContentList_Id"))
+                .WillCascadeOnDelete();
+
             // Mappings
             modelBuilder.Configurations.Add(new BadgeMapping());
             modelBuilder.Configurations.Add(new BadgeTypeTimeLastCheckedMapping());

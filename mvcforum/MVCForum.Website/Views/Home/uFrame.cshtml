@@ -19,9 +19,20 @@
                 </div>
             </div>
         </div>
-
     }
 
     
 </div>
 @Html.PageContent("uFrameContent", true)
+
+@{
+    var content = Html.PageContentList("uFrameFeatures");
+}
+@foreach (var item in Html.PageContentList("uFrameFeatures"))
+{
+    <div id="row">
+        @item.PageContent("Title", false)
+        @item.Render();
+    </div>
+}
+

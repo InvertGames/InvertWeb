@@ -11,6 +11,7 @@ using MVCForum.Domain.Constants;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Utilities;
+using MVCForum.Website.Controllers;
 
 namespace MVCForum.Website.Application
 {
@@ -213,7 +214,19 @@ namespace MVCForum.Website.Application
         #endregion
 
         #region String
+        public static IEnumerable<PageContentViewModel> PageContentList(this HtmlHelper helper, string friendlyId, bool isMarkdown = true)
+        {
+            var getList = helper.ViewBag.GetList as Func<string, PageContentListViewModel>;
 
+            var content = getList(friendlyId);
+            foreach (var item in content.Items)
+            {
+                var item1 = item;
+                item.PageContent = (fId, isMarkDown) => helper.PageContent(item1.ContentId + fId, isMarkdown);
+                item.Render = () => helper.Partial("Get", content);
+                yield return item;
+            }
+        }
         public static HtmlString PageContent(this HtmlHelper helper, string friendlyId, bool isMarkdown)
         {
             return helper.Action("Get", "PageContent", new {friendlyId, isMarkdown});

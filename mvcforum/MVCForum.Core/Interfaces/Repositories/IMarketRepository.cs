@@ -28,8 +28,12 @@ namespace MVCForum.Domain.Interfaces.Repositories
     {
         void SavePageContent(string friendlyId, string content);
         PageContent GetPageContent(string friendlyId);
-
-
         void SavePageContentTitle(string friendlyId, string title);
+
+        PageContentList GetPageContentList(string friendlyId);
+        void SavePageContentListItem(string listFriendlyId, Guid itemId, string content);
+        void MovePageContentUp(Guid itemId);
+        void MovePageContentDown(Guid itemId);
+        void DeletePageContentListItem(Guid itemId);
     }
 }

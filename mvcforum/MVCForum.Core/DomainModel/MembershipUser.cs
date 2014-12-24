@@ -170,7 +170,22 @@ namespace MVCForum.Domain.DomainModel
         public string ContentTitle { get; set; }
         public string Content { get; set; }
 
+        public PageContentList ContentList { get; set; }
+        public double Order { get; set; }
     }
+
+    public class PageContentList : Entity
+    {
+        public PageContentList()
+        {
+            Id = GuidComb.GenerateComb();
+        }
+        public Guid Id { get; set; }
+        public string FriendlyId { get; set; }
+        public virtual IList<PageContent> ContentItems { get; set; }
+    }
+
+    
 
     public class MarketProductReview: Entity
     {

@@ -58,6 +58,11 @@ namespace MVCForum.Domain.Interfaces.Services
         PageContent GetPageContent(string friendlyId);
 
         void SavePageContentTitle(string friendlyId, string title);
+        PageContentList GetPageContentList(string friendlyId);
+        void SavePageContentListItem(string listFriendlyId, string itemId, string content);
+        void MovePageContentUp(string itemId);
+        void MovePageContentDown(string itemId);
+        void DeletePageContentListItem(string itemId);
     }
     public class OwnershipType
     {

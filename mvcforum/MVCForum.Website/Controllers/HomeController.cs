@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using MVCForum.Domain.Constants;
@@ -14,6 +15,8 @@ namespace MVCForum.Website.Controllers
 {
     public partial class HomeController : BaseController
     {
+        public IPageContentService PageContentService { get; set; }
+
         private readonly ITopicService _topicService;
         private readonly ICategoryService _categoryService;
         private readonly IActivityService _activityService;
@@ -21,11 +24,13 @@ namespace MVCForum.Website.Controllers
         private MembershipUser LoggedOnUser;
         private MembershipRole UsersRole;
 
-        public HomeController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IActivityService activityService, IMembershipService membershipService,
+        public HomeController(IPageContentService pageContentService, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IActivityService activityService, IMembershipService membershipService,
             ITopicService topicService, ILocalizationService localizationService, IRoleService roleService,
             ISettingsService settingsService, ICategoryService categoryService)
             : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
+            PageContentService = pageContentService;
+
             _topicService = topicService;
             _categoryService = categoryService;
             _activityService = activityService;
@@ -47,6 +52,22 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult uFrame()
         {
+            ViewBag.GetList = new Func<string, PageContentListViewModel>(s =>
+            {
+                using (var work = UnitOfWorkManager.NewUnitOfWork())
+                {
+                    var content = PageContentService.GetPageContentList(s);
+                    var vm = new PageContentListViewModel
+                    {
+                        Items = content.ContentItems.Select(p => PageContentController.MapContent(p, content.FriendlyId, false,User)),
+                        Id = content.FriendlyId,
+                        FriendlyId = s,
+                        IsEditable = User.IsInRole("Admin")
+                    };
+                    work.Commit();
+                    return vm;
+                }
+            });
             return View();
         }
 

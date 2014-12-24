@@ -108,6 +108,77 @@ namespace MVCForum.Data.Repositories
             pageContent.ContentTitle = title;
 
         }
+
+        public PageContentList GetPageContentList(string friendlyId)
+        {
+            var pageContent = _context.PageContentList.Include(p=>p.ContentItems).FirstOrDefault(p => p.FriendlyId == friendlyId);
+            if (pageContent == null)
+            {
+                pageContent = new PageContentList
+                {
+                    FriendlyId = friendlyId,
+                };
+                _context.PageContentList.Add(pageContent);
+            }
+            return pageContent;
+        }
+
+        public void SavePageContentListItem(string listFriendlyId, Guid itemId, string content)
+        {
+        
+            var contentItem = GetPageContentItem(itemId);
+            var contentList = contentItem.ContentList;
+            contentItem.ContentList = contentList;
+            contentItem.Content = content;
+         
+        }
+
+        public void MovePageContentUp(Guid itemId)
+        {
+            var contentItem = GetPageContentItem(itemId);
+            var contentList = contentItem.ContentList;
+            contentItem.Order += 0.1;
+            var index = 0;
+            foreach (var item in contentList.ContentItems.OrderBy(p => p.Order))
+            {
+                item.Order = index;
+            }
+        }
+        public void MovePageContentDown(Guid itemId)
+        {
+
+            var contentItem = GetPageContentItem(itemId);
+            var contentList = contentItem.ContentList;
+            contentItem.Order -= 0.1;
+            var index = 0;
+            foreach (var item in contentList.ContentItems.OrderBy(p => p.Order))
+            {
+                item.Order = index;
+            }
+        }
+        public PageContent GetPageContentItem(Guid itemId)
+        {
+            var pageContent = _context.PageContent.Include(p=>p.ContentList).FirstOrDefault(p => p.Id == itemId);
+            if (pageContent == null)
+            {
+                pageContent = new PageContent
+                {
+                    Id = itemId,
+                    Content = string.Empty,
+                    ContentTitle = string.Empty
+                };
+                _context.PageContent.Add(pageContent);
+            }
+            return pageContent;
+        }
+ 
+
+        public void DeletePageContentListItem(Guid itemId)
+        {
+            
+            _context.PageContent.Remove(_context.PageContent.FirstOrDefault(p=>p.Id == itemId));
+        }
+
         public PageContent GetPageContent(string friendlyId)
         {
             var pageContent = _context.PageContent.FirstOrDefault(p => p.FriendlyId == friendlyId);

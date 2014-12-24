@@ -328,6 +328,29 @@ namespace MVCForum.Services
             return Repository.GetPageContent(friendlyId);
         }
 
+        public PageContentList GetPageContentList(string friendlyId)
+        {
+            return Repository.GetPageContentList(friendlyId);
+        }
+
+        public void SavePageContentListItem(string listFriendlyId, string itemId, string content)
+        {
+            Repository.SavePageContentListItem(listFriendlyId, new Guid(itemId), content);
+        }
+
+        public void MovePageContentUp(string itemId)
+        {
+            Repository.MovePageContentUp(new Guid(itemId));
+        }
+        public void MovePageContentDown(string itemId)
+        {
+            Repository.MovePageContentDown(new Guid(itemId));
+        }
+
+        public void DeletePageContentListItem(string itemId)
+        {
+            Repository.DeletePageContentListItem(new Guid(itemId));
+        }
     }
     public static class StripeUserExtensions
     {

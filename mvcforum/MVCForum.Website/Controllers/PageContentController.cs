@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using MVCForum.Domain.Constants;
@@ -25,27 +26,42 @@ namespace MVCForum.Website.Controllers
             return View();
         }
 
+
         public ActionResult Get(string friendlyId, bool isMarkdown = false)
         {
             using (var work = UnitOfWorkManager.NewUnitOfWork())
             {
-                var vm = new PageContentViewModel();
+              
 
-                vm.IsEditable = User.IsInRole("Admin");
+              
                 var content = PageContentService.GetPageContent(friendlyId);
-                vm.ContentFriendlyId = friendlyId;
-                vm.ContentId = content.Id.ToString();
-                vm.Content = content.Content;
-                vm.IsMarkdown = isMarkdown;
-                vm.ContentTitle = content.ContentTitle;
+                var vm = MapContent(content, friendlyId, isMarkdown, User);
                 work.Commit();
-                return View(vm);
                 
-            
+                return View(vm);
             }
-         
+
         }
-        
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult AddItem(string friendlyId)
+        {
+            PageContentService.SavePageContentListItem(friendlyId,Guid.NewGuid().ToString(),"New Item");
+            return Redirect(this.Request.UrlReferrer.AbsolutePath);
+        }
+        public static PageContentViewModel MapContent(PageContent content, string friendlyId, bool isMarkdown, IPrincipal user)
+        {
+            var vm = new PageContentViewModel();
+            vm.IsEditable = user.IsInRole("Admin");
+            vm.ContentFriendlyId = friendlyId;
+            vm.ContentId = content.Id.ToString();
+            vm.Content = content.Content;
+            vm.IsMarkdown = isMarkdown;
+            vm.ContentTitle = content.ContentTitle;
+            return vm;
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Save(PageContentViewModel vm)
@@ -58,7 +74,13 @@ namespace MVCForum.Website.Controllers
             return Redirect(this.Request.UrlReferrer.AbsolutePath);
         }
     }
-
+    public class PageContentListViewModel
+    {
+        public IEnumerable<PageContentViewModel> Items { get; set; }
+        public bool IsEditable { get; set; }
+        public string FriendlyId { get; set; }
+        public string Id { get; set; }
+    }
     public class PageContentViewModel
     {
         public bool IsEditable { get; set; }
@@ -68,5 +90,7 @@ namespace MVCForum.Website.Controllers
         public string Content { get; set; }
         public string ContentTitle { get; set; }
         public bool IsMarkdown { get; set; }
+        public Func<HtmlString> Render { get; set; }
+        public Func<string,bool, HtmlString> PageContent { get; set; }
     }
 }

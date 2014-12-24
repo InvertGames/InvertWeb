@@ -1,0 +1,13 @@
+﻿@model MVCForum.Website.Controllers.PageContentListViewModel
+
+@{
+    Layout = null;
+}
+@foreach (var item in Model.Items)
+{
+    <div class="row">
+        @Html.Partial("Get", item)
+    </div>
+    <button class="btn btn-default">Move Up</button>
+    <button class="btn btn-default">Move Down</button>
+}<button class="btn btn-default">Add New</button>
