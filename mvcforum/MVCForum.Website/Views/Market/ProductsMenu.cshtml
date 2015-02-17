@@ -1,0 +1,10 @@
+﻿@model MVCForum.Website.Controllers.ProductsMenuViewModel
+           @{
+               Layout = null;
+           }
+<ul class="dropdown-menu" role="menu">
+    @foreach (var item in Model.Product)
+    {
+        <li><a href="@Url.Action("PurchaseCheckout", "Market", new {productId=item.Id})">@item.Name</a></li>
+    }
+</ul>

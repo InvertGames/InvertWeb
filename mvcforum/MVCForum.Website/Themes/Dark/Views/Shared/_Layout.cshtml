@@ -122,7 +122,7 @@
             <div class="row-fluid">
                 <div class="span12">
                     <!-- ########################## IMPORTANT - PLEASE DO NOT REMOVE WITHOUT LICENSE ###########################
-                            If you would like to remove the powered by notice, then please vist http://www.mvcforum.com/license -->
+                        If you would like to remove the powered by notice, then please vist http://www.mvcforum.com/license -->
                     <p>
                         &copy; @DateTime.UtcNow.Year - @Html.LanguageString("Layout.PoweredBy") <a rel="nofollow" href="http://www.mvcforum.com">MVCForum.com</a>
                     </p>
@@ -130,6 +130,7 @@
                 </div>
             </div>
         </footer>
+        @RenderSection("Dialogs",false)
     </div>
 </body>
 </html>

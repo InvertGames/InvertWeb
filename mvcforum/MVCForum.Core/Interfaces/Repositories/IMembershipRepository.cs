@@ -29,5 +29,7 @@ namespace MVCForum.Domain.Interfaces.Repositories
         MembershipUser Get(Guid id);
         void Delete(MembershipUser item);
         void Update(MembershipUser item);
+        void AddUserUnityInvoice(MembershipUser user, UnityInvoice invoice);
+        MembershipUser GetUserByToken(string token);
     }
 }

@@ -1,8 +1,13 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Linq;
+using System.Security.Principal;
+using System.Web.Mvc;
 using System.Web.Routing;
 using MVCForum.Domain.Constants;
+using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.Interfaces.Services;
 using MVCForum.Domain.Interfaces.UnitOfWork;
+using MVCForum.Website.Application;
 using MVCForum.Website.Areas.Admin.ViewModels;
 
 namespace MVCForum.Website.Controllers
@@ -12,6 +17,7 @@ namespace MVCForum.Website.Controllers
     /// </summary>
     public class BaseController : Controller
     {
+        public IPageContentService PageContentService { get; set; }
         protected readonly IUnitOfWorkManager UnitOfWorkManager;
         protected readonly IMembershipService MembershipService;
         protected readonly ILocalizationService LocalizationService;
@@ -24,14 +30,16 @@ namespace MVCForum.Website.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="pageContentServiceparam>
         /// <param name="loggingService"> </param>
         /// <param name="unitOfWorkManager"> </param>
         /// <param name="membershipService"></param>
         /// <param name="localizationService"> </param>
         /// <param name="roleService"> </param>
         /// <param name="settingsService"> </param>
-        public BaseController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService)
+        public BaseController(IPageContentService pageContentService, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService)
         {
+            PageContentService = pageContentService;
             UnitOfWorkManager = unitOfWorkManager;
             MembershipService = membershipService;
             LocalizationService = localizationService;
@@ -55,8 +63,9 @@ namespace MVCForum.Website.Controllers
                 if (controller.ToString().ToLower() != "closed" && controller.ToString().ToLower() != "members" && !area.ToString().ToLower().Contains("admin"))
                 {
                     filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Closed" }, { "action", "Index" } });
-                }          
+                }
             }
+          
         }
 
         protected bool UserIsAuthenticated
@@ -90,6 +99,100 @@ namespace MVCForum.Website.Controllers
 
     public class UserNotLoggedOnException : System.Exception
     {
+
+    }
+
+    public class PageEditController : BaseController
+    {
+        private Guid? _guid;
+
+        public PageEditController(IPageContentService pageContentService, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService)
+            : base(pageContentService, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+        {
+        }
+
+        public virtual Guid? Guid
+        {
+            get { return _guid ?? (_guid = new Guid("689fa173-cc75-43db-8c05-a40b0122bf96")); }
+            set { _guid = value; }
+        }
+
+        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
+        {
+            return base.BeginExecute(requestContext, callback, state);
+        }
+
+        public EditablePageContext EditablePage { get; set; }
+        protected override void OnResultExecuted(ResultExecutedContext filterContext)
+        {
+            base.OnResultExecuted(filterContext);
+            Guid = null;
+        }
+
+        protected override void OnResultExecuting(ResultExecutingContext filterContext)
+        {
+            base.OnResultExecuting(filterContext);
+            if (HttpContext.Items["EditablePage"] != null)
+            {
+                return;
+            }
+            EditablePage = new EditablePageContext()
+            {
+                Id = Guid.Value,
+                CanEdit = User.IsInRole("Admin"),
+                GetContentAction = (propertyName, parentId) =>
+                {
+                    using (var work = UnitOfWorkManager.NewUnitOfWork())
+                    {
+
+                        var content = PageContentService.GetPageContent(propertyName, parentId, User.IsInRole("Admin"));
+                        var vm = MapContent(content, false, User);
+                        work.Commit();
+                        return vm;
+                    }
+                },
+                GetList = (name, parentId) =>
+                {
+                    using (var work = UnitOfWorkManager.NewUnitOfWork())
+                    {
+
+                        var content = PageContentService.GetPageContentList(name, parentId, User.IsInRole("Admin"));
+                        var vm = new ListPageContext
+                        {
+                            Items = content.Children.OrderBy(p => p.Order).Select(p => PageContentController.MapContent(p, false, User)).ToArray(),
+                            Id = content.Id,
+                            ListId = parentId,
+                            Name = name,
+                            IsEditable = UserIsAuthenticated && User.IsInRole("Admin")
+                        };
+                        work.Commit();
+                        return vm;
+                    }
+                }
+            };
+            HttpContext.Items["EditablePage"] = EditablePage;
+        }
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+          
+            
+        }
+        public static PageContentViewModel MapContent(PageContent content, bool isMarkdown, IPrincipal user)
+        {
+            var vm = new PageContentViewModel();
+            vm.IsEditable = user.IsInRole("Admin");
+            vm.PropertyName = content.FriendlyId;
+            vm.ContentId = content.Id.ToString();
+            vm.ParentId = content.ParentId;
+            vm.Content = content.Content;
+            vm.IsMarkdown = isMarkdown;
+            vm.IsDraft = content.IsDraft;
+
+            return vm;
+        }
+      
 
     }
 }

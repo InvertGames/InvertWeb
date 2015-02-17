@@ -13,8 +13,8 @@ namespace MVCForum.Website.Areas.Admin.Controllers
     {
         private readonly ITopicTagService _topicTagService;
 
-        public AdminTagController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService, ITopicTagService topicTagService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+        public AdminTagController(IPageContentService service, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService, ITopicTagService topicTagService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _topicTagService = topicTagService;
         }

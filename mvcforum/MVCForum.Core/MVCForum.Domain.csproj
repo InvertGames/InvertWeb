@@ -38,6 +38,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -219,6 +223,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\stripe.net\src\Stripe\Stripe.csproj">
+      <Project>{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}</Project>
+      <Name>Stripe</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MVCForum.Utilities\MVCForum.Utilities.csproj">
       <Project>{D0CE5E27-041D-4F1E-8C8C-5F4888C72155}</Project>
       <Name>MVCForum.Utilities</Name>

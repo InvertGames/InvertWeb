@@ -13,31 +13,35 @@ using Stripe;
 
 namespace MVCForum.Website.Controllers
 {
-    public class MarketController : BaseController
+    public class MarketController : PageEditController
     {
         public IMarketService MarketService { get; set; }
         public IMembershipService Membership { get; set; }
 
-        public MarketController(IMarketService marketService, IMembershipService membership, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+        public MarketController(IPageContentService service, IMarketService marketService, IMembershipService membership, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             MarketService = marketService;
             Membership = membership;
         }
 
+        public ActionResult ProductsMenu()
+        {
+            
+            return View(new ProductsMenuViewModel()
+            {
+                Product = MarketService.GetInvertProducts().ToArray()
+            });
+        }
         public ActionResult PurchaseCheckout(Guid productId)
         {
+            Guid = productId;
             var user = Membership.GetUser(Username);
             var vm = MarketService.Get(productId).Map();
-            // vm = new MarketProductViewModel();
             if (vm.Images.Count > 0)
             {
                 vm.MainImageUrl = vm.Images.First().Url;
             }
-            //vm.MainImageUrl = "http://i.imgur.com/OJJzT5h.png";
-            // vm.Title = "uFrame Game Framework";
-            
-            vm.ReleaseDate = DateTime.Now;
             vm.OnSale = false;
             vm.LicenseName = "Invert License";
             vm.Videos = new[]
@@ -106,8 +110,8 @@ namespace MVCForum.Website.Controllers
         {
             if (product.NumberOfSeats < 0)
             {
-
-                return ErrorToHomePage("Number of seats must be greater than one.");
+                ModelState.AddModelError("NumberOfSeats", "Number of seats must be greater than one.");
+                return View(product);
             }
             MarketService.PurchaseProduct(MembershipService.GetUser(Username), product.MarketProductPurchaseOptionId, product.Card, product.NumberOfSeats);
 
@@ -150,7 +154,9 @@ namespace MVCForum.Website.Controllers
                 IsLive = product.IsLive,
                 MarketSeller = product.MarketSeller,
                 Reviews = product.Reviews,
-                Images = product.Images
+                Images = product.Images,
+                ReleaseDate = product.ReleaseDate,
+                PriceLow = product.PurchaseOptions.Min(p=>p.BuyInPrice)
             };
             return vm;
         }

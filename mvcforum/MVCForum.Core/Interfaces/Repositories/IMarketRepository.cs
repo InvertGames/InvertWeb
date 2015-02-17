@@ -26,14 +26,23 @@ namespace MVCForum.Domain.Interfaces.Repositories
 
     public interface IPageContentRepository
     {
-        void SavePageContent(string friendlyId, string content);
-        PageContent GetPageContent(string friendlyId);
-        void SavePageContentTitle(string friendlyId, string title);
+        PageContent SavePageContent(string friendlyId, string content, Guid? parentId);
+        PageContent GetPageContent(string friendlyId, Guid? parentId, bool draftVersion = false, bool autoCreate = false);
+        //void SavePageContentTitle(string friendlyId, string title);
 
-        PageContentList GetPageContentList(string friendlyId);
-        void SavePageContentListItem(string listFriendlyId, Guid itemId, string content);
+        PageContent GetPageContentList(string friendlyId, Guid? parentId, bool draftVersions);
+        
         void MovePageContentUp(Guid itemId);
         void MovePageContentDown(Guid itemId);
         void DeletePageContentListItem(Guid itemId);
+        void PublishContent(Guid? id);
+    }
+
+    public interface IUserLicenseRepository
+    {
+        MarketProductUserLicense GetLicense(Guid userId, Guid licenseId);
+        IEnumerable<MarketProductUserLicense> GetLicenses(Guid userId);
+        MarketProductUserLicense CreateLicense(Guid purchaseOptionId, string username);
+        
     }
 }

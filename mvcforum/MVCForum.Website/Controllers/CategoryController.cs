@@ -31,13 +31,13 @@ namespace MVCForum.Website.Controllers
         /// <param name="settingsService"> </param>
         /// <param name="topicService"> </param>
         /// <param name="categoryNotificationService"> </param>
-        public CategoryController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
+        public CategoryController(IPageContentService service, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService,
             ILocalizationService localizationService,
             IRoleService roleService,
             ICategoryService categoryService,
             ISettingsService settingsService, ITopicService topicService, ICategoryNotificationService categoryNotificationService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _categoryService = categoryService;
             _topicService = topicService;

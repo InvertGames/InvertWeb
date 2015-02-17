@@ -19,10 +19,10 @@ namespace MVCForum.Website.Controllers
 
         private MembershipUser LoggedOnUser;
 
-        public PrivateMessageController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService,
+        public PrivateMessageController(IPageContentService service, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService,
             ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService, IPrivateMessageService privateMessageService,
             IEmailService emailService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _privateMessageService = privateMessageService;
             _emailService = emailService;

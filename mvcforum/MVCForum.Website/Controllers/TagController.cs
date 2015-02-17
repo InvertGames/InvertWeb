@@ -10,8 +10,8 @@ namespace MVCForum.Website.Controllers
     {
         private readonly ITopicTagService _topicTagService;
 
-        public TagController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService, ITopicTagService topicTagService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+        public TagController(IPageContentService service, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService, ITopicTagService topicTagService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _topicTagService = topicTagService;
         }

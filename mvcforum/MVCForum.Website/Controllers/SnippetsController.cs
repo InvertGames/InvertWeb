@@ -9,10 +9,10 @@ namespace MVCForum.Website.Controllers
     {
         private readonly IMembershipUserPointsService _membershipUserPointsService;
 
-        public SnippetsController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, 
+        public SnippetsController(IPageContentService service, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, 
             ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService, 
             IMembershipUserPointsService membershipUserPointsService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _membershipUserPointsService = membershipUserPointsService;
         }

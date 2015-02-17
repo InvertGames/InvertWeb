@@ -2,7 +2,7 @@
 .container-fluid { max-width: 1000px; margin-left: auto; margin-right: auto; }
 .navbar .brand { padding-top: 5px; padding-bottom: 3px; }
 input.btn, button.btn { font-weight: normal; }
-.navbar { background-color: #4891dc; position: relative; margin-bottom: 15px; }
+.navbar { background-color: #232323; position: relative; margin-bottom: 15px; }
 .navbar-inner { background: none; border: none; -moz-border-radius: 0; -webkit-border-radius: 0; -khtml-border-radius: 0; border-radius: 0; box-shadow: none; background-color: #4891dc; filter: none; }
 .navbar .nav > li > a { color: #fff; text-shadow: none; }
 .navbar .nav > li > a:hover { background-color: #3c7ec3; color: #fff; text-decoration: none; }
@@ -23,6 +23,9 @@ input.btn, button.btn { font-weight: normal; }
 .navbar-inverse .nav-collapse .nav > li > a,
 .navbar-inverse .nav-collapse .dropdown-menu a { color: #fff; }
 .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a { font-weight: normal; }
+.main-side-box {
+    margin-top: 25px;
+}
 .page-header {
     margin: 0px !important;
     background-color: #f1f1f1 !important;
@@ -36,6 +39,59 @@ input.btn, button.btn { font-weight: normal; }
 .dropdown-menu li a {
     color: black !important;
 }
+   /* CUSTOMIZE THE CAROUSEL
+    -------------------------------------------------- */
+
+    /* Carousel base class */
+    .carousel {
+      
+    }
+
+    .carousel .container {
+      position: relative;
+      z-index: 9;
+    }
+
+    .carousel-control {
+      height: 80px;
+      margin-top: 0;
+      font-size: 120px;
+      text-shadow: 0 1px 1px rgba(0,0,0,.4);
+      background-color: transparent;
+      border: 0;
+      z-index: 10;
+    }
+
+    .carousel .item {
+      height: 500px;
+    }
+    .carousel img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      height: 500px;
+    }
+
+    .carousel-caption {
+      background-color: transparent;
+      position: static;
+      max-width: 550px;
+      padding: 0 20px;
+        text-align: left;
+    }
+    .carousel-caption h1,
+    .carousel-caption .lead {
+      margin: 0;
+      line-height: 1.25;
+      color: #fff;
+      text-shadow: 0 1px 1px rgba(0,0,0,.4);
+    }
+    .carousel-caption .btn {
+      margin-top: 10px;
+    }
+
+
 /*--- Member Edit ---*/
 .membereditavatar { padding-top:14px;padding-bottom: 7px;}
 
@@ -163,7 +219,7 @@ select { }
 .side-box:first-child { padding-top:0; }
 .side-box ul { padding: 0; margin: 0; border-bottom: 1px #fff solid; }
 .side-box ul li { padding: 4px 0; font-size: 14px; border-top: 1px #fff solid; list-style: none; }
-.side-box h5 { font-size: 17px;font-weight: bold; padding: 8px 12px; color: #efefef; font-family: 'MVCforumLight'; background-color: #4891dc;margin: 0 0 8px 0; }
+.side-box h5 { font-size: 17px;font-weight: bold; padding: 8px 12px; color: #efefef; font-family: 'MVCforumLight'; background-color: #323232;margin: 0 0 8px 0; }
 .side-box a, .side-box a:visited { color: #626262; }
 .side-box a:hover { }
 .categories-box ul li, .profile-box ul li { margin: 0 0 3px 0; padding: 0; }

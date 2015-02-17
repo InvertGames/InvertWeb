@@ -1,38 +1,62 @@
-﻿@model dynamic
-
-@{
-    ViewBag.ShowSidebar = false;
-}
-
-@section jumbotron {
-    @Html.PageContent("uFrameJumboTron", false)
-}
-<div class="row">
-    @for (var i = 1; i <= 4; i++)
-    {
-        <div class="col-md-3">
-            <div class="panel">
-                <div class="panel-body">
-                    <h4><strong>@Html.PageContent(string.Format("uFrameNote{0}Title", i), false)</strong>
-                        <small>@Html.PageContent(string.Format("uFrameNote{0}SubTitle", i), false)</small></h4>
-                    <p>@Html.PageContent(string.Format("uFrameNote{0}Description", i), false)</p>
-                </div>
-            </div>
-        </div>
-    }
-
-    
-</div>
-@Html.PageContent("uFrameContent", true)
-
-@{
-    var content = Html.PageContentList("uFrameFeatures");
-}
-@foreach (var item in Html.PageContentList("uFrameFeatures"))
+﻿@using MVCForum.Website.Controllers
+@model dynamic
+@using (var page = Html.Context("uFramePage"))
 {
-    <div id="row">
-        @item.PageContent("Title", false)
-        @item.Render();
-    </div>
+    @Html.Property("First-Name")
+    @Html.Property("Last-Name")
+    <h3>Section</h3>
+    @Html.ModalProperty("MyProperty2")
+
+    @*<h3>List</h3>
+    <table class="table table-bordered table-striped table-hover">
+        @using (var list = Html.List("TableList"))
+        {
+            foreach (PageContentViewModel item in list)
+            {
+                <tr><td>@Html.Property("Name")</td><td>@Html.Property("Description")</td><td>@item.DeleteLink("Delete")</td><td>@Html.EditProperties("Edit")</td></tr>
+            }
+            <tr><td>@list.AddNewLink</td></tr>
+        }
+
+    </table>*@
+    <h3>List</h3>
+    <table class="table table-bordered table-striped table-hover">
+        @using (var list = Html.List("TableList"))
+        {
+            foreach (PageContentViewModel item in list)
+            {
+                <tr><td>@Html.Property("Name")</td><td>@Html.Property("Description")</td><td>@item.DeleteLink("Delete")</td><td>@Html.EditProperties("Edit")</td></tr>
+            }
+            <tr><td>@list.AddNewLink</td></tr>
+        }
+
+    </table>
+    @Html.ModalProperty("HELLO")
+    @*<table>
+        @using (var list = Html.List("TableList"))
+        {
+            foreach (PageContentViewModel item in list)
+            {
+                <tr><td>@Html.Property("Name")</td><td>@Html.Property("Description")</td><td>@item.DeleteLink("Delete")</td><td>@Html.EditProperties("Edit")</td></tr>
+            }
+            <tr><td>@list.AddNewLink</td></tr>
+        }
+
+    </table>*@
+    @*<div class="row">
+        @using (var list = @Html.List("Stuff"))
+        {
+            foreach (PageContentViewModel item in list)
+            {
+                <div class="row">@Html.Property("TestProperty")</div>
+                @item.DeleteLink()
+            }
+            <div class="row">
+            @list.AddNewLink    
+            </div>
+            
+        }
+    </div>*@
 }
+
 

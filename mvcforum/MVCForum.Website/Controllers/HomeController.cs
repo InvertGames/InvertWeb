@@ -13,10 +13,9 @@ using RssItem = MVCForum.Domain.DomainModel.RssItem;
 
 namespace MVCForum.Website.Controllers
 {
-    public partial class HomeController : BaseController
+    public partial class HomeController : PageEditController
     {
-        public IPageContentService PageContentService { get; set; }
-
+ 
         private readonly ITopicService _topicService;
         private readonly ICategoryService _categoryService;
         private readonly IActivityService _activityService;
@@ -27,7 +26,7 @@ namespace MVCForum.Website.Controllers
         public HomeController(IPageContentService pageContentService, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IActivityService activityService, IMembershipService membershipService,
             ITopicService topicService, ILocalizationService localizationService, IRoleService roleService,
             ISettingsService settingsService, ICategoryService categoryService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            : base(pageContentService, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             PageContentService = pageContentService;
 
@@ -38,10 +37,17 @@ namespace MVCForum.Website.Controllers
             LoggedOnUser = UserIsAuthenticated ? MembershipService.GetUser(Username) : null;
             UsersRole = LoggedOnUser == null ? RoleService.GetRole(AppConstants.GuestRoleName) : LoggedOnUser.Roles.FirstOrDefault();
         }
+        
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+
+        }
 
         //[OutputCache(Duration = 10, VaryByParam = "p")]
         public ActionResult Index()
         {
+
             return View();
         }
 
@@ -52,22 +58,16 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult uFrame()
         {
-            ViewBag.GetList = new Func<string, PageContentListViewModel>(s =>
-            {
-                using (var work = UnitOfWorkManager.NewUnitOfWork())
-                {
-                    var content = PageContentService.GetPageContentList(s);
-                    var vm = new PageContentListViewModel
-                    {
-                        Items = content.ContentItems.Select(p => PageContentController.MapContent(p, content.FriendlyId, false,User)),
-                        Id = content.FriendlyId,
-                        FriendlyId = s,
-                        IsEditable = User.IsInRole("Admin")
-                    };
-                    work.Commit();
-                    return vm;
-                }
-            });
+     
+            return View();
+        }
+        public ActionResult uFrameForUnity()
+        {
+            return View();
+        }
+        public ActionResult uFrameForVS()
+        {
+
             return View();
         }
 
@@ -322,5 +322,11 @@ namespace MVCForum.Website.Controllers
                 return new GoogleSitemapResult(sitemap);
             }
         }
+    }
+
+    public class ProductsMenuViewModel
+    {
+        public MarketProduct[] Product { get; set; }
+
     }
 }

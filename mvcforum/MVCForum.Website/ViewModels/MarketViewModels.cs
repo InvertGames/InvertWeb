@@ -15,7 +15,7 @@ namespace MVCForum.Website.ViewModels
     {
         public IEnumerable<MarketProduct> NewestProducts { get; set; }
         public IEnumerable<MarketProduct> OwnedProducts { get; set; }
-        public IEnumerable<MarketProduct> TopProducts { get; set; } 
+        public IEnumerable<MarketProduct> TopProducts { get; set; }
 
     }
 
@@ -26,9 +26,9 @@ namespace MVCForum.Website.ViewModels
         public Guid ProductId { get; set; }
         public bool AllowEditing { get; set; }
         public string Title { get; set; }
-           [UIHint(AppConstants.EditorType), AllowHtml]
+        [UIHint(AppConstants.EditorType), AllowHtml]
         public string Description { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
         public string MainImageUrl { get; set; }
         public bool UserOwnsProduct
         {
@@ -57,28 +57,28 @@ namespace MVCForum.Website.ViewModels
     public class AdminProductViewModel
     {
         public string Id { get; set; }
-        
+
         public string Name { get; set; }
-        
+
         public string Title { get; set; }
 
         [UIHint(AppConstants.EditorType), AllowHtml]
         public string Description { get; set; }
-        
+
         public string RequiredVersion { get; set; }
-        
+
         public string DocumentationUrl { get; set; }
-        
+
         public string SupportEmail { get; set; }
 
-        
+
     }
 
 
 
     public class UserProductOwnershipViewModel
     {
-        
+
     }
     public class MarketProductImageViewModel
     {
@@ -94,7 +94,7 @@ namespace MVCForum.Website.ViewModels
 
     public class MarketProductPurchaseOptionViewModel
     {
-        
+
 
     }
 

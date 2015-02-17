@@ -9,10 +9,14 @@ namespace MVCForum.Data.Mapping
         public MembershipUserMapping()
         {
             HasKey(x => x.Id);
-            
+            HasOptional(p => p.UnityInvoice);
+
             HasOptional(p => p.MarketSellerInfo);
 
             HasMany(x => x.Topics).WithRequired(x => x.User)
+                .Map(x => x.MapKey("MembershipUser_Id"))
+                .WillCascadeOnDelete();
+            HasMany(x => x.Licenses).WithRequired(x => x.User)
                 .Map(x => x.MapKey("MembershipUser_Id"))
                 .WillCascadeOnDelete();
 
@@ -78,6 +82,18 @@ namespace MVCForum.Data.Mapping
         }
     }
 
+    public class UnityInvoiceMapping : EntityTypeConfiguration<UnityInvoice>
+    {
+        public UnityInvoiceMapping()
+        {
+            HasKey(p => p.Id);
+            HasRequired(p => p.User)
+                .WithOptional(p => p.UnityInvoice)
+                .Map(p => p.MapKey("User_Id"));
+            Ignore(p => p.RefundedString);
+
+        }
+    }
     public class MarketSellerMapping : EntityTypeConfiguration<MarketSellerInfo>
     {
         public MarketSellerMapping()
@@ -94,6 +110,22 @@ namespace MVCForum.Data.Mapping
                 .Map(x => x.MapKey("MarketSeller_Id"));
 
 
+        }
+    }
+
+    public class MarketProductUserLicenseMapping : EntityTypeConfiguration<MarketProductUserLicense>
+    {
+        public MarketProductUserLicenseMapping()
+        {
+            HasKey(p => p.Id);
+            HasRequired(p => p.User)
+                .WithMany(p => p.Licenses)
+                .Map(p => p.MapKey("MembershipUser_Id"));
+
+            HasRequired(p => p.PurchaseOption)
+                .WithMany(p => p.Licenses)
+                .Map(p => p.MapKey("PurchaseOption_Id"))
+                ;
         }
     }
     public class MarketProductMapping : EntityTypeConfiguration<MarketProduct>
@@ -184,7 +216,10 @@ namespace MVCForum.Data.Mapping
             HasRequired(p => p.Product)
                 .WithMany(p => p.PurchaseOptions)
                 .Map(p => p.MapKey("MarketProduct_Id"));
-
+            HasMany(p => p.Licenses)
+                .WithRequired(p => p.PurchaseOption)
+                .Map(p => p.MapKey("PurchaseOption_Id"))
+                ;
             Ignore(p => p.RecurringPrice);
             // HasRequired(p => p.PlanName);
 

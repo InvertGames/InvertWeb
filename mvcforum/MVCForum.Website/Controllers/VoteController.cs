@@ -21,7 +21,7 @@ namespace MVCForum.Website.Controllers
 
         private MembershipUser LoggedOnUser;
 
-        public VoteController(ILoggingService loggingService,
+        public VoteController(IPageContentService service, ILoggingService loggingService,
             IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService,
             ILocalizationService localizationService,
@@ -32,7 +32,7 @@ namespace MVCForum.Website.Controllers
             ITopicService topicService,
             IMembershipUserPointsService membershipUserPointsService,
             IBadgeService badgeService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _postService = postService;
             _voteService = voteService;

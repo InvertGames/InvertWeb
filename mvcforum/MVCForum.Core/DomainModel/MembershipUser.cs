@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Web.UI;
 using MVCForum.Utilities;
+using Newtonsoft.Json;
 
 namespace MVCForum.Domain.DomainModel
 {
@@ -32,6 +33,12 @@ namespace MVCForum.Domain.DomainModel
         {
             Id = GuidComb.GenerateComb();
         }
+
+        public bool IsVerified
+        {
+            get { return this.Roles.Any(p => p.RoleName == "Verified"); }
+        }
+
         public Guid Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -92,11 +99,12 @@ namespace MVCForum.Domain.DomainModel
         public virtual IList<PrivateMessage> PrivateMessagesSent { get; set; }
 
         public virtual IList<Poll> Polls { get; set; }
-        public virtual IList<PollVote> PollVotes { get; set; } 
+        public virtual IList<PollVote> PollVotes { get; set; }
 
-        public int TotalPoints 
-        { 
-            get {
+        public int TotalPoints
+        {
+            get
+            {
                 return Points != null ? Points.Select(x => x.Points).Sum() : 0;
             }
         }
@@ -111,8 +119,46 @@ namespace MVCForum.Domain.DomainModel
         public string StripeCustomerId { get; set; }
         public string StripeTokenId { get; set; }
         public string StripeSubscriptionPlanId { get; set; }
+        public virtual IList<MarketProductUserLicense> Licenses { get; set; }
+        public UnityInvoice UnityInvoice { get; set; }
+        public string ApiToken { get; set; }
     }
 
+    public class UnityInvoice : Entity
+    {
+        private string _refundedString;
+
+        public UnityInvoice()
+        {
+            Id = GuidComb.GenerateComb();
+        }
+        public Guid Id { get; set; }
+
+        [JsonProperty("date")]
+        public DateTime Date { get; set; }
+
+        [JsonProperty("invoice")]
+        public string InvoiceNumber { get; set; }
+
+        [JsonProperty("refunded")]
+        public string RefundedString
+        {
+            get { return _refundedString; }
+            set
+            {
+                _refundedString = value;
+                Refunded = value != "No";
+            }
+        }
+
+
+        public bool Refunded { get; set; }
+
+        [JsonProperty("package")]
+        public string Package { get; set; }
+
+        public MembershipUser User { get; set; }
+    }
     public class MarketSellerInfo : Entity
     {
         public MarketSellerInfo()
@@ -130,15 +176,15 @@ namespace MVCForum.Domain.DomainModel
 
     public class MarketProduct : Entity
     {
-        
+
         public MarketProduct()
         {
             Id = GuidComb.GenerateComb();
         }
-        
+
         public Guid Id { get; set; }
 
-        public virtual MarketSellerInfo MarketSeller { get; set; } 
+        public virtual MarketSellerInfo MarketSeller { get; set; }
         public virtual IList<MarketProductPurchaseOption> PurchaseOptions { get; set; }
         public virtual IList<MarketProductDownload> Downloads { get; set; }
         public virtual IList<MarketProductImage> Images { get; set; }
@@ -150,44 +196,57 @@ namespace MVCForum.Domain.DomainModel
         public bool IsLive { get; set; }
         public string ProductType { get; set; }
         public virtual IList<MarketProductReview> Reviews { get; set; }
-
-        
-
+        public DateTime? ReleaseDate { get; set; }
 
     }
 
     public class PageContent : Entity
     {
+        private sealed class DraftEqualityComparer : IEqualityComparer<PageContent>
+        {
+            public bool Equals(PageContent x, PageContent y)
+            {
+                if (ReferenceEquals(x, y)) return true;
+                if (ReferenceEquals(x, null)) return false;
+                if (ReferenceEquals(y, null)) return false;
+                if (x.GetType() != y.GetType()) return false;
+                return string.Equals(x.FriendlyId, y.FriendlyId) && x.ParentId.Equals(y.ParentId);
+            }
+
+            public int GetHashCode(PageContent obj)
+            {
+                unchecked
+                {
+                    return ((obj.FriendlyId != null ? obj.FriendlyId.GetHashCode() : 0)*397) ^ obj.ParentId.GetHashCode();
+                }
+            }
+        }
+
+        private static readonly IEqualityComparer<PageContent> DraftComparerInstance = new DraftEqualityComparer();
+
+        public static IEqualityComparer<PageContent> DraftComparer
+        {
+            get { return DraftComparerInstance; }
+        }
+
         public PageContent()
         {
             Id = GuidComb.GenerateComb();
         }
 
         public Guid Id { get; set; }
+        public Guid? ParentId { get; set; }
 
         public string FriendlyId { get; set; }
-
-        public string ContentTitle { get; set; }
         public string Content { get; set; }
 
-        public PageContentList ContentList { get; set; }
         public double Order { get; set; }
+        public bool IsDraft { get; set; }
+
+        public List<PageContent> Children { get; set; } 
     }
 
-    public class PageContentList : Entity
-    {
-        public PageContentList()
-        {
-            Id = GuidComb.GenerateComb();
-        }
-        public Guid Id { get; set; }
-        public string FriendlyId { get; set; }
-        public virtual IList<PageContent> ContentItems { get; set; }
-    }
-
-    
-
-    public class MarketProductReview: Entity
+    public class MarketProductReview : Entity
     {
         public MarketProductReview()
         {
@@ -200,9 +259,9 @@ namespace MVCForum.Domain.DomainModel
         public int Rating { get; set; }
         public string Comments { get; set; }
 
-       
+
     }
-    public class MarketProductPurchaseOption: Entity
+    public class MarketProductPurchaseOption : Entity
     {
         public MarketProductPurchaseOption()
         {
@@ -214,7 +273,7 @@ namespace MVCForum.Domain.DomainModel
         public decimal BuyInPrice { get; set; }
         public string Description { get; set; }
         public decimal RecurringPrice { get; set; }
-        
+
         public string PlanName { get; set; }
         public MarketProductLicense License { get; set; }
 
@@ -222,8 +281,10 @@ namespace MVCForum.Domain.DomainModel
         {
             get { return BuyInPrice < 1 && RecurringPrice < 1; }
         }
+
+        public IList<MarketProductUserLicense> Licenses { get; set; }
     }
-    
+
     public class MarketProductImage : Entity
     {
         public MarketProductImage()
@@ -248,13 +309,30 @@ namespace MVCForum.Domain.DomainModel
         }
 
         public Guid Id { get; set; }
-        
+
         public string YoutubeUrl { get; set; }
 
         public MarketProduct Product { get; set; }
         public bool Enabled { get; set; }
 
 
+    }
+
+    public class MarketProductUserLicense : Entity
+    {
+        public MarketProductUserLicense()
+        {
+            Id = GuidComb.GenerateComb();
+            Enabled = true;
+            MaxActivations = 2;
+        }
+        public Guid Id { get; set; }
+        public MarketProductPurchaseOption PurchaseOption { get; set; }
+        public MembershipUser User { get; set; }
+        public string Key { get; set; }
+        public int Activations { get; set; }
+        public bool Enabled { get; set; }
+        public int MaxActivations { get; set; }
     }
     public class MarketProductLicense : Entity
     {
@@ -265,7 +343,7 @@ namespace MVCForum.Domain.DomainModel
         public Guid Id { get; set; }
         public string Text { get; set; }
         public string File { get; set; }
-        
+
         public virtual IList<MarketProductPurchaseOption> PurchaseOptions { get; set; }
     }
     public class MarketProductDownload : Entity

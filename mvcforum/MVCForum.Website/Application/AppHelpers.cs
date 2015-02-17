@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using System.Web.UI.WebControls;
+using Microsoft.Ajax.Utilities;
 using MVCForum.Domain.Constants;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.Interfaces.Services;
@@ -127,7 +131,7 @@ namespace MVCForum.Website.Application
             }
             return folders;
         }
-   
+
 
         #endregion
 
@@ -214,33 +218,25 @@ namespace MVCForum.Website.Application
         #endregion
 
         #region String
-        public static IEnumerable<PageContentViewModel> PageContentList(this HtmlHelper helper, string friendlyId, bool isMarkdown = true)
-        {
-            var getList = helper.ViewBag.GetList as Func<string, PageContentListViewModel>;
 
-            var content = getList(friendlyId);
-            foreach (var item in content.Items)
-            {
-                var item1 = item;
-                item.PageContent = (fId, isMarkDown) => helper.PageContent(item1.ContentId + fId, isMarkdown);
-                item.Render = () => helper.Partial("Get", content);
-                yield return item;
-            }
-        }
-        public static HtmlString PageContent(this HtmlHelper helper, string friendlyId, bool isMarkdown)
-        {
-            return helper.Action("Get", "PageContent", new {friendlyId, isMarkdown});
-        }
+
+
+
+
         public static HtmlString Panel(this HtmlHelper helper, string friendlyId)
         {
             return helper.Partial("_Panel", friendlyId);
+        }
+        public static HtmlString Tabs(this HtmlHelper helper, string friendlyId)
+        {
+            return helper.Partial("_Tabs", friendlyId);
         }
         public static string ConvertPostContent(string post)
         {
             if (!string.IsNullOrEmpty(post))
             {
                 // Convert any BBCode
-                post = StringUtils.ConvertBbCodeToHtml(post, false);
+                //post = StringUtils.ConvertBbCodeToHtml(post, false);
 
                 // If using the PageDown/MarkDown Editor uncomment this line
                 post = StringUtils.ConvertMarkDown(post);
@@ -395,12 +391,416 @@ namespace MVCForum.Website.Application
                 var fileUrl = path.Substring(hostingRoot.Length).Replace('\\', '/').Insert(0, "/");
 
                 upResult.UploadedFileName = newFileName;
-                upResult.UploadedFileUrl = fileUrl;                
+                upResult.UploadedFileUrl = fileUrl;
             }
 
             return upResult;
         }
 
         #endregion
+    }
+
+    public static class PageHelpers
+    {
+        public static EditablePageContext Context(this HtmlHelper helper, string pageName = null)
+        {
+            var context = helper.ViewContext.RequestContext.HttpContext.Items["EditablePage"] as EditablePageContext;
+            //var context = helper.ViewBag.EditablePageContext as EditablePageContext;
+            if (context == null)
+            {
+                return null;
+            }
+
+            context.Helper = helper;
+            return context;
+        }
+
+        public static string Property(this HtmlHelper helper, string propertyName)
+        {
+            var vm = helper.Context().CurrentContext.AddProperty(propertyName);
+            vm.IsEditable = false;
+            return vm.Content;
+        }
+        public static T PropertyAs<T>(this HtmlHelper helper, string propertyName, Func<string, T> convertValue)
+        {
+            try
+            {
+                var vm = helper.Context().CurrentContext.AddProperty(propertyName);
+                vm.IsEditable = false;
+                var content = vm.Content.Trim();
+                return convertValue(content);
+            }
+            catch (Exception ex)
+            {
+                return default(T);
+            }
+
+        }
+
+        public static bool PropertyAsBool(this HtmlHelper helper, string propertyName)
+        {
+            return PropertyAs<bool>(helper, propertyName, v => v.ToUpper() == "YES");
+        }
+        public static int PropertyAsInt(this HtmlHelper helper, string propertyName, int @default = 0)
+        {
+
+            var res = PropertyAs<int>(helper, propertyName, Convert.ToInt32);
+
+            return res == 0 ? @default : res;
+        }
+        public static MvcHtmlString Content(this HtmlHelper helper, string propertyName)
+        {
+            var vm = helper.Context().CurrentContext.AddProperty(propertyName);
+
+            return helper.Partial("Get", vm);
+        }
+        public static MvcHtmlString ModalProperty(this HtmlHelper helper, string propertyName)
+        {
+            var vm = helper.Context().CurrentContext.AddModalProperty(propertyName);
+            return helper.Partial("Get", vm);
+        }
+        public static MvcHtmlString MarkdownProperty(this HtmlHelper helper, string propertyName)
+        {
+            var vm = helper.Context().CurrentContext.AddModalProperty(propertyName);
+            vm.IsMarkdown = true;
+            return helper.Partial("Get", vm);
+        }
+
+        public static MvcHtmlString EditProperties(this HtmlHelper helper, string label = "Edit Properties")
+        {
+            return new MvcHtmlString(helper.Context().CurrentContext.EditPropertiesLink(label));
+        }
+        public static ListPageContext List(this HtmlHelper helper, string listName, bool isMarkdown = true, bool global = false)
+        {
+            var context = helper.Context();
+
+            var content = context.GetList(listName, global ? null : context.CurrentContext.Id);
+            foreach (var item in content.Items)
+            {
+                var item1 = item;
+
+                // item.PageContent = (fId, isMarkDown) => helper.ModalProperty(item1.PropertyName + fId);
+                item.DeleteLink =
+                    (s) =>
+                    {
+                        if (!item1.IsEditable) return MvcHtmlString.Empty;
+                        return helper.ActionLink(s ?? "Delete", "DeleteContent", "PageContent", new { id = item1.ContentId },
+                            new object { });
+                    };
+                item.Render = () =>
+                {
+                    item1.IsMarkdown = isMarkdown;
+                    return helper.ModalProperty(item1.PropertyName);
+
+                };
+            }
+            context.PushContext(content);
+            return content;
+        }
+
+
+    }
+
+    public class EditablePageContext : IDisposable
+    {
+        private Stack<ContentContext> _contextStack = new Stack<ContentContext>();
+        private string _pageName;
+
+        public HtmlHelper Helper { get; set; }
+
+        public Stack<ContentContext> ContextStack
+        {
+            get { return _contextStack ?? (_contextStack = new Stack<ContentContext>()); }
+            set { _contextStack = value; }
+        }
+
+        public EditablePageContext()
+        {
+
+        }
+
+        public ContentContext CurrentContext
+        {
+            get
+            {
+                if (ContextStack.Count < 1)
+                {
+                    ContextStack.Push(new ContentContext()
+                    {
+                        Id = Id,
+                        PageContext = this
+                    });
+                    return ContextStack.Peek();
+                }
+                return ContextStack.Peek();
+            }
+        }
+
+        public string PageName
+        {
+            get { return _pageName; }
+            set
+            {
+                _pageName = value;
+
+
+            }
+        }
+
+        public bool CanEdit { get; set; }
+
+        public ContentContext PushContext(ContentContext context)
+        {
+            context.Parent = CurrentContext;
+            context.PageContext = this;
+            ContextStack.Push(context);
+            return context;
+        }
+
+        public void PopContext()
+        {
+            if (ContextStack.Count < 2) return;
+            ContextStack.Pop();
+        }
+        public Func<string, Guid?, PageContentViewModel> GetContentAction { get; set; }
+        public Func<string, Guid?, ListPageContext> GetList { get; set; }
+
+        public PageContentViewModel GetContent(string name)
+        {
+
+            var result = GetContentAction(name, CurrentContext.Id);
+            if (result.IsDraft)
+            {
+                DraftCount++;
+            }
+            return result;
+        }
+
+        public int DraftCount { get; set; }
+        public Guid Id { get; set; }
+
+        public void Dispose()
+        {
+            foreach (var item in ContextStack.ToArray())
+            {
+                item.PageContext = this;
+                item.Dispose();
+            }
+        }
+
+
+    }
+
+    public class ContentContext : IDisposable
+    {
+        public ContentContext Parent { get; set; }
+        private List<PageContentViewModel> _properties = new List<PageContentViewModel>();
+        private List<PageContentViewModel> _modalProperties = new List<PageContentViewModel>();
+        public EditablePageContext PageContext { get; set; }
+        public Guid? Id { get; set; }
+
+        public Guid? ParentId
+        {
+            get
+            {
+                if (Parent == null)
+                    return null;
+
+                return Parent.Id;
+            }
+        }
+
+        public string EditPropertiesLink(string text = "Edit Properties")
+        {
+
+            return
+                string.Format(
+                    "<a class=' style='cursor: pointer; font-size: 10px !important;' data-toggle='modal' data-target='#{0}-Editor'>{1}</a>", Id, text);
+
+        }
+        public bool CanEdit
+        {
+            get { return PageContext.CanEdit; }
+        }
+        public HtmlHelper Helper
+        {
+            get { return PageContext.Helper; }
+        }
+        public PageContentViewModel AddProperty(string propertyName)
+        {
+            var existing = Properties.FirstOrDefault(p => p.PropertyName == propertyName);
+            if (existing != null) return existing;
+
+            var content = PageContext.GetContent(propertyName);
+            content.Label = propertyName;
+            content.IsEditable = false;
+            Properties.Add(content);
+            return content;
+        }
+        public PageContentViewModel AddContent(string propertyName)
+        {
+            var content = AddModalProperty(propertyName);
+            var existing = ModalProperties.FirstOrDefault(p => p.PropertyName == propertyName);
+            if (existing != null) return existing;
+            content.Label = propertyName;
+            content.IsEditable = CanEdit;
+            content.IsMarkdown = true;
+            return content;
+        }
+        public PageContentViewModel AddModalProperty(string propertyName)
+        {
+            var existing = ModalProperties.FirstOrDefault(p => p.PropertyName == propertyName);
+            if (existing != null) return existing;
+            var content = PageContext.GetContent(propertyName);
+            content.Label = propertyName;
+            ModalProperties.Add(content);
+            return content;
+        }
+        public string Name { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return string.Join("_", PageContext.ContextStack.Reverse().Select(p => p.Name));
+                var sb = new StringBuilder();
+                var first = true;
+                foreach (var item in PageContext.ContextStack.Reverse())
+                {
+                    if (!first)
+                    {
+                        sb.Append("_");
+                    }
+                    sb.Append(item.Name);
+                    first = false;
+                }
+                return sb.ToString();
+            }
+        }
+
+        public List<PageContentViewModel> Properties
+        {
+            get { return _properties; }
+            set { _properties = value; }
+        }
+
+        public List<PageContentViewModel> ModalProperties
+        {
+            get { return _modalProperties; }
+            set { _modalProperties = value; }
+        }
+
+        public virtual void Dispose()
+        {
+            if (Properties.Count > 0 || ModalProperties.Count > 0)
+                Helper.RenderPartial("EditablePage", this);
+
+            PageContext.PopContext();
+        }
+    }
+
+    public class ListPageContext : ContentContext, IEnumerable<PageContentViewModel>, IEnumerator<PageContentViewModel>
+    {
+
+        public IEnumerable<PageContentViewModel> Items { get; set; }
+        public bool IsEditable { get; set; }
+        public Guid? ListId { get; set; }
+
+
+
+        private bool _renderedAddNewLink = false;
+        public MvcHtmlString AddNewLink
+        {
+            get
+            {
+                _renderedAddNewLink = true;
+                return Helper.ActionLink("Add New", "AddItem", "PageContent", new { friendlyId = Name, parentId = ListId }, new object { });
+            }
+
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            //if (IsEditable && !_renderedAddNewLink)
+            //{
+            //    Helper.ViewContext.Writer.Write(AddNewLink);
+
+            //}
+
+
+        }
+
+        IEnumerator<PageContentViewModel> IEnumerable<PageContentViewModel>.GetEnumerator()
+        {
+            return this;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return this;
+        }
+
+        private int _start = -1;
+        private PageContentViewModel[] _iteratorItems;
+        private ListItemContext _lastIteratorContext;
+        public bool MoveNext()
+        {
+            if (_iteratorItems == null)
+            {
+                Reset();
+            }
+
+            if (_lastIteratorContext != null)
+                _lastIteratorContext.Dispose();
+
+            _start++;
+
+            if (_start >= _iteratorItems.Length)
+            {
+                _iteratorItems = null;
+                return false;
+            }
+            Current = _iteratorItems[_start];
+
+            _lastIteratorContext = new ListItemContext(_iteratorItems[_start])
+            {
+                Id = new Guid(_iteratorItems[_start].ContentId),
+                Name = _iteratorItems[_start].PropertyName
+            };
+            PageContext.PushContext(_lastIteratorContext);
+
+            return true;
+        }
+
+        public void Reset()
+        {
+            _start = -1;
+            _iteratorItems = this.Items.ToArray();
+            _lastIteratorContext = null;
+        }
+
+        public PageContentViewModel Current { get; private set; }
+
+        object IEnumerator.Current
+        {
+            get { return Current; }
+        }
+    }
+
+    public class ListItemContext : ContentContext
+    {
+        public PageContentViewModel IteratorItem { get; set; }
+
+        public ListItemContext(PageContentViewModel iteratorItem)
+        {
+            IteratorItem = iteratorItem;
+
+        }
+
+    }
+    public class EditablePageProperty
+    {
+
     }
 }

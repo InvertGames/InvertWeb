@@ -96,103 +96,209 @@ namespace MVCForum.Data.Repositories
         {
             _context = context as MVCForumContext;
         }
-        public void SavePageContent(string friendlyId, string content)
+        public PageContent SavePageContent(string friendlyId, string content, Guid? parentId)
         {
-            var pageContent = GetPageContent(friendlyId);
-            pageContent.Content = content;
-            
-        }
-        public void SavePageContentTitle(string friendlyId, string title)
-        {
-            var pageContent = GetPageContent(friendlyId);
-            pageContent.ContentTitle = title;
-
-        }
-
-        public PageContentList GetPageContentList(string friendlyId)
-        {
-            var pageContent = _context.PageContentList.Include(p=>p.ContentItems).FirstOrDefault(p => p.FriendlyId == friendlyId);
-            if (pageContent == null)
-            {
-                pageContent = new PageContentList
-                {
-                    FriendlyId = friendlyId,
-                };
-                _context.PageContentList.Add(pageContent);
-            }
-            return pageContent;
-        }
-
-        public void SavePageContentListItem(string listFriendlyId, Guid itemId, string content)
-        {
+            var pageContent = GetPageContent(friendlyId, parentId, true,true);
         
-            var contentItem = GetPageContentItem(itemId);
-            var contentList = contentItem.ContentList;
-            contentItem.ContentList = contentList;
-            contentItem.Content = content;
-         
+            pageContent.Content = content;
+            pageContent.IsDraft = true;
+            return pageContent;
+
         }
+
+        //public void SavePageContentTitle(string friendlyId, string title)
+        //{
+        //    var pageContent = GetPageContent(friendlyId, null);
+        //    pageContent.ContentTitle = title;
+
+        //}
+      
+        public PageContent GetPageContentList(string friendlyId,Guid? parentId, bool includeDrafts)
+        {
+
+            var listContent = GetPageContent(friendlyId, parentId, false, true);
+            listContent.IsDraft = false;
+            var list = new List<PageContent>();
+            foreach (var item in _context.PageContent.Where(p => p.ParentId == listContent.Id))
+            {
+                if (!includeDrafts && item.IsDraft) continue;
+                var content = GetPageContent(item.FriendlyId, item.ParentId, includeDrafts);
+                list.Add(content);
+            }
+            listContent.Children = list;
+            return listContent;
+        }
+
+        //public void SavePageContentListItem(string listFriendlyId, Guid itemId, string content)
+        //{
+        
+        //    var contentItem = GetPageContentItem(itemId);
+        //    contentItem.ContentList = _context.PageContentList.FirstOrDefault(p => p.FriendlyId == listFriendlyId);
+        //    contentItem.Content = content;
+         
+        //}
 
         public void MovePageContentUp(Guid itemId)
         {
-            var contentItem = GetPageContentItem(itemId);
-            var contentList = contentItem.ContentList;
-            contentItem.Order += 0.1;
-            var index = 0;
-            foreach (var item in contentList.ContentItems.OrderBy(p => p.Order))
-            {
-                item.Order = index;
-            }
+            //var contentItem = GetPageContentItem(itemId);
+            //var contentList = contentItem;
+            //contentItem.Order += 0.1;
+            //var index = 0;
+            //foreach (var item in contentList.ContentItems.OrderBy(p => p.Order))
+            //{
+            //    item.Order = index;
+            //}
         }
         public void MovePageContentDown(Guid itemId)
         {
 
-            var contentItem = GetPageContentItem(itemId);
-            var contentList = contentItem.ContentList;
-            contentItem.Order -= 0.1;
-            var index = 0;
-            foreach (var item in contentList.ContentItems.OrderBy(p => p.Order))
-            {
-                item.Order = index;
-            }
+            //var contentItem = GetPageContentItem(itemId);
+            //var contentList = contentItem.ContentList;
+            //contentItem.Order -= 0.1;
+            //var index = 0;
+            //foreach (var item in contentList.ContentItems.OrderBy(p => p.Order))
+            //{
+            //    item.Order = index;
+            //}
         }
-        public PageContent GetPageContentItem(Guid itemId)
-        {
-            var pageContent = _context.PageContent.Include(p=>p.ContentList).FirstOrDefault(p => p.Id == itemId);
-            if (pageContent == null)
-            {
-                pageContent = new PageContent
-                {
-                    Id = itemId,
-                    Content = string.Empty,
-                    ContentTitle = string.Empty
-                };
-                _context.PageContent.Add(pageContent);
-            }
-            return pageContent;
-        }
+        //public PageContent GetPageContentItem(Guid itemId)
+        //{
+        //    var pageContent = _context.PageContent.FirstOrDefault(p => p.Id == itemId);
+        //    if (pageContent == null)
+        //    {
+        //        pageContent = new PageContent
+        //        {
+        //            Id = itemId,
+        //            Content = string.Empty,
+        //            ContentTitle = string.Empty
+        //        };
+        //        _context.PageContent.Add(pageContent);
+        //    }
+        //    return pageContent;
+        //}
  
 
         public void DeletePageContentListItem(Guid itemId)
         {
             
             _context.PageContent.Remove(_context.PageContent.FirstOrDefault(p=>p.Id == itemId));
+            WalkContent(itemId, _ => _context.PageContent.Remove(_));
         }
 
-        public PageContent GetPageContent(string friendlyId)
+        public void PublishContent(Guid? id)
         {
-            var pageContent = _context.PageContent.FirstOrDefault(p => p.FriendlyId == friendlyId);
+            WalkContent(null, PublishIfDraft);
+            WalkContent(id, PublishIfDraft);
+        }
+
+        private void PublishIfDraft(PageContent item)
+        {
+            if (item.IsDraft)
+            {
+                var originalContent =
+                    _context.PageContent.FirstOrDefault(
+                        p => p.FriendlyId == item.FriendlyId && p.ParentId == item.ParentId && p.IsDraft == false);
+                // If there isn't an original, make it the original
+                if (originalContent == null)
+                {
+                    item.IsDraft = false;
+                }
+                else // if there is any original copy back to the original
+                {
+                    // Transfer draft stuff to original
+                    //originalContent.Id = item.Id;
+                    originalContent.Content = item.Content;
+                    originalContent.Order = item.Order;
+                    originalContent.IsDraft = false;
+                    _context.PageContent.Remove(item);
+                }
+            }
+        }
+
+        public void WalkContent(Guid? id, Action<PageContent> contentAction)
+        {
+            WalkContent(id, p=>true, contentAction);
+        }
+
+        public void WalkContent(Guid? id, Predicate<PageContent> filter, Action<PageContent> contentAction)
+        {
+            var items = _context.PageContent.Where(p => p.ParentId == id).ToArray();
+            foreach (var item in items.Where(p=>filter(p)))
+            {
+                contentAction(item);
+                WalkContent(item.Id,filter, contentAction);
+            }
+
+        }
+        public PageContent GetPageContent(string friendlyId,Guid? parentId, bool draftVersion = false, bool autoCreate = false)
+        {
+            var pageContent = _context.PageContent.FirstOrDefault(p => p.FriendlyId == friendlyId && p.ParentId == parentId && p.IsDraft == draftVersion);
+         
             if (pageContent == null)
             {
                 pageContent = new PageContent
                 {
                     FriendlyId = friendlyId,
                     Content = string.Empty,
-                    ContentTitle = string.Empty
+                    ParentId = parentId
                 };
+                
+                if (draftVersion)
+                {
+                    var nonDraftVersion =
+                          _context.PageContent
+                              .FirstOrDefault(p => p.FriendlyId == friendlyId && p.ParentId == parentId && !p.IsDraft);
+                    if (nonDraftVersion != null)
+                    {
+                       
+                        pageContent.Content = nonDraftVersion.Content;
+                        if (!autoCreate)
+                        {
+                            return nonDraftVersion;
+                        }
+                    }
+                   
+                }
+                if (!autoCreate)
+                {
+                    return pageContent;
+                }
+                pageContent.IsDraft = true;
                 _context.PageContent.Add(pageContent);
             }
             return pageContent;
+        }
+    }
+
+    public class UserLicenseRepository : IUserLicenseRepository
+    {
+        private readonly MVCForumContext _context;
+
+        public UserLicenseRepository(IMVCForumContext context)
+        {
+            _context = context as MVCForumContext;
+        }
+
+        public MarketProductUserLicense GetLicense(Guid userId, Guid licenseId)
+        {
+            return _context.UserLicense.FirstOrDefault(p => p.User.Id == userId);
+        }
+
+        public IEnumerable<MarketProductUserLicense> GetLicenses(Guid userId)
+        {
+            return _context.UserLicense.Include(p=>p.PurchaseOption)
+                .Include(p=>p.PurchaseOption.Product).Where(p => p.User.Id == userId);
+        }
+
+
+        public MarketProductUserLicense CreateLicense(Guid purchaseOptionId, string username)
+        {
+            var license = new MarketProductUserLicense
+            {
+                PurchaseOption = _context.MarketProductPurchaseOption.FirstOrDefault(p => p.Id == purchaseOptionId),
+                User = _context.MembershipUser.FirstOrDefault(p => p.UserName == username)
+            };
+            return license;
         }
     }
 }

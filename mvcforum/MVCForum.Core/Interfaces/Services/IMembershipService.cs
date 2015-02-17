@@ -16,12 +16,14 @@ namespace MVCForum.Domain.Interfaces.Services
 
     public partial interface IMembershipService
     {
+        
         MembershipUser SanitizeUser(MembershipUser membershipUser);
         bool ValidateUser(string userName, string password, int maxInvalidPasswordAttempts);
         LoginAttemptStatus LastLoginStatus { get; }
         string[] GetRolesForUser(string username);
         MembershipUser GetUser(string username);
         MembershipUser GetUserByEmail(string email);
+        MembershipUser GetUserByToken(string token);
         MembershipUser GetUserBySlug(string slug);
         MembershipUser GetUserByFacebookId(long facebookId);
         MembershipUser GetUserByTwitterId(string twitterId);
@@ -49,5 +51,6 @@ namespace MVCForum.Domain.Interfaces.Services
         int MemberCount();
         string ToCsv();
         CsvReport FromCsv(List<string> allLines);
+        void StoreUnityInvoice(MembershipUser user, UnityInvoice invoice);
     }
 }

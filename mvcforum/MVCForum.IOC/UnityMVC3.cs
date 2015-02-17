@@ -62,7 +62,7 @@ namespace MVCForum.IOC
         /// Inject
         /// </summary>
         /// <returns></returns>
-        private static IUnityContainer BuildUnityContainer()
+        public static IUnityContainer BuildUnityContainer()
         {
             var container = new UnityContainer();
 
@@ -106,8 +106,10 @@ namespace MVCForum.IOC
             container.BindInRequestScope<IUploadedFileService, UploadedFileService>();
             container.BindInRequestScope<IMarketService, MarketService>();
             container.BindInRequestScope<IPageContentService, PageContentService>();
+            container.BindInRequestScope<IActivationService, ActivationService>();
 
 
+            container.BindInRequestScope<IUserLicenseRepository, UserLicenseRepository>();
             container.BindInRequestScope<IPageContentRepository, PageContentRepository>();
             container.BindInRequestScope<IMarketRepository, MarketRepository>();
             container.BindInRequestScope<IRoleRepository, RoleRepository>();

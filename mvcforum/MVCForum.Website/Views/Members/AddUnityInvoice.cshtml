@@ -1,0 +1,15 @@
+﻿@model dynamic
+@section title {
+    <h1>@Html.PageContent("UnityInvoiceTitle")</h1>
+    <p>@Html.PageContent("UnityInvoiceTitleDescription")</p>
+}
+
+@Html.PageContent("UnityInvoiceHeader")
+
+@using (var form = Html.BeginForm("AddUnityInvoice", "Members",FormMethod.Post))
+{
+    @Html.TextBox("invoiceNumber")
+    
+    <input type="submit" name="" value="Verify" />
+}
+@Html.PageContent("UnityInvoiceFooter")

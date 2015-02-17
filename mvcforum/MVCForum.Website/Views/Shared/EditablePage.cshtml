@@ -1,0 +1,96 @@
+﻿@model ContentContext
+
+@{
+    Layout = null;
+}
+@if (Model.CanEdit)
+{
+    foreach (var item in Model.ModalProperties)
+    {
+        <div id="@item.ContentId-Editor" class="modal fade">
+            <div class="modal-dialog">
+                @using (Html.BeginForm("Save", "PageContent", FormMethod.Post, new { id = @item.PropertyName + "Form" }))
+                {
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Edit @item.PropertyName</h4>
+                        </div>
+                        <div class="modal-body">
+                            @Html.Hidden("PropertyName", item.PropertyName)
+                            @Html.Hidden("ContentId", item.ContentId)
+                            @*@Html.Hidden("IsMarkdown", item.IsMarkdown)*@
+                            @Html.Hidden("ParentId", item.ParentId)
+                            <div id="">
+                                <div class="row-fluid">
+                                    <div class="span12 topiccontent">
+                                        @if (item.IsMarkdown)
+                                        {
+                                            <div class="editor-field editorholder">
+                                                @Html.EditorFor(x=>item.Content,null,"Content")
+                                                @Html.ValidationMessageFor(model => item.Content)
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div class="editor-field">
+                                                @Html.TextArea("Content", item.Content, new { @Style = "color: black !important;" })
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" onclick=" $(this).closest('form').submit(); ">Save Changes</button>
+                            @*<input type="submit" class="btn btn-primary" value="Save Changes" />*@
+                        </div>
+                    </div>
+                 <!-- /.modal-content -->
+                }
+            </div><!-- /.modal-dialog -->
+        </div>
+    }
+    @*if (Model.Properties.Count > 0)
+     {
+         <a class="" style="cursor: pointer; font-size: 10px !important;" data-toggle="modal" data-target="#@(Model.FullName)-Editor">
+             Edit Page
+         </a>
+     }*@
+    <div id="page-edit">
+        <div id="@(Model.Id)-Editor" class="modal fade">
+            <div class="modal-dialog">
+                @using (Html.BeginForm("SaveProperties", "PageContent", FormMethod.Post, new { }))
+                {
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Edit Properties</h4>
+                        </div>
+                        <div class="modal-body">
+                            @foreach (var item in Model.Properties)
+                            {
+                                <div class="row">
+                                    <label>@(item.Label)</label>
+                                    @Html.Hidden("PARENT_" + item.PropertyName, Model.Id)
+                                    @Html.TextBox("PAGECONTENT_" + item.PropertyName, item.Content)
+                                </div>
+
+                            }
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" onclick=" $(this).closest('form').submit(); ">Save Changes</button>
+                            @*<input type="submit" class="btn btn-primary" value="Save Changes" />*@
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                }
+            </div><!-- /.modal-dialog -->
+        </div>
+
+    </div>
+}

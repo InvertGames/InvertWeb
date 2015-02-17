@@ -394,6 +394,16 @@ namespace MVCForum.Services
         }
 
         /// <summary>
+        /// Gets a user by a token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public MembershipUser GetUserByToken(string token)
+        {
+            return _membershipRepository.GetUserByToken(token);
+        }
+
+        /// <summary>
         /// Get a user by slug
         /// </summary>
         /// <param name="slug"></param>
@@ -887,5 +897,10 @@ namespace MVCForum.Services
             return report;
         }
 
+        public void StoreUnityInvoice(MembershipUser user, UnityInvoice invoice)
+        {
+            _membershipRepository.AddUserUnityInvoice(user, invoice);
+            
+        }
     }
 }

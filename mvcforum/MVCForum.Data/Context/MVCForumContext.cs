@@ -44,7 +44,8 @@ namespace MVCForum.Data.Context
         public DbSet<MarketProductLicense> MarketProductLicense { get; set; }
         public DbSet<MarketProductPurchaseOption> MarketProductPurchaseOption { get; set; }
         public DbSet<PageContent> PageContent { get; set; }
-        public DbSet<PageContentList> PageContentList { get; set; }
+        public DbSet<MarketProductUserLicense> UserLicense { get; set; }
+        public DbSet<UnityInvoice> UnityInvoices { get; set; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -58,23 +59,20 @@ namespace MVCForum.Data.Context
             
             // http://stackoverflow.com/questions/7924758/entity-framework-creates-a-plural-table-name-but-the-view-expects-a-singular-ta
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Configurations.Add(new MarketProductUserLicenseMapping());
             modelBuilder.Entity<PageContent>()
-                .HasKey(p => p.Id);
-            modelBuilder.Entity<PageContent>()
-                .HasOptional(p => p.ContentList)
-                .WithMany(p => p.ContentItems)
-                .Map(p=>p.MapKey("ContentList_Id"))
-                .WillCascadeOnDelete();
+                .HasKey(p => p.Id)
+                .Ignore(p=>p.Children)
+                ;
                 
-            modelBuilder.Entity<PageContentList>()
-               .HasKey(p => p.Id);
-            modelBuilder.Entity<PageContentList>()
-                .HasMany(p => p.ContentItems)
-                .WithOptional(p => p.ContentList)
-                .Map(p => p.MapKey("ContentList_Id"))
-                .WillCascadeOnDelete();
+            //modelBuilder.Entity<PageContentList>()
+            //   .HasKey(p => p.Id);
+            //modelBuilder.Entity<PageContentList>()
+            //    .Ignore(p => p.ContentItems)
+            //    ;
 
             // Mappings
+            modelBuilder.Configurations.Add(new UnityInvoiceMapping());
             modelBuilder.Configurations.Add(new BadgeMapping());
             modelBuilder.Configurations.Add(new BadgeTypeTimeLastCheckedMapping());
             modelBuilder.Configurations.Add(new CategoryMapping());

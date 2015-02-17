@@ -1,5 +1,5 @@
 ﻿@using MVCForum.Website.Application
-
+@model MVCForum.Website.ViewModels.ViewPostViewModel
 @{    
     ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
     ViewBag.MetaDesc = Html.Settings().MetaDesc;
@@ -8,18 +8,19 @@
 
 
 
-@section jumbotron {
-    @Html.PageContent("uFrameJumboTron", false)
+@section carousel {
+    @*@Html.PageContent("uFrameJumboTron", false)*@
 }
+@Model.User.NiceUrl
 
-<div class="row">
+@*<div class="row">
     <div class="col-md-6">
         @Html.Panel("NewLetter")
     </div>
     <div class="col-md-6">
         @Html.Panel("TwitterFeed")
     </div>
-</div>
+</div>*@
 
 @Html.Action("LatestTopics", "Home")
 @*

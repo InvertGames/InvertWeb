@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MVCForum.Domain.DomainModel;
+using Stripe;
 
 namespace MVCForum.Domain.Interfaces.Services
 {
@@ -48,22 +49,32 @@ namespace MVCForum.Domain.Interfaces.Services
 
         IEnumerable<MarketProduct> GetUserOwnedProducts(MembershipUser user);
         IEnumerable<MarketProductDownload> GetUserDownloads(MembershipUser user);
+        void EventReceived(StripeEvent stripeEvent);
 
-
+        IEnumerable<MarketProduct> GetInvertProducts();
     }
 
+    public interface IActivationService
+    {
+        string ActivateLicense(Guid userId, Guid licenseId);
+        void DeactivateLicense(Guid userId, Guid licenseId);
+        MarketProductUserLicense[] GetLicenses(Guid userId);
+    }
     public interface IPageContentService
     {
-        void SavePageContent(string friendlyId, string content);
-        PageContent GetPageContent(string friendlyId);
+        PageContent SavePageContent(string friendlyId, string content, Guid? parentId);
+        PageContent GetPageContent(string friendlyId, Guid? parentId, bool draftVersion = false);
 
-        void SavePageContentTitle(string friendlyId, string title);
-        PageContentList GetPageContentList(string friendlyId);
-        void SavePageContentListItem(string listFriendlyId, string itemId, string content);
+
+        PageContent GetPageContentList(string friendlyId, Guid? parentId, bool includeDrafts);
+        
         void MovePageContentUp(string itemId);
         void MovePageContentDown(string itemId);
         void DeletePageContentListItem(string itemId);
+        void PublishContent(Guid? contentId);
     }
+
+    
     public class OwnershipType
     {
         

@@ -1,9 +1,11 @@
 ﻿@using MVCForum.Domain.Constants
+@using MVCForum.Website.Controllers
 @{
     var theme = Html.Settings().Theme;
     var themePath = string.Concat(AppConstants.ThemeRootFolder, theme);
     var globalClass = Convert.ToBoolean(PageData[AppConstants.IsMobileDevice]) ? "mobile" : "desktop";
-    
+    var products = ViewBag.Products;
+    var context = Html.Context();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -17,15 +19,15 @@
     <style type="text/css">
             @@font-face { font-family: 'MVCforumLight'; src: url('@Url.Content(themePath + "/content/fonts/mvcforumli.eot")'); src: url('@Url.Content(themePath + "/content/fonts/mvcforumli.eot")?#iefix') format('embedded-opentype'), url('@Url.Content(themePath + "/content/fonts/mvcforumli.woff")') format('woff'), url('@Url.Content(themePath + "/content/fonts/mvcforumli.ttf")') format('truetype'),url('@Url.Content(themePath + "/content/fonts/mvcforumli.svg")#MVCforumLight') format('svg'); font-weight: normal; font-style: normal; }
             @@font-face { font-family: 'MVCforumSemiBold'; src: url('@Url.Content(themePath + "/content/fonts/mvcforumsb.eot")'); src: url('@Url.Content(themePath + "/content/fonts/mvcforumsb.eot")?#iefix') format('embedded-opentype'), url('@Url.Content(themePath + "/content/fonts/mvcforumsb.woff")') format('woff'), url('@Url.Content(themePath + "/content/fonts/mvcforumsb.ttf")') format('truetype'),url('@Url.Content(themePath + "/content/fonts/mvcforumsb.svg")#MVCforumSemiBold') format('svg'); font-weight: normal; font-style: normal; }
-        </style>
+    </style>
     @(
  Bundle.Css()
                 .Add("~/Content/bootstrap.css")
-              //  .Add("~/Content/Styles/bootstrap-responsive.css")
-               // .Add("~/Content/Styles/bootstrap-prettify.css")
+        //  .Add("~/Content/Styles/bootstrap-responsive.css")
+        // .Add("~/Content/Styles/bootstrap-prettify.css")
                 .Add(themePath + "/Content/Styles/theme.css")
                 .MvcRender("~/content/cache/combined_" + theme + "_#.css")
-           )
+    )
     <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -46,7 +48,7 @@
                     .Add("~/Scripts/general.js")
                     .Add(themePath + "/Content/Scripts/general.js")
                     .MvcRender("~/scripts/cache/combined_" + theme + "_#.js")
-           )
+    )
     @RenderSection("Header", false)
 </head>
 
@@ -65,8 +67,22 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="@Url.Action("Index", "Home")">@Html.LanguageString("Layout.Nav.Home")</a></li>
-           
-                    <li><a href="@Url.Action("uFrame", "Home")">uFrame</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Products <span class="caret"></span></a>
+                        @Html.Action("ProductsMenu", "Market")
+                    </li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (Html.Context() != null && Html.Context().CanEdit)
+                    {
+                        <li>
+                            @Html.EditProperties("Edit Page")
+                        </li>
+                        <li>
+                            <a href="@Url.Action("PublishContent", "PageContent", new { rootId = context.Id })">Publish Content <span class="badge draft-count"></span></a>
+                        </li>
+                    }
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Forums <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
@@ -76,13 +92,9 @@
                             }
                             <li><a href="@Url.Action("Activity", "Home")">@Html.LanguageString("Layout.Nav.Activity")</a></li>
                             <li><a href="@Url.Action("AllBadges", "Badge")">@Html.LanguageString("Layout.Nav.Badges")</a></li>
-                            <li class="divider"></li>
-                            <li class="dropdown-header">Nav header</li>
                         </ul>
                     </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="@Url.Action("Index", "Market")"><strong>Invert Market</strong></a></li>
+                    @*<li><a href="@Url.Action("Index", "Market")"><strong>Invert Market</strong></a></li>*@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">My Account <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
@@ -101,6 +113,9 @@
                                     <a href="@Url.Action("Downloads", "Members", new {  })">Downloads</a>
                                 </li>
                                 <li>
+                                    <a href="@Url.Action("AddUnityInvoice", "Members", new {  })">Link Unity Invoice</a>
+                                </li>
+                                <li>
                                     <a href="@Url.Action("Edit", "Members", new {  })">Edit Profile</a>
                                 </li>
                                 <li>
@@ -108,9 +123,9 @@
                                 </li>
                                 <li>@Html.ActionLink(Html.LanguageString("LogOn.LogOff"), "LogOff", "Members")</li>
                             }
-                          
-                    
-                    
+
+
+
                             @if (User.IsInRole(AppConstants.AdminRoleName))
                             {
                                 <li class="divider"></li>
@@ -124,67 +139,60 @@
         </div><!--/.container-fluid -->
     </nav>
 
+    
     @*<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container-fluid">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="brand" href="@Url.Action("Index", "Home")">
-                    <img src="@Url.Content(themePath + "/Content/Images/admin-n3o-logo.png")" alt="" />
-                </a>
-                <div class="nav-collapse collapse">
-                    <ul class="nav">
-                        <li><a href="@Url.Action("Index", "Home")">@Html.LanguageString("Layout.Nav.Home")</a></li>
-                        <li><a href="@Url.Action("Index", "Market")">Store</a></li>
-                        
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Account <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="@Url.Action("Index", "Home")">
+                        <img src="@Url.Content(themePath + "/Content/Images/admin-n3o-logo.png")" alt="" />
+                    </a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="@Url.Action("Index", "Home")">@Html.LanguageString("Layout.Nav.Home")</a></li>
+                            <li><a href="@Url.Action("Index", "Market")">Store</a></li>
 
-                                @if (!User.Identity.IsAuthenticated)
-                                {
-                                    if (Html.Settings().SuspendRegistration != true)
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Account <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    @if (!User.Identity.IsAuthenticated)
                                     {
-                                        <li><a href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a></li>
+                                        if (Html.Settings().SuspendRegistration != true)
+                                        {
+                                            <li><a href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a></li>
+                                        }
+                                        <li><a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
                                     }
-                                    <li><a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
-                                }
-                                @if (User.IsInRole(AppConstants.AdminRoleName))
-                                {
-                                    <li><a href="@Url.Action("Index", "Admin", new { area = "Admin" }, null)">@Html.LanguageString("Layout.Nav.Admin")</a></li>
-                                }
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Forums <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                @if (Html.Settings().EnablePoints)
-                                {
-                                    <li><a href="@Url.Action("Leaderboard", "Home")">@Html.LanguageString("Layout.Nav.Leaderboard")</a></li>
-                                }
+                                    @if (User.IsInRole(AppConstants.AdminRoleName))
+                                    {
+                                        <li><a href="@Url.Action("Index", "Admin", new { area = "Admin" }, null)">@Html.LanguageString("Layout.Nav.Admin")</a></li>
+                                    }
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Forums <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    @if (Html.Settings().EnablePoints)
+                                    {
+                                        <li><a href="@Url.Action("Leaderboard", "Home")">@Html.LanguageString("Layout.Nav.Leaderboard")</a></li>
+                                    }
 
-                                <li><a href="@Url.Action("Activity", "Home")">@Html.LanguageString("Layout.Nav.Activity")</a></li>
-                                <li><a href="@Url.Action("AllBadges", "Badge")">@Html.LanguageString("Layout.Nav.Badges")</a></li>
+                                    <li><a href="@Url.Action("Activity", "Home")">@Html.LanguageString("Layout.Nav.Activity")</a></li>
+                                    <li><a href="@Url.Action("AllBadges", "Badge")">@Html.LanguageString("Layout.Nav.Badges")</a></li>
 
-                            </ul>
-                        </li>
-                        
-                    </ul>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>*@
-    @if (IsSectionDefined("jumbotron"))
-    {
-        <div class="jumbotron">
-            <div class="container-fluid">
-                @RenderSection("jumbotron")
-            </div>
-        </div>
-    }
+        </div>*@
     @if (IsSectionDefined("title"))
     {
         <div class="page-header">
@@ -193,17 +201,93 @@
                     @RenderSection("title")
                 </div>
             </div>
-            
+
+        </div>
+    }
+    @if (IsSectionDefined("tabstitle"))
+    {
+        <div class="page-header">
+            <div class="container-fluid" style="margin-bottom: 40px;">
+                <div class="row">
+                    @RenderSection("tabstitle")
+                </div>
+            </div>
+
+        </div>
+    }
+    @if (IsSectionDefined("carousel"))
+    {
+        var height = Html.PropertyAsInt("Height");
+        using (var list = @Html.List(Html.Property("Carousel").ToString().Trim(), true, true))
+        {
+            var count = 0;
+            @RenderSection("carousel")
+            <div id="myCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                    @foreach (PageContentViewModel page in list)
+                    {
+                        count++;
+                        <div class="item @(page == list.Items.First() ? "active" : "")" style="height: @(height == 0 ? 500 : height)px;">
+
+                            <img src="@Html.Property("ImageUrl")" alt="" style="z-index: -1;">
+                            <div class="container-fluid">
+
+                                <div class="carousel-caption">
+                                    @if (list.CanEdit)
+                                    {
+                                        if (page.IsDraft)
+                                        {
+                                            <b>DRAFT</b>
+                                        }
+                                        <div class="text-center">@Html.EditProperties("Edit Slide") @page.DeleteLink("Delete")</div>
+                                    }
+                                    @page.Render()
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (count > 1)
+                {
+                    <a class="left carousel-control hidden-xs" style="height: 100% !important; color: white !important;" href="#myCarousel" data-slide="prev">‹</a>
+                    <a class="right carousel-control hidden-xs" style="height: 100% !important;color: white !important;" href="#myCarousel" data-slide="next">›</a>
+                }
+               
+            </div>
+            if (list.CanEdit)
+            {
+                @list.AddNewLink
+            }
+
+
+            <div class="clearfix"></div>
+        }
+    }
+    @if (IsSectionDefined("jumbotron"))
+    {
+        <div class="jumbotron">
+            <div class="container-fluid">
+                @RenderSection("jumbotron")
+            </div>
+        </div>
+    }
+    @if (IsSectionDefined("jumbotron2"))
+    {
+        <div class="jumbotron" style="background-image: url(@Url.Content("~/Content/Images/uFrameTransparent.png")); background-repeat: repeat;">
+            <div class="container-fluid">
+                @RenderSection("jumbotron2")
+            </div>
         </div>
     }
 
     <div class="container-fluid">
-       
+
         @Html.Partial("_GenericMessage")
         @Html.Partial("_EmailConfirmationNotice")
         @Html.Partial("_NoScript")
         <div id="main" class="row">
-            
+
             @if (ViewBag.ShowSidebar == null || ViewBag.ShowSidebar == true)
             {
                 <div class="col-md-9">
@@ -212,7 +296,7 @@
                 <div class="col-md-3 sidelayoutsection">
 
                     <div class="main-side-box">
-                      
+
                         @RenderSection("side", false)
                     </div>
                 </div>
@@ -222,17 +306,28 @@
             {
                 @RenderBody()
             }
-           
+
 
         </div>
         <div class="row">
-         
+
             @*@Html.Action("GetMainStats", "Stats")
-            @Html.Action("GetCurrentActiveMembers", "Members")*@
+                @Html.Action("GetCurrentActiveMembers", "Members")*@
             @RenderSection("Footer", false)
             <hr>
         </div>
-        
+        @{
+            if (context != null)
+            {
+                <script>
+                    $(function() {
+                        $('.draft-count').html("@((context as EditablePageContext).DraftCount)");
+                    });
+                </script>
+                context.Dispose();
+            }
+
+        }
         <footer>
             <div class="row-fluid">
                 <div class="col-md-12">

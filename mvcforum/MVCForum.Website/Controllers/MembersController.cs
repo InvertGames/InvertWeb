@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Principal;
 using System.Text;
 using System.Web;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
@@ -13,6 +15,7 @@ using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OAuth2;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.RelyingParty;
+using Microsoft.Ajax.Utilities;
 using MVCForum.Domain.Constants;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.Interfaces.Services;
@@ -24,6 +27,8 @@ using MVCForum.Utilities;
 using MVCForum.Website.Application;
 using MVCForum.Website.Areas.Admin.ViewModels;
 using MVCForum.Website.ViewModels;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using MembershipCreateStatus = MVCForum.Domain.DomainModel.MembershipCreateStatus;
 using MembershipUser = MVCForum.Domain.DomainModel.MembershipUser;
 
@@ -31,7 +36,9 @@ namespace MVCForum.Website.Controllers
 {
     public partial class MembersController : BaseController
     {
+        public IActivationService LicenseService { get; set; }
         public IMarketService MarketService { get; set; }
+        
         private readonly IPostService _postService;
         private readonly IReportService _reportService;
         private readonly IEmailService _emailService;
@@ -44,11 +51,13 @@ namespace MVCForum.Website.Controllers
 
         private InMemoryTokenManager _tokenManager;
 
-        public MembersController(IMarketService marketService,ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService,
+        public MembersController(IActivationService licenseService, IPageContentService service, IMarketService marketService, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService,
             IRoleService roleService, ISettingsService settingsService, IPostService postService, IReportService reportService, IEmailService emailService, IPrivateMessageService privateMessageService, IBannedEmailService bannedEmailService, IBannedWordService bannedWordService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
+            LicenseService = licenseService;
             MarketService = marketService;
+            
             _postService = postService;
             _reportService = reportService;
             _emailService = emailService;
@@ -1265,7 +1274,62 @@ namespace MVCForum.Website.Controllers
             vm.Downloads = MarketService.GetUserDownloads(MembershipService.GetUser(Username));
             return View(vm);
         }
-   
+        [Authorize]
+        public ActionResult LicensesJson()
+        {
+            return Json(LicenseService.GetLicenses(MembershipService.GetUser(Username).Id).Select(p=>new
+            {
+                ProductName = p.PurchaseOption.Product.Name,
+                IsSubscription = p.PurchaseOption.RecurringPrice > 0,
+                ProductId = p.PurchaseOption.Product.Id,
+                Activations = p.Activations
+            }),JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public ActionResult AddUnityInvoice()
+        {
+            return View();
+        }
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddUnityInvoice(string invoiceNumber)
+        {
+            //http://api.assetstore.unity3d.com:80/publisher/v1/invoice/verify.json?key=361knaa2HnJPFPA7gjXulsW1JKU%20&invoice=301593225
+            var client = new WebClient();
+            var str = client.DownloadString(
+                string.Format(
+                    "http://api.assetstore.unity3d.com:80/publisher/v1/invoice/verify.json?key=361knaa2HnJPFPA7gjXulsW1JKU%20&invoice={0}",
+                    invoiceNumber));
+
+            var obj  = (JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(str);
+            
+            if (obj.HasValues)
+            {
+                using (var work = UnitOfWorkManager.NewUnitOfWork())
+                {
+                    var invoice = obj["invoices"].Values<JObject>().Select(p => p.ToObject<UnityInvoice>()).FirstOrDefault();
+                    var user = MembershipService.GetUser(Username);
+
+                    MembershipService.StoreUnityInvoice(user, invoice);
+                    user.Roles.Add(RoleService.GetRole("Verified"));
+
+                    try
+                    {
+                        work.Commit();
+                    }
+                    catch
+                    {
+                        work.Rollback();
+
+                    }
+                }
+              
+
+            }
+            return null;
+        }
+
+        
         [Authorize]
         public ActionResult Purchases()
         {

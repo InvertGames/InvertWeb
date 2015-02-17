@@ -12,10 +12,11 @@ using Stripe;
 
 namespace MVCForum.Services
 {
-    public class MarketService: IMarketService
+    public class MarketService : IMarketService
     {
-        public MarketService(StripeChargeService chargeService,IUnitOfWorkManager workManager, StripeSubscriptionService subscriptionService, StripePlanService planService, IMembershipService membership, IMarketRepository marketRepository, StripeCustomerService customerService)
+        public MarketService(IActivationService activationServce, StripeChargeService chargeService, IUnitOfWorkManager workManager, StripeSubscriptionService subscriptionService, StripePlanService planService, IMembershipService membership, IMarketRepository marketRepository, StripeCustomerService customerService)
         {
+            ActivationServce = activationServce;
             ChargeService = chargeService;
             WorkManager = workManager;
             SubscriptionService = subscriptionService;
@@ -31,12 +32,13 @@ namespace MVCForum.Services
         public StripePlanService PlanService { get; set; }
         public IMembershipService Membership { get; set; }
         public IMarketRepository Market { get; set; }
+        public IActivationService ActivationServce { get; set; }
         public StripeChargeService ChargeService { get; set; }
 
 
         public void Add(MarketProduct product)
         {
-            
+
         }
 
         public PagedList<MarketProduct> GetPaged(int pageIndex, int pageSize)
@@ -120,12 +122,10 @@ namespace MVCForum.Services
                 stripeCharge.CustomerId = stripeCustomer.Id;
                 stripeCharge.Capture = true;
                 stripeCharge.Amount = Convert.ToInt32(purchaseOption.BuyInPrice * 100);
-                stripeCharge.Metadata = new Dictionary<string, string> {{"MarketProductId", product.Id.ToString()}};
+                stripeCharge.Metadata = new Dictionary<string, string> { { "MarketProductId", product.Id.ToString() } };
                 stripeCharge.Currency = "usd";
                 // Process the Payment
                 var charge = ChargeService.Create(stripeCharge);
-                
-                
                 // Now set up the subscription if possible
                 if (!string.IsNullOrEmpty(purchaseOption.StripePlanId))
                 {
@@ -134,10 +134,10 @@ namespace MVCForum.Services
                         Quantity = numberOfLicenses,
                     });
                 }
-                
+
                 unitOfWork.Commit();
             }
-         
+
 
 
         }
@@ -162,14 +162,14 @@ namespace MVCForum.Services
 
         public IEnumerable<PaymentInfo> GetCharges(MembershipUser user)
         {
-            
+
             var charges = ChargeService.List(new StripeChargeListOptions()
             {
                 CustomerId = user.StripeCustomerId
             });
             foreach (var charge in charges)
             {
-               
+
                 var item = new PaymentInfo();
                 item.FailureCode = charge.FailureCode;
                 item.FailureMessage = charge.FailureMessage;
@@ -185,7 +185,7 @@ namespace MVCForum.Services
                             item.Product = Market.GetMarketProduct(new Guid(productId));
 
                         }
-                        
+
                     }
                     item.Total = charge.Invoice.Total;
                     item.SubscriptionId = charge.Invoice.SubscriptionId;
@@ -199,10 +199,10 @@ namespace MVCForum.Services
                     item.Paid = charge.Captured;
                     item.Date = charge.Created;
                 }
-              
-                
+
+
                 item.IsRefunded = charge.Refunded;
-                
+
                 item.Last4Digits = charge.StripeCard.Last4;
                 yield return item;
             }
@@ -221,11 +221,11 @@ namespace MVCForum.Services
             if (property != null)
             {
                 property.SetValue(product, Convert.ChangeType(propertyValue, property.PropertyType));
-                if (property.PropertyType == typeof (int))
+                if (property.PropertyType == typeof(int))
                 {
-                   
+
                 }
-                
+
             }
         }
 
@@ -234,11 +234,11 @@ namespace MVCForum.Services
 
             var product = Market.GetMarketProduct(productId);
 
-            
+
             var image = new MarketProductImage()
             {
                 Product = product,
-                
+
             };
             Market.AddProductImage(image);
 
@@ -247,27 +247,27 @@ namespace MVCForum.Services
 
         public void Delete(MarketProduct product)
         {
-            
+
         }
 
         public void SaveProduct(MembershipUser user, MarketProduct product)
         {
-            
+
         }
 
         public void AddProductImage(MarketProduct product)
         {
-            
+
         }
 
         public void RemooveProductImage(Guid id)
         {
-            
+
         }
 
         public void SaveProductVideo(MarketProduct product)
         {
-            
+
         }
 
         public IEnumerable<MarketProduct> GetUserOwnedProducts(MembershipUser user)
@@ -285,7 +285,7 @@ namespace MVCForum.Services
                     products.Add(item.Product);
                 }
             }
-     
+
             return products.Distinct();
         }
 
@@ -293,14 +293,39 @@ namespace MVCForum.Services
         {
             return GetUserOwnedProducts(user).SelectMany(p => p.Downloads);
         }
+
+        public void EventReceived(StripeEvent stripeEvent)
+        {
+            switch (stripeEvent.Type)
+            {
+                case "charge.updated":
+                case "charge.captured":
+                case "charge.succeeded":
+                case "charge.refunded":  // take a look at all the types here: https://stripe.com/docs/api#event_types
+                    var stripeCharge = Mapper<StripeCharge>.MapFromJson(stripeEvent.Data.Object.ToString());
+
+                    break;
+                case "customer.subscription.trial_will_end":
+                    var subscription = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString());
+
+                    break;
+
+            }
+        }
+
+        public IEnumerable<MarketProduct> GetInvertProducts()
+        {
+            return Market.GetAll();
+        }
+
         public void SaveProductOption(string productId, MarketProductPurchaseOption option)
         {
-            
+
         }
 
         public void RemoveProductOption(string optionId)
         {
-            
+
         }
 
     }
@@ -313,30 +338,27 @@ namespace MVCForum.Services
         {
             Repository = repository;
         }
-        public void SavePageContentTitle(string friendlyId, string title)
+     
+        public PageContent SavePageContent(string friendlyId, string content, Guid? parentId)
         {
-            Repository.SavePageContentTitle(friendlyId, title);
-
-        }
-        public void SavePageContent(string friendlyId, string content)
-        {
-            Repository.SavePageContent(friendlyId,content);
+            return Repository.SavePageContent(friendlyId, content,parentId);
         }
 
-        public PageContent GetPageContent(string friendlyId)
+        public PageContent GetPageContent(string friendlyId, Guid? parentId, bool draftVersion = false)
         {
-            return Repository.GetPageContent(friendlyId);
+            return Repository.GetPageContent(friendlyId, parentId, draftVersion: draftVersion); 
         }
 
-        public PageContentList GetPageContentList(string friendlyId)
+        public void PublishContent(Guid? contentId)
         {
-            return Repository.GetPageContentList(friendlyId);
+            Repository.PublishContent(contentId);
+        }
+        public PageContent GetPageContentList(string friendlyId, Guid? parentId, bool includeDrafts)
+        {
+            return Repository.GetPageContentList(friendlyId, parentId, includeDrafts);
         }
 
-        public void SavePageContentListItem(string listFriendlyId, string itemId, string content)
-        {
-            Repository.SavePageContentListItem(listFriendlyId, new Guid(itemId), content);
-        }
+
 
         public void MovePageContentUp(string itemId)
         {
@@ -352,53 +374,42 @@ namespace MVCForum.Services
             Repository.DeletePageContentListItem(new Guid(itemId));
         }
     }
-    public static class StripeUserExtensions
+
+    public class ActivationService : IActivationService
     {
-      
-        //public static StripePlan GetSubscriptionPlan(this MembershipUser user, StripePlanService service)
-        //{
-        //    if (string.IsNullOrEmpty(user.StripeSubscriptionPlanId))
-        //    {
-        //        var planCreate = new StripePlanCreateOptions()
-        //        {
-        //            Amount = 0,
-        //            Currency = "usd",
-        //            Id = user.StripeCustomerId,
-        //            Name = user.Email,
-        //            Interval = "1"
-        //        };
-        //       return service.Create(plan);
-        //    }
-        //    else
-        //    {
-        //        return service.Get(user.StripeSubscriptionPlanId);
-        //    }
-        //}
+        public IUserLicenseRepository LicenseRepository { get; set; }
 
-        //public static void TryGetSubscription(this MembershipUser user,int amount, StripeSubscriptionService service)
-        //{
-        //    service.Create(user.StripeCustomerId, user.StripeSubscriptionPlanId);
-            
-        //}
-        //public -static StripePlan UpdateSubscription(this MembershipUser user,StripePlanService service, int incrememntAmount)
-        //{
-        //    // Get the current subscription plan
-        //    var subscriptionPlan = GetSubscriptionPlan(user, service);
-        //    // I
-        //    subscriptionPlan.Amount += incrememntAmount;
-        //    // Delete it
-        //    service.Delete(user.StripeSubscriptionPlanId);
-        //    // Now create a new plan with the updated amount
+        public ActivationService(IUserLicenseRepository licenseRepository)
+        {
+            LicenseRepository = licenseRepository;
+        }
 
-        //    var newPlan = service.Create(new StripePlanCreateOptions()
-        //    {
-        //         Amount = Convert.ToInt32(subscriptionPlan.Amount) + incrememntAmount,
-        //         Currency = subscriptionPlan.Currency,
-        //         Id = subscriptionPlan.Id + "Modified"
-        //    });
-            
+        public MarketProductUserLicense[] GetLicenses(Guid userId)
+        {
+            return LicenseRepository.GetLicenses(userId).ToArray();
+        }
 
-            
-        //}
+        public string ActivateLicense(Guid userId, Guid licenseId)
+        {
+            var license = LicenseRepository.GetLicense(userId, licenseId);
+            if (license.Activations >= license.MaxActivations)
+            {
+                return "License has reached the max activations, please de-activate a license to continue.";
+            }
+            license.Activations++;
+            return null;
+        }
+
+        public void DeactivateLicense(Guid userId, Guid licenseId)
+        {
+            var license = LicenseRepository.GetLicense(userId, licenseId);
+            if (license.Activations > 1)
+            {
+                license.Activations--;
+            }
+        }
+
+
+
     }
 }

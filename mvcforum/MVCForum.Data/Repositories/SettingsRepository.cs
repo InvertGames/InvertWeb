@@ -44,7 +44,7 @@ namespace MVCForum.Data.Repositories
             {
                 throw new ApplicationException("Object already exists in context - you do not need to call Update. Save occurs on Commit");
             }
-            _context.Entry(item).State = EntityState.Modified;  
+            _context.Entry(item).State = EntityState.Modified;
         }
     }
 }

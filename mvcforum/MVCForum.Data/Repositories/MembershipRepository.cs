@@ -232,5 +232,17 @@ namespace MVCForum.Data.Repositories
             _context.Entry(item).State = EntityState.Modified;
             
         }
+
+        public void AddUserUnityInvoice(MembershipUser user, UnityInvoice invoice)
+        {
+            invoice.User = user;
+            _context.UnityInvoices.Add(invoice);
+           
+        }
+
+        public MembershipUser GetUserByToken(string token)
+        {
+            return _context.MembershipUser.FirstOrDefault(p => p.ApiToken == token);
+        }
     }
 }

@@ -19,11 +19,11 @@ namespace MVCForum.Website.Controllers
         private MembershipUser LoggedOnUser;
         private MembershipRole UsersRole;
 
-        public SearchController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, 
+        public SearchController(IPageContentService service, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, 
             IMembershipService membershipService, ILocalizationService localizationService, 
             IRoleService roleService, ISettingsService settingsService, 
             IPostService postService, ITopicService topicService, ILuceneService luceneService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _postService = postService;
             _topicsService = topicService;

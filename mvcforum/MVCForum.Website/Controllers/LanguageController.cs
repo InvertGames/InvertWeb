@@ -20,9 +20,9 @@ namespace MVCForum.Website.Controllers
         /// <param name="roleService"></param>
         /// <param name="settingsService"> </param>
         /// <param name="loggingService"> </param>
-        public LanguageController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, 
+        public LanguageController(IPageContentService service, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, ILocalizationService localizationService, 
             IRoleService roleService, ISettingsService settingsService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             
         }

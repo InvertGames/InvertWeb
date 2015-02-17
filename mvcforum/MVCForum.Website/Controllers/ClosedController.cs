@@ -6,9 +6,9 @@ namespace MVCForum.Website.Controllers
 {
     public partial class ClosedController : BaseController
     {
-        public ClosedController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, 
+        public ClosedController(IPageContentService service, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, 
             ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService) : 
-            base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
         }
 

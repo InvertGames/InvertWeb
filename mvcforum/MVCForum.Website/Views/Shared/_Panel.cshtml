@@ -3,8 +3,8 @@
     Layout = null;
 }
 <div class="panel panel-default">
-    <div class="panel-heading">@Html.PageContent(Model + "Heading", false)</div>
+    <div class="panel-heading">@Html.ModalProperty(Model + "Heading")</div>
     <div class="panel-body">
-        @Html.PageContent(Model + "Body",true)
+        @Html.ModalProperty(Model + "Body")
     </div>
 </div>

@@ -17,10 +17,10 @@ namespace MVCForum.Website.Controllers
 
         private MembershipUser LoggedOnUser;
 
-        public PollController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, 
+        public PollController(IPageContentService service, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IMembershipService membershipService, 
             ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService, IPollService pollService, IPollVoteService pollVoteService, 
             IPollAnswerService pollAnswerService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _pollService = pollService;
             _pollAnswerService = pollAnswerService;

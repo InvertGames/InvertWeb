@@ -22,10 +22,10 @@ namespace MVCForum.Website.Controllers
         private readonly MembershipUser LoggedOnUser;
         private readonly MembershipRole UsersRole;
 
-        public UploadController(ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
+        public UploadController(IPageContentService service, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager,
             IMembershipService membershipService, ILocalizationService localizationService, IRoleService roleService, ISettingsService settingsService,
             IPostService postService, IUploadedFileService uploadedFileService)
-            : base(loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
+            : base(service, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             _postService = postService;
             _uploadedFileService = uploadedFileService;

@@ -1,0 +1,23 @@
+﻿@model string
+@using (var tabList = Html.PageContentList(Model))
+{
+    <ul class="nav nav-tabs">
+        @foreach (var tab in tabList.Items)
+        {
+            <li role="presentation" class="@(tab == tabList.Items.First() ? "active" : ""))"><a href="#@(tab.PropertyName)Tab">@tab.PageContent("PageName",false)</a></li>
+        }
+        <li>@tabList.AddNewLink</li>
+ 
+    </ul>
+    <div class="tab-content">
+        @foreach (var tab in tabList.Items)
+        {
+            <div id="@(tab.PropertyName)Tab">
+                @tab.DeleteLink()
+                @tab.Render()
+            </div>
+        
+        }
+    </div>
+}
+

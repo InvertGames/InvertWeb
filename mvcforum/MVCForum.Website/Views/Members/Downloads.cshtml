@@ -4,24 +4,24 @@
    
 }
 @section title {
-    <h1>Downloads</h1>
+    @Html.PageContent("DownladsTitle", false)
 }
 
 <table class="table table-striped">
     <thead>
         <tr><th>Product</th><th>Version</th><th></th></tr>
     </thead>
-    <tbody>
+ 
         @foreach (var item in Model.Downloads)
         {
             <tr>
                 <td>@item.Product.Name</td>
                 <td>@item.Version</td>
                 <td></td>
-                <td><a class="btn btn-primary" href="@item.Url">Download</a></td>
+                <td><a class="btn btn-primary" href="@Url.Content(item.Url)">Download</a></td>
             </tr>
             
         }
         
-    </tbody>
+
 </table>

@@ -1,0 +1,45 @@
+﻿@model MVCForum.Website.Controllers.PageContentViewModel
+
+@{
+    Layout = null;
+}
+
+@if (Model.IsEditable)
+{
+    <div ondblclick=" $('#@(Model.ContentId)-Editor').modal('toggle'); ">
+        
+        @if (Model.IsMarkdown)
+        {
+
+            @Html.Raw(AppHelpers.ConvertPostContent(Model.Content))
+            @*@EditProperty()*@
+
+        }
+        else
+        {
+            @Html.Raw(Model.Content)
+
+
+            @*@EditProperty()*@
+        }
+
+    </div>
+}
+else
+{
+    if (Model.IsMarkdown)
+    {
+
+        @Html.Raw(AppHelpers.ConvertPostContent(Model.Content))
+        @*@EditProperty()*@
+
+    }
+    else
+    {
+
+        @Html.Raw(Model.Content)
+
+
+    }
+ 
+}
