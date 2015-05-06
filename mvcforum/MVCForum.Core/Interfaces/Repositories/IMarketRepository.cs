@@ -31,9 +31,9 @@ namespace MVCForum.Domain.Interfaces.Repositories
         //void SavePageContentTitle(string friendlyId, string title);
 
         PageContent GetPageContentList(string friendlyId, Guid? parentId, bool draftVersions);
-        
-        void MovePageContentUp(Guid itemId);
-        void MovePageContentDown(Guid itemId);
+
+        void MovePageContentUp(string listId, Guid itemId, Guid? parentId);
+        void MovePageContentDown(string listId, Guid itemId, Guid? parentId);
         void DeletePageContentListItem(Guid itemId);
         void PublishContent(Guid? id);
     }

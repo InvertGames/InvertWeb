@@ -73,20 +73,6 @@
 
     }
 }
-@helper UploadFile(string action, string id)
-{
-    <div class="row-fluid">
-        @using (Html.BeginForm(action, "Market", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <div class="offset2 col-md-8">
-                <span style="display: none;" class="ajaxspinner" title="Please Wait">Please Wait</span>
-                <input type="submit" value="Upload" class="btn postuploadbutton" />
-                <input type="file" name="Files" id="files" value="" multiple="multiple" />
-                <input type="hidden" name="UploadPostId" id="UploadPostId" value="@id" />
-            </div>
-        }
-    </div>
-}
 @helper EditProperty(string name)
 {
     if (Model.AllowEditing)
@@ -134,30 +120,29 @@
 
             </div>
             <ul class="nav nav-pills" id="myTab" style="width: 100%; margin-top: 10px;">
-                <li class="active"><a data-toggle="tab" href="#overview">Overview</a></li>
-                @*<li><a data-toggle="tab" href="#features">Features</a></li>*@
+
+                <li class="@(Model.PageName == "Overview" ? "active" : string.Empty)"><a href="@Url.Action("ProductInfo","Market",new{ productId = Model.ProductId })">Overview</a></li>
+
                 @if (showScreenshots)
                 {
-                <li><a data-toggle="tab" href="#screenshots">Screenshots</a></li>
+                    <li class="@(Model.PageName == "Screenshots" ? "active" : string.Empty)"><a href="@Url.Action("Screenshots","Market",new{ productId = Model.ProductId })">Screenshots</a></li>
                 }
-
-                @*<li><a data-toggle="tab" href="#reviews">Reviews <span class="badge">@Model.Reviews.Count()</span></a></li>*@
-                @*<li><a data-toggle="tab" href="#documentation">Documentation</a></li>*@
                 @if (showVideos)
                 {
-                <li><a data-toggle="tab" href="#videos">Videos</a></li>
+                    <li class="@(Model.PageName == "Videos" ? "active" : string.Empty)"><a href="@Url.Action("Videos","Market",new{ productId = Model.ProductId })">Vide>Videos</a></li>
                 }
                 @if (showPurchase)
                 {
-                <li><a data-toggle="tab" href="#purchase">Purchase</a></li>
+                    <li class="@(Model.PageName == "Purchase" ? "active" : string.Empty)"><a href="@Url.Action("Purchase","Market",new{ productId = Model.ProductId })">Purchase</a></li>
                 }
                 @if (showDocumentation)
                 {
-                <li><a data-toggle="tab" href="#documentation">Documentation</a></li>
+                    <li class="@(Model.PageName == "Documentation" ? "active" : string.Empty)"><a href="@Url.Action("Documentation","Market",new{ productId = Model.ProductId })">Documentation</a></li>
                 }
+
                 @if (showFAQ)
                 {
-                <li><a data-toggle="tab" href="#faq">F.A.Q</a></li>
+                    <li class="@(Model.PageName == "FAQ" ? "active" : string.Empty)"><a href="@Url.Action("FAQ","Market",new{ productId = Model.ProductId })">F.A.Q</a></li>
                 }
 
             </ul>
@@ -167,241 +152,6 @@
 }
 @section fullwidth {
     <div style="">
-
-
-        <div class="tab-content" style="padding-top: 10px !important;">
-
-            <div class="tab-pane active" id="overview">
-
-                @*@Html.Raw(AppHelpers.ConvertPostContent(Model.Description))*@
-                <div class="container-fluid">
-                    @Html.MarkdownProperty("Description")
-                </div>
-
-
-                @using (var parts = Html.List("OverviewSections"))
-                {
-                    foreach (PageContentViewModel part in parts)
-                    {
-                        var backgroundColor = Html.Property("BackgroundColor");
-                        var backgroundImage = Html.Property("BackgroundImage");
-                        var borderStyle = Html.Property("BorderStyle");
-                        var padding = Html.Property("Padding");
-                        if (parts.CanEdit)
-                        {
-                            <div class="row" style="background-color: #f1f1f1; text-align: center;">
-                                @Html.EditProperties("Edit")
-                                @part.DeleteLink("Delete")
-                            </div>
-                        }
-                        <div class="row" style="border-top: @(borderStyle); background-image: url(@(backgroundImage)); background-color: @backgroundColor; padding-top: @(padding)px; padding-bottom: @(padding)px;">
-
-                            <div class="container-fluid">
-                                <div class="col-md-12">
-                                    @Html.ModalProperty("Content")
-                                </div>
-
-
-                            </div>
-                        </div>
-                    }
-                    if (parts.CanEdit)
-                    {
-                          <div class="row" style="background-color: #f1f1f1; text-align: center;">
-                        @parts.AddNewLink
-                              </div>
-                    }
-
-                }
-                @*@using (var content = Html.List("Features", false))
-                    {
-                        <div class="row">
-                            <button class="btn btn-default">@content.AddNewLink</button>
-                        </div>
-                        foreach (var item in content)
-                        {
-                            <div class="row text-center">
-                                <div class="col-md-7">
-
-                                    <h2>@Html.ModalProperty("Title")</h2>
-                                    <p>@Html.MarkdownProperty("Description")</p>
-
-
-
-                                    @Html.EditProperties()
-
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="img-rounded img-thumbnail">
-
-                                        <iframe style="width: 100%; height: 100%;" src="//www.youtube.com/embed/@Html.Property("YouTubeUrl")" frameborder="0" allowfullscreen></iframe>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <hr />
-                        }
-                    }*@
-            </div>
-
-
-            <div class="tab-pane" id="screenshots">
-
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        @if (!string.IsNullOrEmpty(Model.MainImageUrl))
-                        {
-                            <img id="main-image" src="@Url.Content(Model.MainImageUrl)" class="img-responsive img-thumbnail" />
-                        }
-
-
-                    </div>
-                    @*<div class="col-md-4 text-center">
-
-
-
-                        </div>*@
-                </div>
-                <br />
-                <div class="row">
-
-                    @foreach (var image in @Model.Images)
-                {
-                <div class="col-md-3">
-
-                    <img src="@Url.Content(image.Url)" onclick="$('#main-image').attr('src', ($(this).attr('src')))" class=" img-thumbnail" />
-                </div>
-
-                }
-                </div>
-                @if (Model.AllowEditing)
-                {
-                    <div class="row text-center">
-                        <br />
-                        <button class="btn btn-info" onclick=" $('#image-upload-container').removeClass('hidden'); $(this).hide(); ">Upload More Images</button>
-                        <div id="image-upload-container" class="hidden">
-                            @UploadFile("UploadProductImage", Model.ProductId.ToString())
-                        </div>
-
-                    </div>
-                }
-
-            </div>
-            <div class="tab-pane container-fluid" id="documentation">
-                <h3>Documentation</h3>
-                <hr />
-                @Html.MarkdownProperty("Documentation")
-            </div>
-
-            <div class="tab-pane" id="videos">
-
-                <h3>Getting Started</h3>
-                <hr />
-                @using (var videos = Html.List("Videos"))
-                {
-                    foreach (PageContentViewModel content in videos)
-                    {
-                        <div class="col-md-6">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    <h4 style="color: white !important;">@Html.ModalProperty("Title")</h4>
-
-                                </div>
-                                <div class="panel-body">
-                                    <iframe style="width: 100%; height: 300px" src="//www.youtube.com/embed/@Html.Property("YouTubeUrl")" frameborder="0" allowfullscreen></iframe>
-                                </div>
-                                <div class="panel-footer">
-                                    @Html.ModalProperty("Description")
-
-                                    @content.DeleteLink("Delete") @Html.EditProperties("Edit")
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                    }
-                    <div class="row">@videos.AddNewLink</div>
-                }
-                <h3>Tutorials</h3>
-                @using (var videos = Html.List("Series"))
-                {
-                    foreach (PageContentViewModel content in videos)
-                    {
-                        <div class="col-md-6">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4>@Html.ModalProperty("Title")</h4>
-                                    @content.DeleteLink("Delete") @Html.EditProperties("Edit")
-                                </div>
-                                <div class="panel-body">
-                                    <iframe style="width: 100%" height="300" src="//www.youtube.com/embed/@Html.Property("YouTubeUrl")" frameborder="0" allowfullscreen></iframe>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                    }
-                    <div class="row">@videos.AddNewLink</div>
-                }
-            </div>
-
-            <div class="tab-pane" id="purchase">
-                <h3>@Model.Title Licensing</h3>
-                <hr />
-                @foreach (var option in Model.PurchaseOptions)
-                {
-                    <div class="col-md-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading"><h4>@(option.PlanName)</h4></div>
-
-                            <table class="table">
-                                <tr><td><strong>Buy In:</strong></td><td>$@(option.BuyInPrice)</td></tr>
-                                <tr><td>Per Month:</td><td>$@(option.RecurringPrice)</td></tr>
-                                @using (var list = Html.List(option.Id.ToString(), false))
-                                {
-                                    foreach (PageContentViewModel item in list)
-                                    {
-                                        <tr><td><strong>@Html.ModalProperty("Label")</strong></td><td>@Html.Property("Value") @item.DeleteLink("Delete")</td></tr>
-                                    }
-                                }
-
-                            </table>
-                            <div class="panel-footer">
-                                <a href="@Url.Action("PurchaseProduct", "Market", new { productOptionsId = option.Id })" class="btn btn-success">Purchase Plan</a>
-                            </div>
-                        </div>
-                    </div>
-
-                }
-
-            </div>
-            <div class="tab-pane" id="faq">
-
-                <h3>Frequently Asked Questions</h3>
-                <hr />
-                @using (var videos = Html.List("FAQ"))
-                {
-                    foreach (PageContentViewModel content in videos)
-                    {
-                        <div class="row" style="padding: 30px;">
-
-                            <h4>@Html.Property("Question")</h4>
-                            <p><b>Answer:</b> @Html.Property("Answer")</p>
-                            @content.DeleteLink("Delete") @Html.EditProperties("Edit")
-
-
-
-                        </div>
-
-                    }
-                    <div class="row">@videos.AddNewLink</div>
-                }
-
-            </div>
-        </div>
-
+        @Html.Partial(Model.PageName, Model)
     </div>
 }

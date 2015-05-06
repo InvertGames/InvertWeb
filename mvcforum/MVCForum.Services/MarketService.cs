@@ -362,13 +362,13 @@ namespace MVCForum.Services
 
 
 
-        public void MovePageContentUp(string itemId)
+        public void MovePageContentUp(string listId, Guid itemId, Guid? parentId)
         {
-            Repository.MovePageContentUp(new Guid(itemId));
+            Repository.MovePageContentUp(listId, itemId, parentId);
         }
-        public void MovePageContentDown(string itemId)
+        public void MovePageContentDown(string listId, Guid itemId, Guid? parentId)
         {
-            Repository.MovePageContentDown(new Guid(itemId));
+            Repository.MovePageContentDown(listId,itemId,parentId);
         }
 
         public void DeletePageContentListItem(string itemId)

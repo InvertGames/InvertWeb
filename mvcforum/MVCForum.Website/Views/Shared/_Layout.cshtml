@@ -143,7 +143,7 @@
         </div><!--/.container-fluid -->
     </nav>
 
- 
+
     @if (IsSectionDefined("title"))
     {
         <div class="page-header">
@@ -183,17 +183,17 @@
                             <img src="@Html.Property("ImageUrl")" alt="" style="z-index: -1;">
                             <div class="container-fluid">
 
-                                
-                                    @if (list.CanEdit)
+
+                                @if (list.CanEdit)
+                                {
+                                    if (page.IsDraft)
                                     {
-                                        if (page.IsDraft)
-                                        {
-                                            <b>DRAFT</b>
-                                        }
-                                        <div class="text-center" style="background-color: #f1f1f1; padding: 5px;">@Html.EditProperties("Edit Slide") @page.DeleteLink("Delete")</div>
+                                        <b>DRAFT</b>
                                     }
-                                    @page.Render()
-                            
+                                    <div class="text-center" style="background-color: #f1f1f1; padding: 5px;">@Html.EditProperties("Edit Slide") @page.DeleteLink("Delete")</div>
+                                }
+                                @page.Render()
+
 
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                     <a class="left carousel-control hidden-xs" style="height: 100% !important; color: white !important;" href="#myCarousel" data-slide="prev">‹</a>
                     <a class="right carousel-control hidden-xs" style="height: 100% !important;color: white !important;" href="#myCarousel" data-slide="next">›</a>
                 }
-               
+
             </div>
             if (list.CanEdit)
             {
@@ -230,49 +230,14 @@
                 @RenderSection("jumbotron2")
             </div>
         </div>
+
+
     }
-@if (IsSectionDefined("fullwidth"))
-{
-    @RenderSection("fullwidth")
-    @RenderBody()
-    <div class="row">
-
-        @*@Html.Action("GetMainStats", "Stats")
-            @Html.Action("GetCurrentActiveMembers", "Members")*@
-        @RenderSection("Footer", false)
-        <hr>
-    </div>
-}
-else
-{
-    <div class="container-fluid">
-
-        @Html.Partial("_GenericMessage")
-        @Html.Partial("_EmailConfirmationNotice")
-        @Html.Partial("_NoScript")
-        <div id="main" class="row">
-
-            @if (ViewBag.ShowSidebar == null || ViewBag.ShowSidebar == true)
-            {
-                <div class="col-md-9">
-                    @RenderBody()
-                </div>
-                <div class="col-md-3 sidelayoutsection">
-
-                    <div class="main-side-box">
-
-                        @RenderSection("side", false)
-                    </div>
-                </div>
-
-            }
-            else
-            {
-                @RenderBody()
-            }
-
-
-        </div>
+    
+    @if (IsSectionDefined("fullwidth"))
+    {
+        @RenderSection("fullwidth")
+        @RenderBody()
         <div class="row">
 
             @*@Html.Action("GetMainStats", "Stats")
@@ -280,28 +245,71 @@ else
             @RenderSection("Footer", false)
             <hr>
         </div>
-        @{
-    if (context != null)
-    {
-        <script>
-            $(function () {
-                $('.draft-count').html("@((context as EditablePageContext).DraftCount)");
-            });
-        </script>
-        context.Dispose();
-    }
-
+        if (context != null)
+        {
+            <script>
+                $(function () {
+                    $('.draft-count').html("@((context as EditablePageContext).DraftCount)");
+                });
+            </script>
+            {
+                context.Helper = Html;
+                context.Dispose();
+            }
         }
-        <footer>
-            <div class="row-fluid">
-                <div class="col-md-12">
+    }
+    else
+    {
+        <div class="container-fluid">
 
-                    <p>&copy; @DateTime.UtcNow.Year Invert Game Studios LLC. All rights reserved.
-                </div>
+            @Html.Partial("_GenericMessage")
+            @Html.Partial("_EmailConfirmationNotice")
+            @Html.Partial("_NoScript")
+            <div id="main" class="row">
+
+                @if (ViewBag.ShowSidebar == null || ViewBag.ShowSidebar == true)
+                {
+                    <div class="col-md-9">
+                        @RenderBody()
+                    </div>
+                    <div class="col-md-3 sidelayoutsection">
+
+                        <div class="main-side-box">
+
+                            @RenderSection("side", false)
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    @RenderBody()
+                }
+
+
             </div>
-        </footer>
-    </div>
-}
+            <div class="row">
+
+                @*@Html.Action("GetMainStats", "Stats")
+                    @Html.Action("GetCurrentActiveMembers", "Members")*@
+                @RenderSection("Footer", false)
+                <hr>
+            </div>
+            @{
+
+
+            }
+
+        </div>
+    }
+    <footer>
+        <div class="row-fluid">
+            <div class="col-md-12">
+
+                <p>&copy; @DateTime.UtcNow.Year Invert Game Studios LLC. All rights reserved.
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>

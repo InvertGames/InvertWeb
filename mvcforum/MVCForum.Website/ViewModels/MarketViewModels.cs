@@ -23,6 +23,13 @@ namespace MVCForum.Website.ViewModels
 
     public class MarketProductViewModel
     {
+        public string PageName { get; set; }
+
+        public MarketProductViewModel SetName(string name)
+        {
+            PageName = name;
+            return this;
+        }
         public Guid ProductId { get; set; }
         public bool AllowEditing { get; set; }
         public string Title { get; set; }

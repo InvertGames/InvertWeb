@@ -139,20 +139,20 @@ namespace MVCForum.Data.Repositories
          
         //}
 
-        public void MovePageContentUp(string listId, Guid itemId)
+        public void MovePageContentUp(string listId, Guid itemId, Guid? parentId)
         {
 
-            GetPageContentList(listId,)
-            var contentItem = GetPageContentItem(itemId);
-            var contentList = contentItem;
-            contentItem.Order += 0.1;
-            var index = 0;
-            foreach (var item in contentList.ContentItems.OrderBy(p => p.Order))
-            {
-                item.Order = index;
-            }
+            //GetPageContentList(listId,)
+            //var contentItem = GetPageContentItem(itemId);
+            //var contentList = contentItem;
+            //contentItem.Order += 0.1;
+            //var index = 0;
+            //foreach (var item in contentList.ContentItems.OrderBy(p => p.Order))
+            //{
+            //    item.Order = index;
+            //}
         }
-        public void MovePageContentDown(Guid itemId)
+        public void MovePageContentDown(string listId, Guid itemId, Guid? parentId)
         {
 
             //var contentItem = GetPageContentItem(itemId);

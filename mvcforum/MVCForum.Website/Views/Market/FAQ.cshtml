@@ -1,0 +1,24 @@
+﻿@using MVCForum.Website.Controllers
+@model MVCForum.Website.ViewModels.MarketProductViewModel
+<div class="container-fluid">
+    <h3>Frequently Asked Questions</h3>
+    <hr />
+    @using (var videos = Html.List("FAQ"))
+    {
+        foreach (PageContentViewModel content in videos)
+        {
+            <div class="row" style="padding: 30px;">
+
+                <h4>@Html.Property("Question")</h4>
+                <p><b>Answer:</b> @Html.Property("Answer")</p>
+                @content.DeleteLink("Delete") @Html.EditProperties("Edit")
+
+
+
+            </div>
+
+        }
+        <div class="row">@videos.AddNewLink</div>
+    }
+
+</div>

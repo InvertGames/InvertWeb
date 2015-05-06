@@ -1,0 +1,53 @@
+﻿@using MVCForum.Website.Controllers
+@model MVCForum.Website.ViewModels.MarketProductViewModel
+
+<h3>Getting Started</h3>
+<hr />
+@using (var videos = Html.List("Videos"))
+{
+    foreach (PageContentViewModel content in videos)
+    {
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 style="color: white !important;">@Html.ModalProperty("Title")</h4>
+
+                </div>
+                <div class="panel-body">
+                    <iframe style="width: 100%; height: 300px" src="//www.youtube.com/embed/@Html.Property("YouTubeUrl")" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="panel-footer">
+                    @Html.ModalProperty("Description")
+
+                    @content.DeleteLink("Delete") @Html.EditProperties("Edit")
+                </div>
+            </div>
+
+
+        </div>
+
+    }
+    <div class="row">@videos.AddNewLink</div>
+}
+<h3>Tutorials</h3>
+@using (var videos = Html.List("Series"))
+{
+    foreach (PageContentViewModel content in videos)
+    {
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>@Html.ModalProperty("Title")</h4>
+                    @content.DeleteLink("Delete") @Html.EditProperties("Edit")
+                </div>
+                <div class="panel-body">
+                    <iframe style="width: 100%" height="300" src="//www.youtube.com/embed/@Html.Property("YouTubeUrl")" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+
+
+        </div>
+
+    }
+    <div class="row">@videos.AddNewLink</div>
+}

@@ -84,7 +84,7 @@ namespace MVCForum.Website.Controllers
         {
             using (var work = UnitOfWorkManager.NewUnitOfWork())
             {
-                PageContentService.MovePageContentUp(id);
+                //PageContentService.MovePageContentUp(TODO, id, TODO);
                 work.Commit();
             }
             return Redirect(this.Request.UrlReferrer.PathAndQuery);
@@ -94,7 +94,7 @@ namespace MVCForum.Website.Controllers
         {
             using (var work = UnitOfWorkManager.NewUnitOfWork())
             {
-                PageContentService.MovePageContentDown(id);
+                //PageContentService.MovePageContentDown(TODO, id, TODO);
                 work.Commit();
             }
             return Redirect(this.Request.UrlReferrer.PathAndQuery);

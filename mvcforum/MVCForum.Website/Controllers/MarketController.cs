@@ -13,6 +13,7 @@ using Stripe;
 
 namespace MVCForum.Website.Controllers
 {
+  [RoutePrefix("market")]
     public class MarketController : PageEditController
     {
         public IMarketService MarketService { get; set; }
@@ -33,7 +34,43 @@ namespace MVCForum.Website.Controllers
                 Product = MarketService.GetInvertProducts().ToArray()
             });
         }
+
+        [Route("{productId}/overview")]
         public ActionResult ProductInfo(Guid productId)
+        {
+            return View("ProductInfo",GetProductViewModel(productId).SetName("Overview"));
+        }
+        [Route("{productId}/documentation")]
+         public ActionResult Documentation(Guid productId)
+        {
+            return View("ProductInfo", GetProductViewModel(productId).SetName("Documentation"));
+        }
+        [Route("{productId}/faq")]
+         public ActionResult FAQ(Guid productId)
+        {
+            return View("ProductInfo", GetProductViewModel(productId).SetName("FAQ"));
+        }
+        [Route("{productId}/videos")]
+         public ActionResult Videos(Guid productId)
+         {
+             return View("ProductInfo", GetProductViewModel(productId).SetName("Videos"));
+         }
+        [Route("{productId}/features")]
+         public ActionResult Features(Guid productId)
+         {
+             return View("ProductInfo", GetProductViewModel(productId).SetName("Features"));
+         }
+        [Route("{productId}/screenshots")]
+         public ActionResult Screenshots(Guid productId)
+         {
+             return View("ProductInfo", GetProductViewModel(productId).SetName("Screenshots"));
+         }
+        [Route("{productId}/purchase")]
+         public ActionResult Purchase(Guid productId)
+         {
+             return View("ProductInfo", GetProductViewModel(productId).SetName("Purchase"));
+         }
+        private MarketProductViewModel GetProductViewModel(Guid productId)
         {
             Guid = productId;
             var user = Membership.GetUser(Username);
@@ -46,12 +83,11 @@ namespace MVCForum.Website.Controllers
             vm.LicenseName = "Invert License";
             vm.Videos = new[]
             {
-                new MarketProductVideoViewModel() { Url="https://www.youtube.com/watch?v=KiTe5nyNXfQ"}, 
+                new MarketProductVideoViewModel() {Url = "https://www.youtube.com/watch?v=KiTe5nyNXfQ"},
             };
             vm.Seller = "Invert Game Studios LLC";
             vm.AllowEditing = UserIsAuthenticated && User.IsInRole("Admin");
-
-            return View(vm);
+            return vm;
         }
 
         [Authorize]

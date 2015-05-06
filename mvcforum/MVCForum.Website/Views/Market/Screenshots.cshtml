@@ -1,0 +1,56 @@
+﻿@model MVCForum.Website.ViewModels.MarketProductViewModel
+@helper UploadFile(string action, string id)
+{
+    <div class="row-fluid">
+        @using (((HtmlHelper)Html).BeginForm(action, "Market", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="offset2 col-md-8">
+                <span style="display: none;" class="ajaxspinner" title="Please Wait">Please Wait</span>
+                <input type="submit" value="Upload" class="btn postuploadbutton" />
+                <input type="file" name="Files" id="files" value="" multiple="multiple" />
+                <input type="hidden" name="UploadPostId" id="UploadPostId" value="@id" />
+            </div>
+        }
+    </div>
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            @if (!string.IsNullOrEmpty(Model.MainImageUrl))
+            {
+                <img id="main-image" src="@Url.Content(Model.MainImageUrl)" class="img-responsive img-thumbnail" />
+            }
+
+
+        </div>
+        @*<div class="col-md-4 text-center">
+
+
+
+            </div>*@
+    </div>
+    <br />
+    <div class="row">
+
+        @foreach (var image in @Model.Images)
+        {
+            <div class="col-md-3">
+
+                <img src="@Url.Content(image.Url)" onclick="$('#main-image').attr('src', ($(this).attr('src')))" class=" img-thumbnail" />
+            </div>
+
+        }
+    </div>
+    @if (Model.AllowEditing)
+    {
+        <div class="row text-center">
+            <br />
+            <button class="btn btn-info" onclick=" $('#image-upload-container').removeClass('hidden'); $(this).hide(); ">Upload More Images</button>
+            <div id="image-upload-container" class="hidden">
+                @UploadFile("UploadProductImage", Model.ProductId.ToString())
+            </div>
+
+        </div>
+    }
+
+</div>

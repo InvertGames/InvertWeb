@@ -63,13 +63,19 @@ namespace MVCForum.Website
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+            
+            routes.MapMvcAttributeRoutes();
 
             routes.MapRouteLowercase(
                 "categoryUrls", // Route name
                 string.Concat(AppConstants.CategoryUrlIdentifier, "/{slug}"), // URL with parameters
                 new { controller = "Category", action = "Show", slug = UrlParameter.Optional } // Parameter defaults
             );
-
+            routes.MapRouteLowercase(
+               "marketUrls", // Route name
+               string.Concat(AppConstants.CategoryUrlIdentifier, "/{productId}/{action}"), // URL with parameters
+               new { controller = "market",  action = UrlParameter.Optional } // Parameter defaults
+           );
             routes.MapRouteLowercase(
                 "categoryRssUrls", // Route name
                 string.Concat(AppConstants.CategoryUrlIdentifier, "/rss/{slug}"), // URL with parameters

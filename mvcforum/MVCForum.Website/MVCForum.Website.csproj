@@ -918,6 +918,7 @@
     <Content Include="Areas\Admin\Views\MarketProducts\Details.cshtml" />
     <Content Include="Areas\Admin\Views\MarketProducts\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\MarketProducts\Index.cshtml" />
+    <Content Include="App_Code\ProductHelpers.cshtml" />
     <None Include="Scripts\jquery-2.0.1.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />
@@ -1826,6 +1827,13 @@
     <Content Include="Views\Home\uFrame.cshtml" />
     <Content Include="Views\Market\Success.cshtml" />
     <Content Include="Views\Shared\Page.cshtml" />
+    <Content Include="Views\Market\Documentation.cshtml" />
+    <Content Include="Views\Market\FAQ.cshtml" />
+    <Content Include="Views\Market\Videos.cshtml" />
+    <Content Include="Views\Market\Features.cshtml" />
+    <Content Include="Views\Market\Screenshots.cshtml" />
+    <Content Include="Views\Market\Purchase.cshtml" />
+    <Content Include="Views\Market\Overview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\AdminMarket\" />

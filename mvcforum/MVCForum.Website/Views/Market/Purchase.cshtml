@@ -1,0 +1,33 @@
+﻿@using MVCForum.Website.Controllers
+@model MVCForum.Website.ViewModels.MarketProductViewModel
+<div class="container-fluid">
+    <h3>@Model.Title Licensing</h3>
+    <hr />
+    @foreach (var option in Model.PurchaseOptions)
+    {
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>@(option.PlanName)</h4>
+                </div>
+
+                <table class="table">
+                    <tr><td><strong>Buy In:</strong></td><td>$@(option.BuyInPrice)</td></tr>
+                    <tr><td>Per Month:</td><td>$@(option.RecurringPrice)</td></tr>
+                    @using (var list = Html.List(option.Id.ToString(), false))
+                    {
+                        foreach (PageContentViewModel item in list)
+                        {
+                            <tr><td><strong>@Html.ModalProperty("Label")</strong></td><td>@Html.Property("Value") @item.DeleteLink("Delete")</td></tr>
+                        }
+                    }
+
+                </table>
+                <div class="panel-footer">
+                    <a href="@Url.Action("PurchaseProduct", "Market", new {productOptionsId = option.Id})" class="btn btn-success">Purchase Plan</a>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>

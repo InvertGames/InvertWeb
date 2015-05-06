@@ -68,8 +68,8 @@ namespace MVCForum.Domain.Interfaces.Services
 
         PageContent GetPageContentList(string friendlyId, Guid? parentId, bool includeDrafts);
         
-        void MovePageContentUp(string itemId);
-        void MovePageContentDown(string itemId);
+        void MovePageContentUp(string listId, Guid itemId, Guid? parentId);
+        void MovePageContentDown(string listId, Guid itemId, Guid? parentId);
         void DeletePageContentListItem(string itemId);
         void PublishContent(Guid? contentId);
       
