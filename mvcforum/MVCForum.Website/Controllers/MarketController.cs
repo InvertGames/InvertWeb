@@ -33,7 +33,7 @@ namespace MVCForum.Website.Controllers
                 Product = MarketService.GetInvertProducts().ToArray()
             });
         }
-        public ActionResult PurchaseCheckout(Guid productId)
+        public ActionResult ProductInfo(Guid productId)
         {
             Guid = productId;
             var user = Membership.GetUser(Username);
@@ -81,7 +81,7 @@ namespace MVCForum.Website.Controllers
 
 
 
-            return RedirectToAction("PurchaseCheckout", new { productId = product.ProductId });
+            return RedirectToAction("ProductInfo", new { productId = product.ProductId });
         }
 
         [HttpPost]
@@ -102,7 +102,7 @@ namespace MVCForum.Website.Controllers
 
 
 
-            return RedirectToAction("PurchaseCheckout", new { productId = model.UploadPostId });
+            return RedirectToAction("ProductInfo", new { productId = model.UploadPostId });
         }
         [HttpPost]
         [Authorize]

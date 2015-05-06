@@ -72,6 +72,7 @@ namespace MVCForum.Domain.Interfaces.Services
         void MovePageContentDown(string itemId);
         void DeletePageContentListItem(string itemId);
         void PublishContent(Guid? contentId);
+      
     }
 
     

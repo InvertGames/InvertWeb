@@ -79,6 +79,26 @@ namespace MVCForum.Website.Controllers
             }
             return Redirect(this.Request.UrlReferrer.PathAndQuery);
         }
+        [Authorize(Roles = "Admin")]
+        public ActionResult MoveContentUp(string id)
+        {
+            using (var work = UnitOfWorkManager.NewUnitOfWork())
+            {
+                PageContentService.MovePageContentUp(id);
+                work.Commit();
+            }
+            return Redirect(this.Request.UrlReferrer.PathAndQuery);
+        }
+        [Authorize(Roles = "Admin")]
+        public ActionResult MoveContentDown(string id)
+        {
+            using (var work = UnitOfWorkManager.NewUnitOfWork())
+            {
+                PageContentService.MovePageContentDown(id);
+                work.Commit();
+            }
+            return Redirect(this.Request.UrlReferrer.PathAndQuery);
+        }
         public static PageContentViewModel MapContent(PageContent content, bool isMarkdown, IPrincipal user)
         {
             var vm = new PageContentViewModel();
@@ -171,6 +191,9 @@ namespace MVCForum.Website.Controllers
         public Func<HtmlString> Render { get; set; }
         //public Func<string, bool, HtmlString> PageContent { get; set; }
         public Func<string,MvcHtmlString> DeleteLink { get; set; }
+        public Func<string,MvcHtmlString> MoveUpLink { get; set; }
+        public Func<string,MvcHtmlString> MoveDownLink { get; set; }
+
         public string Label { get; set; }
         public bool IsDraft { get; set; }
     }

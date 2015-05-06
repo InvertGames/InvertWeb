@@ -456,11 +456,13 @@ namespace MVCForum.Website.Application
         }
         public static MvcHtmlString ModalProperty(this HtmlHelper helper, string propertyName)
         {
+            if (helper.Context() == null) return MvcHtmlString.Empty;
             var vm = helper.Context().CurrentContext.AddModalProperty(propertyName);
             return helper.Partial("Get", vm);
         }
         public static MvcHtmlString MarkdownProperty(this HtmlHelper helper, string propertyName)
         {
+            if (helper.Context() == null) return MvcHtmlString.Empty;
             var vm = helper.Context().CurrentContext.AddModalProperty(propertyName);
             vm.IsMarkdown = true;
             return helper.Partial("Get", vm);
@@ -468,12 +470,14 @@ namespace MVCForum.Website.Application
 
         public static MvcHtmlString EditProperties(this HtmlHelper helper, string label = "Edit Properties")
         {
+            if (helper.Context() == null) return MvcHtmlString.Empty;
+           
             return new MvcHtmlString(helper.Context().CurrentContext.EditPropertiesLink(label));
         }
         public static ListPageContext List(this HtmlHelper helper, string listName, bool isMarkdown = true, bool global = false)
         {
             var context = helper.Context();
-
+            if (context == null) return null;
             var content = context.GetList(listName, global ? null : context.CurrentContext.Id);
             foreach (var item in content.Items)
             {
@@ -484,9 +488,23 @@ namespace MVCForum.Website.Application
                     (s) =>
                     {
                         if (!item1.IsEditable) return MvcHtmlString.Empty;
-                        return helper.ActionLink(s ?? "Delete", "DeleteContent", "PageContent", new { id = item1.ContentId },
+                        return helper.ActionLink(s ?? "Delete", "DeleteContent", "PageContent", new { id = item1.ContentId, friendlyName=content.ListId },
                             new object { });
                     };
+                item.MoveUpLink =
+                  (s) =>
+                  {
+                      if (!item1.IsEditable) return MvcHtmlString.Empty;
+                      return helper.ActionLink(s ?? "Move Up", "MoveContentUp", "PageContent", new { id = item1.ContentId, friendlyName = content.ListId },
+                          new object { });
+                  };
+                item.MoveDownLink =
+                  (s) =>
+                  {
+                      if (!item1.IsEditable) return MvcHtmlString.Empty;
+                      return helper.ActionLink(s ?? "Move Down", "MoveContentDown", "PageContent", new { id = item1.ContentId, friendlyName = content.ListId },
+                          new object { });
+                  };
                 item.Render = () =>
                 {
                     item1.IsMarkdown = isMarkdown;

@@ -353,6 +353,8 @@ namespace MVCForum.Services
         {
             Repository.PublishContent(contentId);
         }
+
+
         public PageContent GetPageContentList(string friendlyId, Guid? parentId, bool includeDrafts)
         {
             return Repository.GetPageContentList(friendlyId, parentId, includeDrafts);

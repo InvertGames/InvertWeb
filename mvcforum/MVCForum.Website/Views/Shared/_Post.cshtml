@@ -12,7 +12,7 @@
     var postCount = Model.Post.User.Posts.Count;
     var isAdminOrMod = User.IsInRole(AppConstants.AdminRoleName) || User.IsInRole(AppConstants.ModeratorRoleName);
 }
-<div class="post row-fluid solution-True post-@postId">
+<div class="post row row-fluid solution-True post-@postId">
     <div class="postmemberdetails col-md-2">
         <div class="karmaholder clearfix">
 

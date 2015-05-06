@@ -159,6 +159,7 @@ namespace MVCForum.Domain.DomainModel
 
         public MembershipUser User { get; set; }
     }
+
     public class MarketSellerInfo : Entity
     {
         public MarketSellerInfo()

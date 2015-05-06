@@ -1,31 +1,113 @@
-﻿@using MVCForum.Website.Application
+﻿@using MVCForum.Domain.DomainModel
+@using MVCForum.Website.Application
+@using MVCForum.Website.Controllers
 @model MVCForum.Website.ViewModels.ViewPostViewModel
-@{    
+@{
     ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
     ViewBag.MetaDesc = Html.Settings().MetaDesc;
     ViewBag.ShowSidebar = false;
 }
-
-
-
 @section carousel {
     @*@Html.PageContent("uFrameJumboTron", false)*@
 }
 
+@section fullwidth {
+    @using (var parts = Html.List("HomeSections"))
+    {
 
-@*<div class="row">
-    <div class="col-md-6">
-        @Html.Panel("NewLetter")
+
+        foreach (PageContentViewModel part in parts)
+        {
+            var backgroundColor = Html.Property("BackgroundColor");
+            var backgroundImage = Html.Property("BackgroundImage");
+            var borderStyle = Html.Property("BorderStyle");
+            var padding = Html.Property("Padding");
+            if (part.IsEditable)
+            {
+                <div class="row" style="background-color: #f1f1f1; text-align: center;">
+                    @Html.EditProperties("Edit")
+                    @part.DeleteLink("Delete")
+                </div>
+            }
+
+            <div class="row" style="border-top: @(borderStyle); background-image: url(@(backgroundImage)); background-color: @backgroundColor; padding-top: @(padding)px; padding-bottom: @(padding)px;">
+
+                <div class="container-fluid">
+                    <div class="col-md-12">
+                        @Html.ModalProperty("Content")
+                    </div>
+
+
+                </div>
+            </div>
+        }
+        if (parts.IsEditable)
+         {
+             @parts.AddNewLink
+         }
+
+    }
+    @*<div class="container-fluid">
+        <div class="row">
+
+            <div class="row">
+                <br />
+                <h1>Featured Products</h1>
+                <br />
+            </div>
+
+            @using (var list = Html.List("FeaturedProducts"))
+            {
+                foreach (PageContentViewModel item in list)
+                {
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                @Html.EditProperties("Edit")
+                                @item.DeleteLink("Delete")
+                                <h2>@Html.ModalProperty("Title")</h2>@Html.ModalProperty("Content")
+                            </div>
+                            <div class="panel-footer clearfix">
+                                <div class="pull-right">
+                                    @{
+                    var productId = Html.Property("ProductId");
+                                    }
+                                    <a href="@Url.Action("ProductInfo", "Market", new {productId})" class="btn btn-primary">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @list.AddNewLink
+            }
+
+        </div>
+    </div>*@
+
+    <div class="row" style="background-color: #f1f1f1; padding: 15px;">
+        <div class="container-fluid">
+            <div class="col-md-3 col-sm-6">
+                <a href="#">
+                    <img src="img/logos/envato.jpg" class="img-responsive img-centered" alt="">
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <a href="#">
+                    <img src="img/logos/designmodo.jpg" class="img-responsive img-centered" alt="">
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <a href="#">
+                    <img src="img/logos/themeforest.jpg" class="img-responsive img-centered" alt="">
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <a href="#">
+                    <img src="img/logos/creative-market.jpg" class="img-responsive img-centered" alt="">
+                </a>
+            </div>
+        </div>
+
+
     </div>
-    <div class="col-md-6">
-        @Html.Panel("TwitterFeed")
-    </div>
-</div>*@
-
-@Html.Action("LatestTopics", "Home")
-@*
-    If you want to show categories on the home page instead of topics
-    Just uncomment this action out and delete this text (And comment out the above action)
-    @Html.Action("ListMainCategories", "Category")
-*@
-
+}

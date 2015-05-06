@@ -669,6 +669,8 @@
     <Content Include="Content\cache\Cache.txt" />
     <Content Include="Content\Emails\EmailNotification.htm" />
     <Content Include="Content\Images\arrow-spinner-blue.gif" />
+    <Content Include="Content\Images\banner-background.jpg" />
+    <Content Include="Content\Images\bg.png" />
     <Content Include="Content\Images\icon-poll.png" />
     <Content Include="Content\Images\icon-sticky.png" />
     <Content Include="Content\Images\mail-add.png" />
@@ -721,6 +723,7 @@
     <Content Include="Content\Images\uframe-logo-stacked.jpg" />
     <Content Include="Content\Images\uframe-logo-stacked.png" />
     <Content Include="Content\Images\uFrameTransparent.png" />
+    <Content Include="Content\Invert.css" />
     <Content Include="Content\InvertLogo.png" />
     <Content Include="Content\Prettify\prettify.css" />
     <Content Include="Content\Prettify\Themes\desert.css" />
@@ -1801,7 +1804,7 @@
     <Content Include="Themes\Dark\Views\Web.config" />
     <Content Include="Views\SharedOld\_GenericMessage.cshtml" />
     <Content Include="Scripts\version.json" />
-    <Content Include="Views\Market\PurchaseCheckout.cshtml" />
+    <Content Include="Views\Market\ProductInfo.cshtml" />
     <Content Include="Views\Market\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\SharedOld\_Layout.cshtml" />
@@ -1822,6 +1825,7 @@
     <Content Include="Views\Shared\EditablePage.cshtml" />
     <Content Include="Views\Home\uFrame.cshtml" />
     <Content Include="Views\Market\Success.cshtml" />
+    <Content Include="Views\Shared\Page.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\AdminMarket\" />

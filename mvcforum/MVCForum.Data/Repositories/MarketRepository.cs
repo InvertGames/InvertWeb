@@ -102,6 +102,7 @@ namespace MVCForum.Data.Repositories
         
             pageContent.Content = content;
             pageContent.IsDraft = true;
+            
             return pageContent;
 
         }
@@ -138,16 +139,18 @@ namespace MVCForum.Data.Repositories
          
         //}
 
-        public void MovePageContentUp(Guid itemId)
+        public void MovePageContentUp(string listId, Guid itemId)
         {
-            //var contentItem = GetPageContentItem(itemId);
-            //var contentList = contentItem;
-            //contentItem.Order += 0.1;
-            //var index = 0;
-            //foreach (var item in contentList.ContentItems.OrderBy(p => p.Order))
-            //{
-            //    item.Order = index;
-            //}
+
+            GetPageContentList(listId,)
+            var contentItem = GetPageContentItem(itemId);
+            var contentList = contentItem;
+            contentItem.Order += 0.1;
+            var index = 0;
+            foreach (var item in contentList.ContentItems.OrderBy(p => p.Order))
+            {
+                item.Order = index;
+            }
         }
         public void MovePageContentDown(Guid itemId)
         {

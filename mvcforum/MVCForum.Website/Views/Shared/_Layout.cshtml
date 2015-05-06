@@ -34,6 +34,7 @@
     <!--[if lt IE 8]>
             <script src="@Url.Content("~/scripts/json3.js")"></script>
     <![endif]-->
+
     <link rel="shortcut icon" href="@Url.Content(themePath + "/content/images/favicon.ico")">
     <link rel="apple-touch-icon-precomposed" href="@Url.Content(themePath + "/content/images/apple-touch-icon-57-precomposed.png")">
     <script type="text/javascript">
@@ -50,10 +51,12 @@
                     .MvcRender("~/scripts/cache/combined_" + theme + "_#.js")
     )
     @RenderSection("Header", false)
+    <link rel="stylesheet" href="@Url.Content("~/Content/Invert.css")">
+
 </head>
 
 <body class="@globalClass">
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -65,16 +68,16 @@
                 <a class="navbar-brand" href="#"><img src="@Url.Content("~/Content/InvertLogo.png")" alt="" /></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav ">
                     <li><a href="@Url.Action("Index", "Home")">@Html.LanguageString("Layout.Nav.Home")</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Products <span class="caret"></span></a>
                         @Html.Action("ProductsMenu", "Market")
                     </li>
-
+                    <li><a href="@Url.Action("Support", "Home")">Support</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    @if (Html.Context() != null && Html.Context().CanEdit)
+                    @if (this.ViewContext.Controller is PageEditController && Html.Context() != null && Html.Context().CanEdit && Html.Context().GetContentAction != null)
                     {
                         <li>
                             @Html.EditProperties("Edit Page")
@@ -90,6 +93,7 @@
                             {
                                 <li><a href="@Url.Action("Leaderboard", "Home")">@Html.LanguageString("Layout.Nav.Leaderboard")</a></li>
                             }
+                            <li><a href="@Url.Action("Index", "Category")">Categories</a></li>
                             <li><a href="@Url.Action("Activity", "Home")">@Html.LanguageString("Layout.Nav.Activity")</a></li>
                             <li><a href="@Url.Action("AllBadges", "Badge")">@Html.LanguageString("Layout.Nav.Badges")</a></li>
                         </ul>
@@ -139,60 +143,7 @@
         </div><!--/.container-fluid -->
     </nav>
 
-    
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href="@Url.Action("Index", "Home")">
-                        <img src="@Url.Content(themePath + "/Content/Images/admin-n3o-logo.png")" alt="" />
-                    </a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li><a href="@Url.Action("Index", "Home")">@Html.LanguageString("Layout.Nav.Home")</a></li>
-                            <li><a href="@Url.Action("Index", "Market")">Store</a></li>
-
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Account <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-
-                                    @if (!User.Identity.IsAuthenticated)
-                                    {
-                                        if (Html.Settings().SuspendRegistration != true)
-                                        {
-                                            <li><a href="@Url.Action("Register", "Members")">@Html.LanguageString("Layout.Nav.Register")</a></li>
-                                        }
-                                        <li><a href="@Url.Action("LogOn", "Members")">@Html.LanguageString("Layout.Nav.Logon")</a></li>
-                                    }
-                                    @if (User.IsInRole(AppConstants.AdminRoleName))
-                                    {
-                                        <li><a href="@Url.Action("Index", "Admin", new { area = "Admin" }, null)">@Html.LanguageString("Layout.Nav.Admin")</a></li>
-                                    }
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">Forums <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    @if (Html.Settings().EnablePoints)
-                                    {
-                                        <li><a href="@Url.Action("Leaderboard", "Home")">@Html.LanguageString("Layout.Nav.Leaderboard")</a></li>
-                                    }
-
-                                    <li><a href="@Url.Action("Activity", "Home")">@Html.LanguageString("Layout.Nav.Activity")</a></li>
-                                    <li><a href="@Url.Action("AllBadges", "Badge")">@Html.LanguageString("Layout.Nav.Badges")</a></li>
-
-                                </ul>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>*@
+ 
     @if (IsSectionDefined("title"))
     {
         <div class="page-header">
@@ -222,7 +173,7 @@
         {
             var count = 0;
             @RenderSection("carousel")
-            <div id="myCarousel" class="carousel slide">
+            <div id="myCarousel" class="carousel slide" style="margin-top: 50px;">
                 <div class="carousel-inner">
                     @foreach (PageContentViewModel page in list)
                     {
@@ -232,17 +183,17 @@
                             <img src="@Html.Property("ImageUrl")" alt="" style="z-index: -1;">
                             <div class="container-fluid">
 
-                                <div class="carousel-caption">
+                                
                                     @if (list.CanEdit)
                                     {
                                         if (page.IsDraft)
                                         {
                                             <b>DRAFT</b>
                                         }
-                                        <div class="text-center">@Html.EditProperties("Edit Slide") @page.DeleteLink("Delete")</div>
+                                        <div class="text-center" style="background-color: #f1f1f1; padding: 5px;">@Html.EditProperties("Edit Slide") @page.DeleteLink("Delete")</div>
                                     }
                                     @page.Render()
-                                </div>
+                            
 
                             </div>
                         </div>
@@ -280,7 +231,20 @@
             </div>
         </div>
     }
+@if (IsSectionDefined("fullwidth"))
+{
+    @RenderSection("fullwidth")
+    @RenderBody()
+    <div class="row">
 
+        @*@Html.Action("GetMainStats", "Stats")
+            @Html.Action("GetCurrentActiveMembers", "Members")*@
+        @RenderSection("Footer", false)
+        <hr>
+    </div>
+}
+else
+{
     <div class="container-fluid">
 
         @Html.Partial("_GenericMessage")
@@ -317,15 +281,15 @@
             <hr>
         </div>
         @{
-            if (context != null)
-            {
-                <script>
-                    $(function() {
-                        $('.draft-count').html("@((context as EditablePageContext).DraftCount)");
-                    });
-                </script>
-                context.Dispose();
-            }
+    if (context != null)
+    {
+        <script>
+            $(function () {
+                $('.draft-count').html("@((context as EditablePageContext).DraftCount)");
+            });
+        </script>
+        context.Dispose();
+    }
 
         }
         <footer>
@@ -337,5 +301,7 @@
             </div>
         </footer>
     </div>
+}
+
 </body>
 </html>

@@ -214,7 +214,7 @@ p.lastedited { font-size: 0.9em; font-style: italic; color: #595959; }
 .createpostholder .ajaxspinner { float: right; margin: 0 0 0 0; }
 
 /*--- Topic Starter Post ---*/
-.topicstarterpost { padding: 0 0 10px 0; border-bottom: 3px #ccc solid; margin: 0 0 35px 0; }
+.topicstarterpost { padding: 0 0 10px 0;  margin: 0 0 35px 0; }
 .topicstarterpost .post { margin-bottom: 0; }
 .topicstarterpostcomments { font-size: 21px; }
 .topicpostorderfilter { text-align: right; font-size: 12px; }

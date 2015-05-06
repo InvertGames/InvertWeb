@@ -2,7 +2,7 @@
 .container-fluid { max-width: 1000px; margin-left: auto; margin-right: auto; }
 .navbar .brand { padding-top: 5px; padding-bottom: 3px; }
 input.btn, button.btn { font-weight: normal; }
-.navbar { background-color: #232323; position: relative; margin-bottom: 15px; }
+.navbar { background-color: #232323; margin-bottom: 15px; }
 .navbar-inner { background: none; border: none; -moz-border-radius: 0; -webkit-border-radius: 0; -khtml-border-radius: 0; border-radius: 0; box-shadow: none; background-color: #4891dc; filter: none; }
 .navbar .nav > li > a { color: #fff; text-shadow: none; }
 .navbar .nav > li > a:hover { background-color: #3c7ec3; color: #fff; text-decoration: none; }
@@ -27,7 +27,7 @@ input.btn, button.btn { font-weight: normal; }
     margin-top: 25px;
 }
 .page-header {
-    margin: 0px !important;
+    margin: 50px 0px 0px  0px ;
     background-color: #f1f1f1 !important;
 }
 .glyphicon {
@@ -114,6 +114,7 @@ body { font-family: 'MVCforumLight', Calibri, Arial, Helvetica, sans-serif; colo
 
 /* ---- Generic Link Styles ---- */
 a, a:visited { color: #2470BB; }
+.btn-primary, .btn-primary:visited { color: #fff !important; }
 a:hover, a:focus { color: #585858; }
 
 /*--- Topic Social Share ---*/
@@ -340,7 +341,7 @@ p.lastedited { font-size: 11px; font-style: italic; color: #595959; }
 .createpostholder .ajaxspinner { float: right; margin: 0 0 0 0; }
 
 /*--- Topic Starter Post ---*/
-.topicstarterpost { padding: 0 0 10px 0; border-bottom: 3px #ccc solid; margin: 0 0 35px 0; }
+.topicstarterpost { padding: 0 0 10px 0;  margin: 0 0 35px 0; }
 .topicstarterpost .post { margin-bottom: 0; }
 .topicstarterpostcomments { font-size: 21px; }
 .topicpostorderfilter { text-align: right; font-size: 12px; }

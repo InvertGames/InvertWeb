@@ -1,0 +1,12 @@
+﻿@using MVCForum.Website.Application
+
+@{
+    ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
+    ViewBag.MetaDesc = Html.Settings().MetaDesc;
+    ViewBag.ShowSidebar = false;
+}
+@section title {
+    <h1>@Html.Property("PageTitle")</h1>
+
+}
+@Html.MarkdownProperty("PageContent")
