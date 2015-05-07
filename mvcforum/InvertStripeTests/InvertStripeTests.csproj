@@ -54,10 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\stripe.net\src\Stripe\Stripe.csproj">
-      <Project>{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}</Project>
-      <Name>Stripe</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MVCForum.Services\MVCForum.Services.csproj">
       <Project>{14A002FB-9CCC-452A-A780-B322908CD45A}</Project>
       <Name>MVCForum.Services</Name>

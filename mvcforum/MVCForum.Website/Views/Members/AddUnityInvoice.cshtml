@@ -1,10 +1,10 @@
 ﻿@model dynamic
 @section title {
-    <h1>@Html.PageContent("UnityInvoiceTitle")</h1>
-    <p>@Html.PageContent("UnityInvoiceTitleDescription")</p>
+    <h1>@Html.ModalProperty("UnityInvoiceTitle")</h1>
+    <p>@Html.ModalProperty("UnityInvoiceTitleDescription")</p>
 }
 
-@Html.PageContent("UnityInvoiceHeader")
+@Html.ModalProperty("UnityInvoiceHeader")
 
 @using (var form = Html.BeginForm("AddUnityInvoice", "Members",FormMethod.Post))
 {
@@ -12,4 +12,4 @@
     
     <input type="submit" name="" value="Verify" />
 }
-@Html.PageContent("UnityInvoiceFooter")
+@Html.ModalProperty("UnityInvoiceFooter")

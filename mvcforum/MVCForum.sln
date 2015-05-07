@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Externals", "Externals", "{7859E236-ED49-482B-B325-C5EEFE650C14}"
 	ProjectSection(SolutionItems) = preProject
@@ -67,13 +67,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badge.OneThousandPoints", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badge.Padawan", "Badges\Badge.Padawan\Badge.Padawan.csproj", "{36959215-DED3-4D37-BFCC-33A454E51F4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stripe", "..\stripe.net\src\Stripe\Stripe.csproj", "{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvertStripeTests", "InvertStripeTests\InvertStripeTests.csproj", "{053EFA8A-AE04-4F9E-BF0B-D413E0C8D0C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invert.MarketPlace", "Invert.MarketPlace\Invert.MarketPlace.csproj", "{0DEEBF2A-0572-4A69-9421-2640A3F89067}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invert.NuGetService", "Invert.NuGetService\Invert.NuGetService.csproj", "{9FE3E161-0BE3-49E8-8609-4496539F0C72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stripe", "..\..\..\Git\stripe.net\src\Stripe\Stripe.csproj", "{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -294,16 +294,6 @@ Global
 		{36959215-DED3-4D37-BFCC-33A454E51F4D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{36959215-DED3-4D37-BFCC-33A454E51F4D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{36959215-DED3-4D37-BFCC-33A454E51F4D}.Release|x86.ActiveCfg = Release|Any CPU
-		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Release|x86.ActiveCfg = Release|Any CPU
 		{053EFA8A-AE04-4F9E-BF0B-D413E0C8D0C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{053EFA8A-AE04-4F9E-BF0B-D413E0C8D0C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{053EFA8A-AE04-4F9E-BF0B-D413E0C8D0C7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -334,6 +324,16 @@ Global
 		{9FE3E161-0BE3-49E8-8609-4496539F0C72}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9FE3E161-0BE3-49E8-8609-4496539F0C72}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9FE3E161-0BE3-49E8-8609-4496539F0C72}.Release|x86.ActiveCfg = Release|Any CPU
+		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

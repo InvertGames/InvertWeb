@@ -34,7 +34,7 @@ using MembershipUser = MVCForum.Domain.DomainModel.MembershipUser;
 
 namespace MVCForum.Website.Controllers
 {
-    public partial class MembersController : BaseController
+    public partial class MembersController : PageEditController
     {
         public IActivationService LicenseService { get; set; }
         public IMarketService MarketService { get; set; }
@@ -610,7 +610,7 @@ namespace MVCForum.Website.Controllers
             using (UnitOfWorkManager.NewUnitOfWork())
             {
                 var member = MembershipService.GetUserBySlug(slug);
-                var loggedonId = UserIsAuthenticated ? LoggedOnUser.Id : Guid.Empty;
+                var loggedonId = UserIsAuthenticated ? LoggedOnUser.Id : System.Guid.Empty;
                 return View(new ViewMemberViewModel { User = member, LoggedOnUserId = loggedonId });
             }
         }
