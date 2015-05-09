@@ -13,7 +13,7 @@ using Stripe;
 
 namespace MVCForum.Website.Controllers
 {
-  [RoutePrefix("market")]
+  
     public class MarketController : PageEditController
     {
         public IMarketService MarketService { get; set; }
@@ -35,45 +35,67 @@ namespace MVCForum.Website.Controllers
             });
         }
 
-        [Route("{productId}/overview")]
-        public ActionResult ProductInfo(Guid productId)
+        [Route("{name}/overview")]
+        public ActionResult ProductInfo(string name)
         {
-            return View("ProductInfo",GetProductViewModel(productId).SetName("Overview"));
+            return View("ProductInfo", GetProductViewModelByName(name).SetName("Overview"));
         }
-        [Route("{productId}/documentation")]
-         public ActionResult Documentation(Guid productId)
+        [Route("{name}/documentation")]
+        public ActionResult Documentation(string name)
         {
-            return View("ProductInfo", GetProductViewModel(productId).SetName("Documentation"));
+            return View("ProductInfo", GetProductViewModelByName(name).SetName("Documentation"));
         }
-        [Route("{productId}/faq")]
-         public ActionResult FAQ(Guid productId)
+        [Route("{name}/faq")]
+        public ActionResult FAQ(string name)
         {
-            return View("ProductInfo", GetProductViewModel(productId).SetName("FAQ"));
+            return View("ProductInfo", GetProductViewModelByName(name).SetName("FAQ"));
         }
-        [Route("{productId}/videos")]
-         public ActionResult Videos(Guid productId)
+        [Route("{name}/videos")]
+        public ActionResult Videos(string name)
          {
-             return View("ProductInfo", GetProductViewModel(productId).SetName("Videos"));
+             return View("ProductInfo", GetProductViewModelByName(name).SetName("Videos"));
          }
-        [Route("{productId}/features")]
-         public ActionResult Features(Guid productId)
+        [Route("{name}/features")]
+        public ActionResult Features(string name)
          {
-             return View("ProductInfo", GetProductViewModel(productId).SetName("Features"));
+             return View("ProductInfo", GetProductViewModelByName(name).SetName("Features"));
          }
-        [Route("{productId}/screenshots")]
-         public ActionResult Screenshots(Guid productId)
+        [Route("{name}/screenshots")]
+        public ActionResult Screenshots(string name)
          {
-             return View("ProductInfo", GetProductViewModel(productId).SetName("Screenshots"));
+             return View("ProductInfo", GetProductViewModelByName(name).SetName("Screenshots"));
          }
-        [Route("{productId}/purchase")]
-         public ActionResult Purchase(Guid productId)
+        [Route("{name}/purchase")]
+        public ActionResult Purchase(string name)
          {
-             return View("ProductInfo", GetProductViewModel(productId).SetName("Purchase"));
+             return View("ProductInfo", GetProductViewModelByName(name).SetName("Purchase"));
          }
+        private MarketProductViewModel GetProductViewModelByName(string name)
+        {
+            //var user = Membership.GetUser(Username);
+            var product = MarketService.GetByName(name);
+            Guid = product.Id;
+            var vm = product.Map();
+            if (vm.Images.Count > 0)
+            {
+                vm.MainImageUrl = vm.Images.First().Url;
+            }
+            vm.OnSale = false;
+            vm.LicenseName = "Invert License";
+            
+            vm.Videos = new[]
+            {
+                new MarketProductVideoViewModel() {Url = "https://www.youtube.com/watch?v=KiTe5nyNXfQ"},
+            };
+            vm.Seller = "Invert Game Studios LLC";
+            vm.AllowEditing = UserIsAuthenticated && User.IsInRole("Admin");
+            return vm;
+        }
         private MarketProductViewModel GetProductViewModel(Guid productId)
         {
             Guid = productId;
             var user = Membership.GetUser(Username);
+            
             var vm = MarketService.Get(productId).Map();
             if (vm.Images.Count > 0)
             {
@@ -192,7 +214,8 @@ namespace MVCForum.Website.Controllers
                 Reviews = product.Reviews,
                 Images = product.Images,
                 ReleaseDate = product.ReleaseDate,
-                PriceLow = product.PurchaseOptions.Min(p=>p.BuyInPrice)
+                PriceLow = product.PurchaseOptions.Min(p=>p.BuyInPrice),
+                ProductName = product.Name
             };
             return vm;
         }

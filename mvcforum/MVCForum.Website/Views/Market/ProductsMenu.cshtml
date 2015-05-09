@@ -5,6 +5,6 @@
 <ul class="dropdown-menu" role="menu">
     @foreach (var item in Model.Product)
     {
-        <li><a href="@Url.Action("ProductInfo", "Market", new {productId=item.Id})">@item.Name</a></li>
+        <li><a href="@Url.Action("ProductInfo", "Market", new {name=item.Name})">@item.Title</a></li>
     }
 </ul>

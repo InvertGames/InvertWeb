@@ -17,8 +17,7 @@
         if (parts.CanEdit)
         {
             <div class="row" style="background-color: #f1f1f1; text-align: center;">
-                @Html.EditProperties("Edit")
-                @part.DeleteLink("Delete")
+                @part.AdminBar()
             </div>
         }
         <div class="row" style="border-top: @(borderStyle); background-image: url(@(backgroundImage)); background-color: @backgroundColor; padding-top: @(padding)px; padding-bottom: @(padding)px;">

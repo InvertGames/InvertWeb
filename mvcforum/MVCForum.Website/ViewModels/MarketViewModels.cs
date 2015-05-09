@@ -59,6 +59,7 @@ namespace MVCForum.Website.ViewModels
         public string ProductType { get; set; }
         public bool IsLive { get; set; }
         public MarketSellerInfo MarketSeller { get; set; }
+        public string ProductName { get; set; }
     }
 
     public class AdminProductViewModel

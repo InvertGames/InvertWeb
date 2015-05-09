@@ -76,6 +76,21 @@ namespace MVCForum.Services
             return marketProduct;
         }
 
+        public MarketProduct GetByName(string name)
+        {
+            var marketProduct = Market.GetByName(name);
+            foreach (var option in marketProduct.PurchaseOptions)
+            {
+                if (string.IsNullOrEmpty(option.StripePlanId))
+                {
+                    continue;
+                }
+                var stripeItem = PlanService.Get(option.StripePlanId);
+                option.RecurringPrice = stripeItem.Amount / 100;
+            }
+            return marketProduct;
+        }
+
         public void PurchaseProduct(MembershipUser user, Guid purchaseOptionId, CardInfo cardInfo = null, int numberOfLicenses = 1)
         {
             using (var unitOfWork = WorkManager.NewUnitOfWork())
@@ -144,20 +159,24 @@ namespace MVCForum.Services
 
         public IEnumerable<SubscriptionInfo> GetUserSubscriptions(MembershipUser user)
         {
-            var subscriptions = SubscriptionService.List(user.StripeCustomerId);
-            foreach (var subscription in subscriptions)
+            if (!string.IsNullOrEmpty(user.StripeCustomerId))
             {
-                yield return new SubscriptionInfo()
+                var subscriptions = SubscriptionService.List(user.StripeCustomerId);
+                foreach (var subscription in subscriptions)
                 {
-                    Id = subscription.Id,
-                    Status = subscription.Status,
-                    CanceledOn = subscription.CanceledAt,
-                    Name = subscription.StripePlan.Name,
-                    Amount = subscription.StripePlan.Amount / 100,
-                    PlanId = subscription.StripePlan.Id,
-                    StartedOn = subscription.Start
-                };
+                    yield return new SubscriptionInfo()
+                    {
+                        Id = subscription.Id,
+                        Status = subscription.Status,
+                        CanceledOn = subscription.CanceledAt,
+                        Name = subscription.StripePlan.Name,
+                        Amount = subscription.StripePlan.Amount / 100,
+                        PlanId = subscription.StripePlan.Id,
+                        StartedOn = subscription.Start
+                    };
+                }
             }
+            
         }
 
         public IEnumerable<PaymentInfo> GetCharges(MembershipUser user)
@@ -346,7 +365,7 @@ namespace MVCForum.Services
 
         public PageContent GetPageContent(string friendlyId, Guid? parentId, bool draftVersion = false)
         {
-            return Repository.GetPageContent(friendlyId, parentId, draftVersion: draftVersion); 
+            return Repository.GetPageContent(friendlyId, parentId, draftVersion); 
         }
 
         public void PublishContent(Guid? contentId)

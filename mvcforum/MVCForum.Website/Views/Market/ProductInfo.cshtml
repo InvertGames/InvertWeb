@@ -121,28 +121,28 @@
             </div>
             <ul class="nav nav-pills" id="myTab" style="width: 100%; margin-top: 10px;">
 
-                <li class="@(Model.PageName == "Overview" ? "active" : string.Empty)"><a href="@Url.Action("ProductInfo","Market",new{ productId = Model.ProductId })">Overview</a></li>
+                <li class="@(Model.PageName == "Overview" ? "active" : string.Empty)"><a href="@Url.Action("ProductInfo","Market",new{ name = Model.ProductName })">Overview</a></li>
 
                 @if (showScreenshots)
                 {
-                    <li class="@(Model.PageName == "Screenshots" ? "active" : string.Empty)"><a href="@Url.Action("Screenshots","Market",new{ productId = Model.ProductId })">Screenshots</a></li>
+                    <li class="@(Model.PageName == "Screenshots" ? "active" : string.Empty)"><a href="@Url.Action("Screenshots", "Market", new { name = Model.ProductName })">Screenshots</a></li>
                 }
                 @if (showVideos)
                 {
-                    <li class="@(Model.PageName == "Videos" ? "active" : string.Empty)"><a href="@Url.Action("Videos","Market",new{ productId = Model.ProductId })">Vide>Videos</a></li>
+                    <li class="@(Model.PageName == "Videos" ? "active" : string.Empty)"><a href="@Url.Action("Videos", "Market", new { name = Model.ProductName })">Vide>Videos</a></li>
                 }
                 @if (showPurchase)
                 {
-                    <li class="@(Model.PageName == "Purchase" ? "active" : string.Empty)"><a href="@Url.Action("Purchase","Market",new{ productId = Model.ProductId })">Purchase</a></li>
+                    <li class="@(Model.PageName == "Purchase" ? "active" : string.Empty)"><a href="@Url.Action("Purchase", "Market", new { name = Model.ProductName })">Purchase</a></li>
                 }
                 @if (showDocumentation)
                 {
-                    <li class="@(Model.PageName == "Documentation" ? "active" : string.Empty)"><a href="@Url.Action("Documentation","Market",new{ productId = Model.ProductId })">Documentation</a></li>
+                    <li class="@(Model.PageName == "Documentation" ? "active" : string.Empty)"><a href="@Url.Action("Documentation", "Market", new { name = Model.ProductName })">Documentation</a></li>
                 }
 
                 @if (showFAQ)
                 {
-                    <li class="@(Model.PageName == "FAQ" ? "active" : string.Empty)"><a href="@Url.Action("FAQ","Market",new{ productId = Model.ProductId })">F.A.Q</a></li>
+                    <li class="@(Model.PageName == "FAQ" ? "active" : string.Empty)"><a href="@Url.Action("FAQ", "Market", new { name = Model.ProductName })">F.A.Q</a></li>
                 }
 
             </ul>

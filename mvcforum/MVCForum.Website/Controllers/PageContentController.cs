@@ -80,21 +80,21 @@ namespace MVCForum.Website.Controllers
             return Redirect(this.Request.UrlReferrer.PathAndQuery);
         }
         [Authorize(Roles = "Admin")]
-        public ActionResult MoveContentUp(string id)
+        public ActionResult MoveContentUp(string listId, Guid itemId, Guid parentId)
         {
             using (var work = UnitOfWorkManager.NewUnitOfWork())
             {
-                //PageContentService.MovePageContentUp(TODO, id, TODO);
+                PageContentService.MovePageContentUp(listId,itemId,parentId);
                 work.Commit();
             }
             return Redirect(this.Request.UrlReferrer.PathAndQuery);
         }
         [Authorize(Roles = "Admin")]
-        public ActionResult MoveContentDown(string id)
+        public ActionResult MoveContentDown(string listId, Guid itemId, Guid parentId)
         {
             using (var work = UnitOfWorkManager.NewUnitOfWork())
             {
-                //PageContentService.MovePageContentDown(TODO, id, TODO);
+                PageContentService.MovePageContentDown(listId,itemId,parentId);
                 work.Commit();
             }
             return Redirect(this.Request.UrlReferrer.PathAndQuery);
@@ -193,6 +193,9 @@ namespace MVCForum.Website.Controllers
         public Func<string,MvcHtmlString> DeleteLink { get; set; }
         public Func<string,MvcHtmlString> MoveUpLink { get; set; }
         public Func<string,MvcHtmlString> MoveDownLink { get; set; }
+        public Func<string,MvcHtmlString> EditPropertiesLink { get; set; }
+        public Func<MvcHtmlString> AdminBar { get; set; }
+
 
         public string Label { get; set; }
         public bool IsDraft { get; set; }

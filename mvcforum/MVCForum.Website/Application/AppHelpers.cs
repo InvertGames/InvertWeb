@@ -488,23 +488,38 @@ namespace MVCForum.Website.Application
                     (s) =>
                     {
                         if (!item1.IsEditable) return MvcHtmlString.Empty;
-                        return helper.ActionLink(s ?? "Delete", "DeleteContent", "PageContent", new { id = item1.ContentId, friendlyName=content.ListId },
+                        return helper.ActionLink(s ?? "Delete", "DeleteContent", "PageContent", new { id = item1.ContentId },
                             new object { });
                     };
                 item.MoveUpLink =
                   (s) =>
                   {
                       if (!item1.IsEditable) return MvcHtmlString.Empty;
-                      return helper.ActionLink(s ?? "Move Up", "MoveContentUp", "PageContent", new { id = item1.ContentId, friendlyName = content.ListId },
+                      return helper.ActionLink(s ?? "Move Up", "MoveContentUp", "PageContent", new { itemId = item1.ContentId, listId = content.Name, parentId = content.ParentId },
                           new object { });
                   };
                 item.MoveDownLink =
                   (s) =>
                   {
                       if (!item1.IsEditable) return MvcHtmlString.Empty;
-                      return helper.ActionLink(s ?? "Move Down", "MoveContentDown", "PageContent", new { id = item1.ContentId, friendlyName = content.ListId },
+                      return helper.ActionLink(s ?? "Move Down", "MoveContentDown", "PageContent", new { itemId = item1.ContentId, listId = content.Name, parentId = content.ParentId },
                           new object { });
                   };
+                item.EditPropertiesLink = (s) =>
+                {
+                    
+                    return new MvcHtmlString(string.Format(
+                   "<a class=' style='cursor: pointer; font-size: 10px !important;' data-toggle='modal' data-target='#{0}-Editor'>{1}</a>", item1.ContentId.ToString(), s ?? "Edit"));
+                };
+                var item2 = item;
+                item.AdminBar = () =>
+                {
+                    return
+                        new MvcHtmlString(item2.EditPropertiesLink("Edit").ToHtmlString() + " | " +
+                                          item2.DeleteLink("Delete").ToHtmlString() + " | " +
+                                          item2.MoveUpLink("Up").ToHtmlString() + " | " +
+                                          item2.MoveDownLink("Down").ToHtmlString());
+                };
                 item.Render = () =>
                 {
                     item1.IsMarkdown = isMarkdown;

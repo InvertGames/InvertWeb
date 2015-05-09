@@ -25,8 +25,11 @@
             if (part.IsEditable)
             {
                 <div class="row" style="background-color: #f1f1f1; text-align: center;">
-                    @Html.EditProperties("Edit")
+                    @part.AdminBar()
+                    @*@Html.EditProperties("Edit")
                     @part.DeleteLink("Delete")
+                    @part.MoveDownLink("Down")
+                    @part.MoveUpLink("Up")*@
                 </div>
             }
 

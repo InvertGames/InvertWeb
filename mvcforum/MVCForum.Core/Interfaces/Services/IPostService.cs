@@ -29,6 +29,7 @@ namespace MVCForum.Domain.Interfaces.Services
     {
         void Add(MarketProduct product);
         MarketProduct Get(Guid productId);
+        MarketProduct GetByName(string name);
         
         void PurchaseProduct(MembershipUser user, Guid purchaseOptionId, CardInfo cardInfo = null, int numberOfLicenses = 1);
 

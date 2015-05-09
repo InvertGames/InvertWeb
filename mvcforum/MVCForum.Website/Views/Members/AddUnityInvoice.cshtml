@@ -5,11 +5,18 @@
 }
 
 @Html.ModalProperty("UnityInvoiceHeader")
+@if (ViewBag.Error != null)
+{
+    <div class="ui-state-error">@ViewBag.Error</div>
+}
+@if (ViewBag.Success != null)
+{
+    <div class="panel-success">@ViewBag.Success</div>
+}
 
 @using (var form = Html.BeginForm("AddUnityInvoice", "Members",FormMethod.Post))
 {
     @Html.TextBox("invoiceNumber")
-    
     <input type="submit" name="" value="Verify" />
 }
 @Html.ModalProperty("UnityInvoiceFooter")

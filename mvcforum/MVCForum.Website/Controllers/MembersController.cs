@@ -1305,14 +1305,21 @@ namespace MVCForum.Website.Controllers
             
             if (obj.HasValues)
             {
+                var invoice = obj["invoices"].Values<JObject>().Select(p => p.ToObject<UnityInvoice>()).FirstOrDefault();
+                if (invoice == null)
+                {
+                    ViewBag.Error = "Sorry, but the invoice was not found.";
+                    return View();
+                }
                 using (var work = UnitOfWorkManager.NewUnitOfWork())
                 {
-                    var invoice = obj["invoices"].Values<JObject>().Select(p => p.ToObject<UnityInvoice>()).FirstOrDefault();
-                    var user = MembershipService.GetUser(Username);
+                    
 
+                    var user = MembershipService.GetUser(Username);
+         
                     MembershipService.StoreUnityInvoice(user, invoice);
                     user.Roles.Add(RoleService.GetRole("Verified"));
-
+                    
                     try
                     {
                         work.Commit();
@@ -1320,13 +1327,13 @@ namespace MVCForum.Website.Controllers
                     catch
                     {
                         work.Rollback();
-
                     }
+                    ViewBag.Success = string.Format("You have successfully linked your invoice for your {0} purchase!", invoice.Package);
                 }
               
 
             }
-            return null;
+            return View();
         }
 
         

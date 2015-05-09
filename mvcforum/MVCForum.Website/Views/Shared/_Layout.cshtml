@@ -233,7 +233,7 @@
 
 
     }
-    
+
     @if (IsSectionDefined("fullwidth"))
     {
         @RenderSection("fullwidth")
@@ -245,18 +245,7 @@
             @RenderSection("Footer", false)
             <hr>
         </div>
-        if (context != null)
-        {
-            <script>
-                $(function () {
-                    $('.draft-count').html("@((context as EditablePageContext).DraftCount)");
-                });
-            </script>
-            {
-                context.Helper = Html;
-                context.Dispose();
-            }
-        }
+
     }
     else
     {
@@ -301,8 +290,20 @@
             }
 
         </div>
+    } 
+    @if (context != null)
+    {
+        <script>
+            $(function () {
+                $('.draft-count').html("@((context as EditablePageContext).DraftCount)");
+            });
+        </script>
+        {
+            context.Helper = Html;
+            context.Dispose();
+        }
     }
-    <footer>
+    <footer class="container-fluid">
         <div class="row-fluid">
             <div class="col-md-12">
 
