@@ -108,18 +108,20 @@ namespace MVCForum.Services
                     var options = new StripeCustomerCreateOptions()
                     {
                         Email = user.Email,
-
-                        CardName = cardInfo.CardName,
-                        CardNumber = cardInfo.CardNumber,
-                        CardAddressCity = cardInfo.CardCity,
-                        CardAddressCountry = cardInfo.Country,
-                        CardAddressLine1 = cardInfo.AddressLine1,
-                        CardAddressLine2 = cardInfo.AddressLine2,
-                        CardAddressState = cardInfo.State,
-                        CardExpirationYear = cardInfo.ExpYear,
-                        CardExpirationMonth = cardInfo.ExpMonth,
-                        CardAddressZip = cardInfo.Zip,
-                        CardCvc = cardInfo.Cvv,
+                        Card = new StripeCreditCardOptions()
+                        {
+                            CardName = cardInfo.CardName,
+                            CardNumber = cardInfo.CardNumber,
+                            CardAddressCity = cardInfo.CardCity,
+                            CardAddressCountry = cardInfo.Country,
+                            CardAddressLine1 = cardInfo.AddressLine1,
+                            CardAddressLine2 = cardInfo.AddressLine2,
+                            CardAddressState = cardInfo.State,
+                            CardExpirationYear = cardInfo.ExpYear,
+                            CardExpirationMonth = cardInfo.ExpMonth,
+                            CardAddressZip = cardInfo.Zip,
+                            CardCvc = cardInfo.Cvv,
+                        },
                         PlanId = purchaseOption.StripePlanId,
                     };
                     stripeCustomer = CustomerService.Create(options);
@@ -176,7 +178,7 @@ namespace MVCForum.Services
                     };
                 }
             }
-            
+
         }
 
         public IEnumerable<PaymentInfo> GetCharges(MembershipUser user)
@@ -208,7 +210,7 @@ namespace MVCForum.Services
                     }
                     item.Total = charge.Invoice.Total;
                     item.SubscriptionId = charge.Invoice.SubscriptionId;
-                    item.Description = charge.StatementDescription;
+                    item.Description = charge.Description;
                     var subscription = SubscriptionService.Get(user.StripeCustomerId, charge.Invoice.SubscriptionId);
                     item.For = subscription.StripePlan.Name;
                 }
@@ -357,15 +359,15 @@ namespace MVCForum.Services
         {
             Repository = repository;
         }
-     
+
         public PageContent SavePageContent(string friendlyId, string content, Guid? parentId)
         {
-            return Repository.SavePageContent(friendlyId, content,parentId);
+            return Repository.SavePageContent(friendlyId, content, parentId);
         }
 
         public PageContent GetPageContent(string friendlyId, Guid? parentId, bool draftVersion = false)
         {
-            return Repository.GetPageContent(friendlyId, parentId, draftVersion); 
+            return Repository.GetPageContent(friendlyId, parentId, draftVersion);
         }
 
         public void PublishContent(Guid? contentId)
@@ -387,7 +389,7 @@ namespace MVCForum.Services
         }
         public void MovePageContentDown(string listId, Guid itemId, Guid? parentId)
         {
-            Repository.MovePageContentDown(listId,itemId,parentId);
+            Repository.MovePageContentDown(listId, itemId, parentId);
         }
 
         public void DeletePageContentListItem(string itemId)
