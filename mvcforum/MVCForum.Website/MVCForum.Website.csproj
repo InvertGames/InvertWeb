@@ -370,6 +370,7 @@
     <Compile Include="StripeHandler.ashx.cs">
       <DependentUpon>StripeHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Invert\Class1.cs" />
     <Compile Include="ViewModels\MarketViewModels.cs" />
     <Compile Include="ViewModels\UploadViewModels.cs" />
     <Compile Include="ViewModels\BadgeViewModels.cs" />
@@ -1834,6 +1835,8 @@
     <Content Include="Views\Market\Screenshots.cshtml" />
     <Content Include="Views\Market\Purchase.cshtml" />
     <Content Include="Views\Market\Overview.cshtml" />
+    <Content Include="Views\Home\Support.cshtml" />
+    <Content Include="Views\Shared\SectionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\AdminMarket\" />

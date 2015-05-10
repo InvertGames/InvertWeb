@@ -1288,7 +1288,9 @@ namespace MVCForum.Website.Controllers
         [Authorize]
         public ActionResult AddUnityInvoice()
         {
-            return View();
+            var vm = new UnityInvoicesViewModel();
+            vm.LinkedInvoices = MembershipService.GetUser(Username).UnityInvoice.ToArray();
+            return View(vm);
         }
         [Authorize]
         [HttpPost]
@@ -1333,7 +1335,7 @@ namespace MVCForum.Website.Controllers
               
 
             }
-            return View();
+            return AddUnityInvoice();
         }
 
         

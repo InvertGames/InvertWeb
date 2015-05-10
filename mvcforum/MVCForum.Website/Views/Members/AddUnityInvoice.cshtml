@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model MVCForum.Website.ViewModels.UnityInvoicesViewModel
 @section title {
     <h1>@Html.ModalProperty("UnityInvoiceTitle")</h1>
     <p>@Html.ModalProperty("UnityInvoiceTitleDescription")</p>
@@ -17,6 +17,34 @@
 @using (var form = Html.BeginForm("AddUnityInvoice", "Members",FormMethod.Post))
 {
     @Html.TextBox("invoiceNumber")
-    <input type="submit" name="" value="Verify" />
+    <input type="submit" name="" value="Link" />
 }
+
+<h2>Applied Invoices</h2>
+<table class="table">
+    <tr>
+        <th>Invoice Number</th>
+        <th>Package</th>
+        <th>Refunded</th>
+        <th>Date</th>
+        <th>Amount Paid</th>
+    </tr>
+    @if (Model.LinkedInvoices.Length < 1)
+    {
+        <tr><td colspan="5"><strong>You don't have any linked unity purchases.</strong></td></tr>
+    }
+    else
+    {
+        foreach (var invoice in Model.LinkedInvoices)
+        {
+            <tr>
+                <td>@invoice.InvoiceNumber</td>
+                <td>@invoice.Package</td>
+                <td>@invoice.RefundedString</td>
+                <td>@invoice.Date</td>
+                <td>@invoice.Price</td>
+            </tr>
+        }
+    }
+</table>
 @Html.ModalProperty("UnityInvoiceFooter")

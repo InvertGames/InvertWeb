@@ -1,5 +1,3 @@
-using MVCForum.Data.Context;
-
 namespace MVCForum.Data.Migrations
 {
     using System;
@@ -7,12 +5,12 @@ namespace MVCForum.Data.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MVCForumContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MVCForum.Data.Context.MVCForumContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+
         }
 
         protected override void Seed(MVCForum.Data.Context.MVCForumContext context)

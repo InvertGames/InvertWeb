@@ -32,6 +32,7 @@ namespace MVCForum.Data.Repositories
         {
             return _context.MembershipUser
                 .Include(x => x.Roles)
+                .Include(x => x.UnityInvoice)
                 .FirstOrDefault(name => name.UserName.ToLower() == username.ToLower());
         }
 
@@ -236,6 +237,10 @@ namespace MVCForum.Data.Repositories
         public void AddUserUnityInvoice(MembershipUser user, UnityInvoice invoice)
         {
             invoice.User = user;
+            if (_context.UnityInvoices.Any(p => p.InvoiceNumber == invoice.InvoiceNumber))
+            {
+                return;
+            }
             _context.UnityInvoices.Add(invoice);
            
         }

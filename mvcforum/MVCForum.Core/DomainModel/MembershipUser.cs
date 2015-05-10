@@ -120,7 +120,7 @@ namespace MVCForum.Domain.DomainModel
         public string StripeTokenId { get; set; }
         public string StripeSubscriptionPlanId { get; set; }
         public virtual IList<MarketProductUserLicense> Licenses { get; set; }
-        public UnityInvoice UnityInvoice { get; set; }
+        public IList<UnityInvoice> UnityInvoice { get; set; }
         public string ApiToken { get; set; }
     }
 
@@ -139,6 +139,18 @@ namespace MVCForum.Domain.DomainModel
 
         [JsonProperty("invoice")]
         public string InvoiceNumber { get; set; }
+
+        [JsonProperty("reason")]
+        public string Reason { get; set; }
+
+        [JsonProperty("downloaded")]
+        public string Downloaded { get; set; }
+
+        [JsonProperty("price_usd_exvat")]
+        public string Price { get; set; }
+
+        [JsonProperty("other_license")]
+        public string OtherLicense { get; set; }
 
         [JsonProperty("refunded")]
         public string RefundedString

@@ -26,6 +26,7 @@ namespace MVCForum.Website.Controllers
 
         public ActionResult Login(string username, string password)
         {
+            
             if (Membership.ValidateUser(username, password, 5))
             {
                 var user = Membership.GetUser(username);

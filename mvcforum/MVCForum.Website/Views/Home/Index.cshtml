@@ -12,44 +12,42 @@
 }
 
 @section fullwidth {
-    @using (var parts = Html.List("HomeSections"))
-    {
-
-
-        foreach (PageContentViewModel part in parts)
-        {
-            var backgroundColor = Html.Property("BackgroundColor");
-            var backgroundImage = Html.Property("BackgroundImage");
-            var borderStyle = Html.Property("BorderStyle");
-            var padding = Html.Property("Padding");
-            if (part.IsEditable)
-            {
-                <div class="row" style="background-color: #f1f1f1; text-align: center;">
-                    @part.AdminBar()
-                    @*@Html.EditProperties("Edit")
+   @using (var parts = Html.List("HomeSections"))
+   {
+       foreach (PageContentViewModel part in parts)
+       {
+           var backgroundColor = Html.Property("BackgroundColor");
+           var backgroundImage = Html.Property("BackgroundImage");
+           var borderStyle = Html.Property("BorderStyle");
+           var padding = Html.Property("Padding");
+           if (part.IsEditable)
+           {
+            <div class="row" style="background-color: #f1f1f1; text-align: center;">
+                @part.AdminBar()
+                @*@Html.EditProperties("Edit")
                     @part.DeleteLink("Delete")
                     @part.MoveDownLink("Down")
                     @part.MoveUpLink("Up")*@
-                </div>
-            }
-
-            <div class="row" style="border-top: @(borderStyle); background-image: url(@(backgroundImage)); background-color: @backgroundColor; padding-top: @(padding)px; padding-bottom: @(padding)px;">
-
-                <div class="container-fluid">
-                    <div class="col-md-12">
-                        @Html.ModalProperty("Content")
-                    </div>
-
-
-                </div>
             </div>
-        }
-        if (parts.IsEditable)
-         {
-             @parts.AddNewLink
-         }
+           }
 
-    }
+        <div class="row" style="border-top: @(borderStyle); background-image: url(@(backgroundImage)); background-color: @backgroundColor; padding-top: @(padding)px; padding-bottom: @(padding)px;">
+
+            <div class="container-fluid">
+                <div class="col-md-12">
+                    @Html.ModalProperty("Content")
+                </div>
+
+
+            </div>
+        </div>
+       }
+       if (parts.IsEditable)
+       {
+        @parts.AddNewLink
+       }
+
+   }
     @*<div class="container-fluid">
         <div class="row">
 

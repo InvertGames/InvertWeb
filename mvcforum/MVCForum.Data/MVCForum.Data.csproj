@@ -117,13 +117,9 @@
     <Compile Include="Mapping\TopicMapping.cs" />
     <Compile Include="Mapping\SettingsMapping.cs" />
     <Compile Include="Mapping\MembershipRoleMapping.cs" />
-    <Compile Include="Migrations\201412220151215_Initial.cs" />
-    <Compile Include="Migrations\201412220151215_Initial.Designer.cs">
-      <DependentUpon>201412220151215_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201412220153089_PostMVC.cs" />
-    <Compile Include="Migrations\201412220153089_PostMVC.Designer.cs">
-      <DependentUpon>201412220153089_PostMVC.cs</DependentUpon>
+    <Compile Include="Migrations\201505100008138_InitialCreate.cs" />
+    <Compile Include="Migrations\201505100008138_InitialCreate.Designer.cs">
+      <DependentUpon>201505100008138_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -170,11 +166,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201412220151215_Initial.resx">
-      <DependentUpon>201412220151215_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201412220153089_PostMVC.resx">
-      <DependentUpon>201412220153089_PostMVC.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505100008138_InitialCreate.resx">
+      <DependentUpon>201505100008138_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

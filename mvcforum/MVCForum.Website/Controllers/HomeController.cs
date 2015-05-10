@@ -47,13 +47,14 @@ namespace MVCForum.Website.Controllers
         //[OutputCache(Duration = 10, VaryByParam = "p")]
         public ActionResult Index()
         {
-
+            //Guid = new Guid("8A50A029-2E93-4C4A-A40E-796AB65A589C");
             return View();
         }
 
         public ActionResult Support()
         {
-            return View("Page");
+            //Guid = new Guid("8A50A029-2E93-4C4A-A40E-796AB65A589D");
+            return View("Support");
         }
         public ActionResult Leaderboard()
         {

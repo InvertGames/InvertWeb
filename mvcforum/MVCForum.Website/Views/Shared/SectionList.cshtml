@@ -1,0 +1,128 @@
+﻿@using System.Web.UI.WebControls
+@using MVCForum.Website.Controllers
+@using (var parts = Html.List(Html.Property("SectionListName")))
+{
+    foreach (PageContentViewModel part in parts)
+    {
+        var backgroundColor = Html.Property("BackgroundColor");
+        var backgroundImage = Html.Property("BackgroundImage");
+        var borderStyle = Html.Property("BorderStyle");
+        var padding = Html.Property("Padding");
+        if (part.IsEditable)
+        {
+            <div class="row" style="background-color: #f1f1f1; text-align: center;">
+                @part.AdminBar()
+                @*@Html.EditProperties("Edit")
+                    @part.DeleteLink("Delete")
+                    @part.MoveDownLink("Down")
+                    @part.MoveUpLink("Up")*@
+            </div>
+        }
+
+        var view = Html.Selection("ItemView", "Default", "50-50", "Carousel").ToHtmlString().Trim();
+        <div class="row" style="border-top: @(borderStyle); background-image: url(@(backgroundImage)); background-color: @backgroundColor; padding-top: @(padding)px; padding-bottom: @(padding)px;">
+
+            @if (view == "Default")
+            {
+                <div class="row" style="border-top: @(borderStyle); background-image: url(@(backgroundImage)); background-color: @backgroundColor; padding-top: @(padding)px; padding-bottom: @(padding)px;">
+
+                    <div class="container-fluid">
+                        <div class="col-md-12">
+                            @Html.ModalProperty("Content")
+                        </div>
+
+
+                    </div>
+                </div>
+            }
+            else if (view == "Carousel")
+            {
+                var height = Html.PropertyAsInt("Height");
+                using (var list = @Html.List(Html.Property("Carousel").ToString().Trim(), true, true))
+                {
+                    var count = 0;
+                    <div id="myCarousel" class="carousel slide" style="margin-top: 50px;">
+                        <div class="carousel-inner">
+                            @foreach (PageContentViewModel page in list)
+                            {
+                                count++;
+                                <div class="item @(page == list.Items.First() ? "active" : "")" style="height: @(height == 0 ? 500 : height)px;">
+
+                                    <img src="@Html.Property("ImageUrl")" alt="" style="z-index: -1;">
+                                    <div class="container-fluid">
+
+
+                                        @if (list.CanEdit)
+                                        {
+                                            if (page.IsDraft)
+                                            {
+                                                <b>DRAFT</b>
+                                            }
+                                            <div class="text-center" style="background-color: #f1f1f1; padding: 5px;">@Html.EditProperties("Edit Slide") @page.DeleteLink("Delete")</div>
+                                        }
+                                        @page.Render()
+
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        @if (count > 1)
+                        {
+                            <a class="left carousel-control hidden-xs" style="height: 100% !important; color: white !important;" href="#myCarousel" data-slide="prev">‹</a>
+                            <a class="right carousel-control hidden-xs" style="height: 100% !important;color: white !important;" href="#myCarousel" data-slide="next">›</a>
+                        }
+
+                    </div>
+                    if (list.CanEdit)
+                    {
+                        @list.AddNewLink
+                    }
+
+
+                    <div class="clearfix"></div>
+                }
+            }
+            else if (view == "50-50")
+            {
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 style="color: #111;">@Html.Property("Title").</h1>
+                        </div>
+                        <div class="col-md-6" style="color: #444 !important;">
+                            @Html.MarkdownProperty("Content")
+                        </div>
+                        <div class="col-md-6">
+                            @{
+                                var youtubeUrl = Html.Property("ImageUrl");
+                            }
+                            <img class="img-responsive" src="@youtubeUrl" width="700" height="450" alt="">
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                try
+                {
+                    @Html.Partial(view, (object) part)
+                }
+                catch (Exception ex)
+                {
+                    <b>@ex.Message</b>
+                }
+
+            }
+
+            
+        
+            
+        </div>
+    }
+    if (parts.IsEditable)
+    {
+        @parts.AddNewLink
+    }
+
+}

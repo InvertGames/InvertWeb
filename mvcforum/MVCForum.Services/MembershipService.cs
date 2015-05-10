@@ -322,7 +322,7 @@ namespace MVCForum.Services
                     newUser.CreateDate = newUser.LastPasswordChangedDate = DateTime.UtcNow;
                     newUser.LastLockoutDate = (DateTime)SqlDateTime.MinValue;
                     newUser.LastLoginDate = DateTime.UtcNow;
-
+                    
                     newUser.IsApproved = !_settingsRepository.GetSettings().ManuallyAuthoriseNewMembers;
                     newUser.IsLockedOut = false;
 
