@@ -9,13 +9,16 @@ namespace MVCForum.Data.Mapping
         public MembershipUserMapping()
         {
             HasKey(x => x.Id);
-            HasOptional(p => p.UnityInvoice);
-
+           // HasOptional(p => p.UnityInvoice);
+            HasMany(p=>p.UnityInvoice).WithRequired(p=>p.User)
+                .Map(x=> x.MapKey("MembershipUser_Id"))
+                .WillCascadeOnDelete();
             HasOptional(p => p.MarketSellerInfo);
 
             HasMany(x => x.Topics).WithRequired(x => x.User)
                 .Map(x => x.MapKey("MembershipUser_Id"))
                 .WillCascadeOnDelete();
+
             HasMany(x => x.Licenses).WithRequired(x => x.User)
                 .Map(x => x.MapKey("MembershipUser_Id"))
                 .WillCascadeOnDelete();
@@ -65,9 +68,11 @@ namespace MVCForum.Data.Mapping
             .WithMany(t => t.Users)
             .Map(m =>
             {
+
+
+                m.MapLeftKey("MembershipUser_Id");
+                m.MapRightKey("MembershipRole_Id");
                 m.ToTable("MembershipUsersInRoles");
-                m.MapLeftKey("UserIdentifier");
-                m.MapRightKey("RoleIdentifier");
             });
            
             // Many-to-many join table - a badge may belong to many users
@@ -75,9 +80,10 @@ namespace MVCForum.Data.Mapping
            .WithMany(t => t.Users)
            .Map(m =>
            {
-               m.ToTable("MembershipUser_Badge");
+        
                m.MapLeftKey("MembershipUser_Id");
                m.MapRightKey("Badge_Id");
+               m.ToTable("MembershipUser_Badge");
            });
         }
     }
@@ -88,8 +94,9 @@ namespace MVCForum.Data.Mapping
         {
             HasKey(p => p.Id);
             HasRequired(p => p.User)
-                .WithOptional(p => p.UnityInvoice)
-                .Map(p => p.MapKey("User_Id"));
+                .WithMany(p => p.UnityInvoice)
+                .Map(p => p.MapKey("MembershipUser_Id"));
+
             Ignore(p => p.RefundedString);
 
         }
