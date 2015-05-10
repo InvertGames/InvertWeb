@@ -5,37 +5,4 @@
     @Html.MarkdownProperty("Description")
 </div>
 
-
-@using (var parts = Html.List("OverviewSections"))
-{
-    foreach (PageContentViewModel part in parts)
-    {
-        var backgroundColor = Html.Property("BackgroundColor");
-        var backgroundImage = Html.Property("BackgroundImage");
-        var borderStyle = Html.Property("BorderStyle");
-        var padding = Html.Property("Padding");
-        if (parts.CanEdit)
-        {
-            <div class="row" style="background-color: #f1f1f1; text-align: center;">
-                @part.AdminBar()
-            </div>
-        }
-        <div class="row" style="border-top: @(borderStyle); background-image: url(@(backgroundImage)); background-color: @backgroundColor; padding-top: @(padding)px; padding-bottom: @(padding)px;">
-
-            <div class="container-fluid">
-                <div class="col-md-12">
-                    @Html.ModalProperty("Content")
-                </div>
-
-
-            </div>
-        </div>
-    }
-    if (parts.CanEdit)
-    {
-        <div class="row" style="background-color: #f1f1f1; text-align: center;">
-            @parts.AddNewLink
-        </div>
-    }
-
-}
+@Html.Partial("SectionList")

@@ -1,4 +1,5 @@
-﻿@model MVCForum.Website.Controllers.PageContentViewModel
+﻿@using Microsoft.Web.Services3.Referral
+@model MVCForum.Website.Controllers.PageContentViewModel
 @{
     Layout = null;
 }
@@ -23,11 +24,15 @@
                         <div id="">
                             <div class="row-fluid">
                                 <div class="span12 topiccontent">
-                                    @if (Model.IsMarkdown)
+                                    @if (Model.Options != null)
+                                    {
+                                        @Html.DropDownListFor(model=>model.Content,Model.Options)
+                                    } else
+                                    if (Model.IsMarkdown)
                                     {<div class="editor-field editorholder">
-                                        @Html.EditorFor(model => model.Content)
-                                        @Html.ValidationMessageFor(model => model.Content)
-                                    </div>
+                                         @Html.EditorFor(model => model.Content)
+                                         @Html.ValidationMessageFor(model => model.Content)
+                                     </div>
 
                                     }
                                     else

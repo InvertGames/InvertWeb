@@ -24,20 +24,25 @@
                             <div id="">
                                 <div class="row-fluid">
                                     <div class="span12 topiccontent">
-                                        @if (item.IsMarkdown)
+                                        @if (item.Options != null)
                                         {
-                                            <div class="editor-field editorholder">
-                                                @Html.EditorFor(x=>item.Content,null,"Content")
-                                                @Html.ValidationMessageFor(model => item.Content)
-                                            </div>
-
+                                            @Html.DropDownListFor(model => item.Content, item.Options)
                                         }
                                         else
-                                        {
-                                            <div class="editor-field">
-                                                @Html.TextArea("Content", item.Content, new { @Style = "color: black !important;" })
-                                            </div>
-                                        }
+                                            if (item.IsMarkdown)
+                                            {
+                                                <div class="editor-field editorholder">
+                                                    @Html.EditorFor(x => item.Content, null, "Content")
+                                                    @Html.ValidationMessageFor(model => item.Content)
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="editor-field">
+                                                    @Html.TextArea("Content", item.Content, new { @Style = "color: black !important;" })
+                                                </div>
+                                            }
 
                                     </div>
                                 </div>
@@ -55,11 +60,11 @@
         </div>
     }
     @*if (Model.Properties.Count > 0)
-     {
-         <a class="" style="cursor: pointer; font-size: 10px !important;" data-toggle="modal" data-target="#@(Model.FullName)-Editor">
-             Edit Page
-         </a>
-     }*@
+        {
+            <a class="" style="cursor: pointer; font-size: 10px !important;" data-toggle="modal" data-target="#@(Model.FullName)-Editor">
+                Edit Page
+            </a>
+        }*@
     <div id="page-edit">
         <div id="@(Model.Id)-Editor" class="modal fade">
             <div class="modal-dialog">
@@ -76,7 +81,14 @@
                                 <div class="row">
                                     <label>@(item.Label)</label>
                                     @Html.Hidden("PARENT_" + item.PropertyName, Model.Id)
-                                    @Html.TextBox("PAGECONTENT_" + item.PropertyName, item.Content)
+                                    @if (item.Options != null)
+                                    {
+                                        @Html.DropDownList("PAGECONTENT_" + item.PropertyName, item.Options)
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox("PAGECONTENT_" + item.PropertyName, item.Content)
+                                    }
                                 </div>
 
                             }

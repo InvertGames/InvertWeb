@@ -172,7 +172,7 @@ namespace MVCForum.Website.Controllers
         public bool IsEditable { get; set; }
         public string ContentId { get; set; }
         public string PropertyName { get; set; }
-        
+        public SelectListItem[] Options { get; set; }
         public Guid? ParentId { get; set; }
 
         [UIHint(AppConstants.EditorType), AllowHtml]
@@ -181,7 +181,17 @@ namespace MVCForum.Website.Controllers
             get
             {
                 if (string.IsNullOrWhiteSpace(_content) || string.IsNullOrEmpty(_content))
-                    return "[Empty]";
+                {
+                    if (Options == null)
+                    {
+                        return "[Empty]";
+                    }
+                    else
+                    {
+                        return Options.First().Value;
+                    }
+                }
+                    
                 return _content;
             }
             set { _content = value; }

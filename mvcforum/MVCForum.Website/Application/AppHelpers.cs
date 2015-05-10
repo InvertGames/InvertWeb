@@ -460,8 +460,15 @@ namespace MVCForum.Website.Application
             var vm = helper.Context().CurrentContext.AddModalProperty(propertyName);
             return helper.Partial("Get", vm);
         }
+        public static MvcHtmlString Selection(this HtmlHelper helper, string propertyName, params string[] options)
+        {
+            if (helper.Context() == null) return MvcHtmlString.Empty;
+            var vm = helper.Context().CurrentContext.AddSelection(propertyName, options);
+            return helper.Partial("Get", vm);
+        }
         public static MvcHtmlString MarkdownProperty(this HtmlHelper helper, string propertyName)
         {
+
             if (helper.Context() == null) return MvcHtmlString.Empty;
             var vm = helper.Context().CurrentContext.AddModalProperty(propertyName);
             vm.IsMarkdown = true;
@@ -729,6 +736,36 @@ namespace MVCForum.Website.Application
                 Helper.RenderPartial("EditablePage", this);
 
             PageContext.PopContext();
+        }
+
+        public PageContentViewModel AddSelection(string propertyName, string[] options)
+        {
+            var existing = Properties.FirstOrDefault(p => p.PropertyName == propertyName);
+            if (existing != null)
+            {
+                if (existing.Options == null && options != null)
+                {
+                    existing.Options = options.Select(p=>new SelectListItem()
+                    {
+                        Selected = PageContext.GetContent(propertyName).Content == p,
+                        Text = p,
+                        Value = p
+                    }).ToArray();
+                }
+                return existing;
+            }
+
+            var content = PageContext.GetContent(propertyName);
+            content.Label = propertyName;
+            content.Options = options.Select(p => new SelectListItem()
+            {
+                Selected = PageContext.GetContent(propertyName).Content == p,
+                Text = p,
+                Value = p
+            }).ToArray();
+            content.IsEditable = false;
+            Properties.Add(content);
+            return content;
         }
     }
 
