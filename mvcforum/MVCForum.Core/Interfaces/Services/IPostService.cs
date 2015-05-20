@@ -66,6 +66,7 @@ namespace MVCForum.Domain.Interfaces.Services
         PageContent SavePageContent(string friendlyId, string content, Guid? parentId);
         PageContent GetPageContent(string friendlyId, Guid? parentId, bool draftVersion = false);
 
+        PageContent GetPageContentById(Guid guid, bool draftVersion);
 
         PageContent GetPageContentList(string friendlyId, Guid? parentId, bool includeDrafts);
         
@@ -73,7 +74,8 @@ namespace MVCForum.Domain.Interfaces.Services
         void MovePageContentDown(string listId, Guid itemId, Guid? parentId);
         void DeletePageContentListItem(string itemId);
         void PublishContent(Guid? contentId);
-      
+
+        void CreateDraft(Guid rootid);
     }
 
     

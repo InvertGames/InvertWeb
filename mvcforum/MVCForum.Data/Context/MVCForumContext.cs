@@ -46,6 +46,7 @@ namespace MVCForum.Data.Context
         public DbSet<PageContent> PageContent { get; set; }
         public DbSet<MarketProductUserLicense> UserLicense { get; set; }
         public DbSet<UnityInvoice> UnityInvoices { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -60,6 +61,7 @@ namespace MVCForum.Data.Context
             // http://stackoverflow.com/questions/7924758/entity-framework-creates-a-plural-table-name-but-the-view-expects-a-singular-ta
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Configurations.Add(new MarketProductUserLicenseMapping());
+
             modelBuilder.Entity<PageContent>()
                 .HasKey(p => p.Id)
                 .Ignore(p=>p.Children)

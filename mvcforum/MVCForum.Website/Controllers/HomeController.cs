@@ -47,13 +47,13 @@ namespace MVCForum.Website.Controllers
         //[OutputCache(Duration = 10, VaryByParam = "p")]
         public ActionResult Index()
         {
-            //Guid = new Guid("8A50A029-2E93-4C4A-A40E-796AB65A589C");
+            Guid = new Guid("8A50A029-2E93-4C4A-A40E-796AB65A589C");
             return View();
         }
 
         public ActionResult Support()
         {
-            //Guid = new Guid("8A50A029-2E93-4C4A-A40E-796AB65A589D");
+            Guid = new Guid("8A50A029-2E93-4C4A-A40E-796AB65A589D");
             return View("Support");
         }
         public ActionResult Leaderboard()
@@ -326,6 +326,20 @@ namespace MVCForum.Website.Controllers
 
                 return new GoogleSitemapResult(sitemap);
             }
+        }
+
+        public ActionResult ContactUs()
+        {
+            Guid = new Guid("AA6496B6-D0E1-43E7-8F6B-E091A9B5B9B7");
+            return View("ContactUs");
+        }
+        [HttpPost]
+        public ActionResult ContactUsForm(string name, string email, string message, string phone = null)
+        {
+            Guid = new Guid("AA6496B6-D0E1-43E7-8F6B-E091A9B5B9B7");
+            //ViewBag.Success = "Message successfully sent. Please allow use up to 3 days to respond.";
+
+            return View("ContactUs");
         }
     }
 

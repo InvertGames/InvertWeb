@@ -1,16 +1,15 @@
 ﻿@using MVCForum.Website.Controllers
+@using MVCForum.Website.ViewModels
 @model MVCForum.Website.ViewModels.MarketProductViewModel
 <div class="container-fluid">
     <div class="col-md-6">
-        <h1>@Model.Title Documenation</h1>
-        <h2>@Html.ModalProperty("DocsSubTitle")</h2>
-        <p>@Html.ModalProperty("DocsDescription")</p>
-    </div>
-    <div class="col-md-6">
+        <h1>@Model.Title Documentation</h1>
 
     </div>
+
 </div>
-@using (var parts = Html.List("DocumentationSections"))
+@Html.Partial("SectionList", new PageSectionsListViewModel("DocumentationSections"))
+@*@using (var parts = Html.List("DocumentationSections"))
 {
     foreach (PageContentViewModel part in parts)
     {
@@ -43,4 +42,4 @@
         </div>
     }
 
-}
+}*@

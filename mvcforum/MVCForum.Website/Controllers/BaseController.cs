@@ -65,7 +65,7 @@ namespace MVCForum.Website.Controllers
                     filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Closed" }, { "action", "Index" } });
                 }
             }
-          
+
         }
 
         protected bool UserIsAuthenticated
@@ -138,46 +138,64 @@ namespace MVCForum.Website.Controllers
             }
             EditablePage = new EditablePageContext()
             {
-                Id = Guid.Value,
-                CanEdit = User.IsInRole("Admin"),
-                GetContentAction = (propertyName, parentId) =>
-                {
-                    using (var work = UnitOfWorkManager.NewUnitOfWork())
-                    {
+                Id = Guid.Value
+            };
 
-                        var content = PageContentService.GetPageContent(propertyName, parentId, User.IsInRole("Admin"));
-                        var vm = MapContent(content, false, User);
-                        work.Commit();
-                        return vm;
-                    }
-                },
-                GetList = (name, parentId) =>
-                {
-                    using (var work = UnitOfWorkManager.NewUnitOfWork())
-                    {
+            //if ()
+            //{
+            using (var work = UnitOfWorkManager.NewUnitOfWork())
+            {
 
-                        var content = PageContentService.GetPageContentList(name, parentId, User.IsInRole("Admin"));
-                        var vm = new ListPageContext
-                        {
-                            Items = content.Children.OrderBy(p => p.Order).Select(p => PageContentController.MapContent(p, false, User)).ToArray(),
-                            Id = content.Id,
-                            ListId = parentId,
-                            Name = name,
-                            IsEditable = UserIsAuthenticated && User.IsInRole("Admin")
-                        };
-                        work.Commit();
-                        return vm;
-                    }
+                var pageContent = PageContentService.GetPageContentById(Guid.Value, User.IsInRole("Admin"));
+                EditablePage.CanEdit = pageContent.IsDraft;
+                // Set the page content to the draft version
+            
+                EditablePage.Id = pageContent.Id;
+                work.Commit();
+            }
+            //}
+            //else
+            //{
+                
+            //}
+            EditablePage.GetList = (name, parentId) =>
+            {
+                using (var work = UnitOfWorkManager.NewUnitOfWork())
+                {
+
+                    var content = PageContentService.GetPageContentList(name, parentId, EditablePage.CanEdit);
+                    var vm = new ListPageContext
+                    {
+                        Items = content.Children.OrderBy(p => p.Order).Select(p => PageContentController.MapContent(p, false, User)).ToArray(),
+                        Id = content.Id,
+                        ListId = parentId,
+                        Name = name,
+                        IsEditable = UserIsAuthenticated && User.IsInRole("Admin")
+                    };
+                    work.Commit();
+                    return vm;
                 }
             };
+            EditablePage.GetContentAction = (propertyName, parentId) =>
+            {
+                using (var work = UnitOfWorkManager.NewUnitOfWork())
+                {
+
+                    var content = PageContentService.GetPageContent(propertyName, parentId, EditablePage.CanEdit);
+                    var vm = MapContent(content, false, User);
+                    work.Commit();
+                    return vm;
+                }
+            };
+
             HttpContext.Items["EditablePage"] = EditablePage;
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-          
-            
+
+
         }
         public static PageContentViewModel MapContent(PageContent content, bool isMarkdown, IPrincipal user)
         {
@@ -192,7 +210,7 @@ namespace MVCForum.Website.Controllers
 
             return vm;
         }
-      
+
 
     }
 }

@@ -1,11 +1,12 @@
 ﻿@using Microsoft.Ajax.Utilities
 @using MVCForum.Website.Controllers
+@using MVCForum.Website.ViewModels
 @model dynamic
 @section title {
     <h1>Invert Support</h1>
 }
 @section fullwidth {
-    @Html.Partial("SectionList")
+    @Html.Partial("SectionList", new PageSectionsListViewModel("SupportSections"))
     <div class="container-fluid">
  
         <div class="row">
@@ -41,18 +42,17 @@
                             </li>
 
                                 }
-                                if (detail.CanEdit)
+                                if (detail.PageContext.CanEdit)
                                 {
-                            @detail.AddNewLink
+                                    @detail.AddNewLink
                                 }
-
                             }
 
                     @*<li class="list-group-item"><i class="icon-ok text-danger"></i> Unlimited projects</li>
                         <li class="list-group-item"><i class="icon-ok text-danger"></i> 27/7 support</li>*@
                 </ul>
                 <div class="panel-footer">
-                    <a class="btn btn-lg btn-block btn-success" href="https://creativemarket.com/artlabs/12114-Bootstrap-3.0.-pricing-tables-flat">BUY NOW!</a>
+                    <a href="@Url.Action("ContactUs","Home")" class="btn btn-lg btn-block btn-success">Contact Us</a>
                 </div>
 
 
@@ -61,7 +61,7 @@
         </div>
             }
         <div style="clear: both;">
-            @if (a.CanEdit)
+            @if (a.PageContext.CanEdit)
                 {
                 @a.AddNewLink
                 }

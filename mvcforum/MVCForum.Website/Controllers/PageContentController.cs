@@ -62,9 +62,12 @@ namespace MVCForum.Website.Controllers
         {
             using (var work = UnitOfWorkManager.NewUnitOfWork())
             {
-                var listId = PageContentService.GetPageContent(friendlyId,parentId, false).Id;
-                PageContentService.SavePageContent(Guid.NewGuid().ToString(), "New Item", listId);
+                var pageContent = PageContentService.GetPageContent(Guid.NewGuid().ToString(), parentId, true);
+                pageContent.IsDraft = true;
                 work.Commit();
+                //var listId = PageContentService.GetPageContent(friendlyId,parentId, false).Id;
+                //PageContentService.SavePageContent(Guid.NewGuid().ToString(), "New Item", listId);
+                //work.Commit();
             }
 
             return Redirect(this.Request.UrlReferrer.PathAndQuery);
@@ -164,6 +167,16 @@ namespace MVCForum.Website.Controllers
             }
             return Redirect(this.Request.UrlReferrer.PathAndQuery);
         }
+
+        public ActionResult CreateDraft(Guid rootid)
+        {
+            using (var work = UnitOfWorkManager.NewUnitOfWork())
+            {
+                PageContentService.CreateDraft(rootid);
+                work.Commit();
+            }
+            return Redirect(this.Request.UrlReferrer.PathAndQuery);
+        }
     }
    
     public class PageContentViewModel
@@ -184,7 +197,7 @@ namespace MVCForum.Website.Controllers
                 {
                     if (Options == null)
                     {
-                        return "[Empty]";
+                        return DefaultValue ?? "[Empty]";
                     }
                     else
                     {
@@ -209,5 +222,6 @@ namespace MVCForum.Website.Controllers
 
         public string Label { get; set; }
         public bool IsDraft { get; set; }
+        public string DefaultValue { get; set; }
     }
 }

@@ -415,9 +415,9 @@ namespace MVCForum.Website.Application
             return context;
         }
 
-        public static string Property(this HtmlHelper helper, string propertyName)
+        public static string Property(this HtmlHelper helper, string propertyName, string @default = "[Empty]")
         {
-            var vm = helper.Context().CurrentContext.AddProperty(propertyName);
+            var vm = helper.Context().CurrentContext.AddProperty(propertyName, @default);
             vm.IsEditable = false;
             return vm.Content;
         }
@@ -485,11 +485,12 @@ namespace MVCForum.Website.Application
         {
             var context = helper.Context();
             if (context == null) return null;
-            var content = context.GetList(listName, global ? null : context.CurrentContext.Id);
+            context.Helper = helper;
+            var content = context.GetList(listName, global ? context.Id : context.CurrentContext.Id);
             foreach (var item in content.Items)
             {
                 var item1 = item;
-
+                
                 // item.PageContent = (fId, isMarkDown) => helper.ModalProperty(item1.PropertyName + fId);
                 item.DeleteLink =
                     (s) =>
@@ -502,14 +503,14 @@ namespace MVCForum.Website.Application
                   (s) =>
                   {
                       if (!item1.IsEditable) return MvcHtmlString.Empty;
-                      return helper.ActionLink(s ?? "Move Up", "MoveContentUp", "PageContent", new { itemId = item1.ContentId, listId = content.Name, parentId = content.ParentId },
+                      return helper.ActionLink(s ?? "Move Up", "MoveContentUp", "PageContent", new { itemId = item1.ContentId, listId = content.Name, parentId = content.Id },
                           new object { });
                   };
                 item.MoveDownLink =
                   (s) =>
                   {
                       if (!item1.IsEditable) return MvcHtmlString.Empty;
-                      return helper.ActionLink(s ?? "Move Down", "MoveContentDown", "PageContent", new { itemId = item1.ContentId, listId = content.Name, parentId = content.ParentId },
+                      return helper.ActionLink(s ?? "Move Down", "MoveContentDown", "PageContent", new { itemId = item1.ContentId, listId = content.Name, parentId = content.Id },
                           new object { });
                   };
                 item.EditPropertiesLink = (s) =>
@@ -559,6 +560,7 @@ namespace MVCForum.Website.Application
 
         }
 
+        public bool IsViewingDraft { get; set; }
         public ContentContext CurrentContext
         {
             get
@@ -593,6 +595,7 @@ namespace MVCForum.Website.Application
         {
             context.Parent = CurrentContext;
             context.PageContext = this;
+
             ContextStack.Push(context);
             return context;
         }
@@ -644,20 +647,20 @@ namespace MVCForum.Website.Application
             get
             {
                 if (Parent == null)
-                    return null;
+                {
+                    if (PageContext == null)
+                    {
+                        return null;
+                    }
+                    return PageContext.Id;
+                }
+                    
 
                 return Parent.Id;
             }
         }
 
-        public string EditPropertiesLink(string text = "Edit Properties")
-        {
 
-            return
-                string.Format(
-                    "<a class=' style='cursor: pointer; font-size: 10px !important;' data-toggle='modal' data-target='#{0}-Editor'>{1}</a>", Id, text);
-
-        }
         public bool CanEdit
         {
             get { return PageContext.CanEdit; }
@@ -666,13 +669,26 @@ namespace MVCForum.Website.Application
         {
             get { return PageContext.Helper; }
         }
-        public PageContentViewModel AddProperty(string propertyName)
+        public string EditPropertiesLink(string text = "Edit Properties")
+        {
+
+            return
+                string.Format(
+                    "<a class=' style='cursor: pointer; font-size: 10px !important;' data-toggle='modal' data-target='#{0}-Editor'>{1}</a>", Id, text);
+
+        }
+        public PageContentViewModel AddProperty(string propertyName, string @default = "[Empty]")
         {
             var existing = Properties.FirstOrDefault(p => p.PropertyName == propertyName);
-            if (existing != null) return existing;
+            if (existing != null)
+            {
+                existing.DefaultValue = @default;
+                return existing;
+            }
 
             var content = PageContext.GetContent(propertyName);
             content.Label = propertyName;
+            content.DefaultValue = @default;
             content.IsEditable = false;
             Properties.Add(content);
             return content;
@@ -784,7 +800,7 @@ namespace MVCForum.Website.Application
             get
             {
                 _renderedAddNewLink = true;
-                return Helper.ActionLink("Add New", "AddItem", "PageContent", new { friendlyId = Name, parentId = ListId }, new object { });
+                return Helper.ActionLink("Add New", "AddItem", "PageContent", new { friendlyId = Name, parentId = Id }, new object { });
             }
 
         }
@@ -836,7 +852,8 @@ namespace MVCForum.Website.Application
             _lastIteratorContext = new ListItemContext(_iteratorItems[_start])
             {
                 Id = new Guid(_iteratorItems[_start].ContentId),
-                Name = _iteratorItems[_start].PropertyName
+                Name = _iteratorItems[_start].PropertyName,
+                PageContext = PageContext
             };
             PageContext.PushContext(_lastIteratorContext);
 

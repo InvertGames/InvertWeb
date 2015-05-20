@@ -37,6 +37,8 @@ namespace MVCForum.Domain.Interfaces.Repositories
         void MovePageContentDown(string listId, Guid itemId, Guid? parentId);
         void DeletePageContentListItem(Guid itemId);
         void PublishContent(Guid? id);
+        PageContent CreateDraft(Guid id);
+        PageContent GetPageContentById(Guid guid, bool draftVersion);
     }
 
     public interface IUserLicenseRepository

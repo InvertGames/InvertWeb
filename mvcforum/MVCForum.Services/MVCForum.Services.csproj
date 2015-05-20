@@ -112,7 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Git\stripe.net\src\Stripe\Stripe.csproj">
-      <Project>{e48e9ac1-3a88-406b-82ff-166b1e3c7a48}</Project>
+      <Project>{E48E9AC1-3A88-406B-82FF-166B1E3C7A48}</Project>
       <Name>Stripe</Name>
     </ProjectReference>
     <ProjectReference Include="..\MVCForum.Core\MVCForum.Domain.csproj">

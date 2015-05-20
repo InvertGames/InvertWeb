@@ -75,16 +75,34 @@
                         @Html.Action("ProductsMenu", "Market")
                     </li>
                     <li><a href="@Url.Action("Support", "Home")">Support</a></li>
+                    <li><a href="@Url.Action("ContactUs", "Home")">Contact Us</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    @if (this.ViewContext.Controller is PageEditController && Html.Context() != null && Html.Context().CanEdit && Html.Context().GetContentAction != null)
+                    @if (User.IsInRole("Admin"))
                     {
-                        <li>
-                            @Html.EditProperties("Edit Page")
+                        var canEdit = this.ViewContext.Controller is PageEditController && Html.Context() != null && Html.Context().CanEdit && Html.Context().GetContentAction != null;
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Edit<span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                              
+                                   @if (!canEdit)
+                                   {
+                                       <li>
+                                           <a href="@Url.Action("CreateDraft", "PageContent", new {rootId = context.Id})">Create Draft</a>
+                                       </li>
+                                   }
+                                   else
+                                   {
+                                    <li>
+                                        @Html.EditProperties("Edit Page")
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("PublishContent", "PageContent", new { rootId = context.Id })">Publish <span class="badge draft-count"></span></a>
+                                    </li>
+                                   }
+                            </ul>
                         </li>
-                        <li>
-                            <a href="@Url.Action("PublishContent", "PageContent", new { rootId = context.Id })">Publish Content <span class="badge draft-count"></span></a>
-                        </li>
+                    
                     }
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Forums <span class="caret"></span></a>
@@ -178,23 +196,42 @@
                     @foreach (PageContentViewModel page in list)
                     {
                         count++;
+    
+                        
                         <div class="item @(page == list.Items.First() ? "active" : "")" style="height: @(height == 0 ? 500 : height)px;">
+                            @if (list.CanEdit)
+                            {
+                            <div class="text-center" style="background-color: #f1f1f1; padding: 5px;">
+                                @page.AdminBar()
+                            </div>
+                            }
 
                             <img src="@Html.Property("ImageUrl")" alt="" style="z-index: -1;">
-                            <div class="container-fluid">
-
-
-                                @if (list.CanEdit)
-                                {
-                                    if (page.IsDraft)
-                                    {
-                                        <b>DRAFT</b>
-                                    }
-                                    <div class="text-center" style="background-color: #f1f1f1; padding: 5px;">@Html.EditProperties("Edit Slide") @page.DeleteLink("Delete")</div>
+                            <div class="container-fluid" style="padding: @Html.Property("Padding")px;">
+                                @{
+                                    var item = Html.Selection("Slide", "SlideA").ToString().Trim();
                                 }
-                                @page.Render()
-
-
+                                @if (item == "SlideA")
+                                {
+                                    <div class="col-md-5">
+                                        <div class="carousel-caption">
+                                            <h1>@Html.Property("Title")</h1>
+                                            <p >@Html.ModalProperty("Description") </p>
+                                            <a class="btn btn-large btn-primary" href="@Html.Property("LinkUrl")">@Html.Property("LinkText", "More Info")</a>
+                                        </div>
+                                  
+                                    </div>                                
+                                    <div class="col-md-7">
+                                        <img src="@Html.Property("DetailImageUrl")" style="padding-top: 38px;width: 600px; height: auto;"  />
+                                </div>
+                                }
+                                else
+                                {
+                                @Html.Partial(item, page)
+                                }
+                                
+                              
+                                @*@Html.Partial(item, page)*@
                             </div>
                         </div>
                     }
@@ -206,13 +243,14 @@
                 }
 
             </div>
-            if (list.CanEdit)
+            if (list.PageContext.CanEdit)
             {
-                @list.AddNewLink
+                @list.AddNewLink                
+                <div class="clearfix"></div>
             }
 
 
-            <div class="clearfix"></div>
+
         }
     }
     @if (IsSectionDefined("jumbotron"))

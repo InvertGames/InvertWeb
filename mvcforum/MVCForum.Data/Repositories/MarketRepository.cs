@@ -29,6 +29,8 @@ namespace MVCForum.Data.Repositories
             return _context.MarketProduct.ToList();
         }
 
+
+
         public PagedList<MarketProduct> GetPagedProducts(int pageIndex, int pageSize)
         {
             var total = _context.MarketProduct.Count();
@@ -117,90 +119,87 @@ namespace MVCForum.Data.Repositories
 
         }
 
-        //public void SavePageContentTitle(string friendlyId, string title)
-        //{
-        //    var pageContent = GetPageContent(friendlyId, null);
-        //    pageContent.ContentTitle = title;
-
-        //}
 
         public PageContent GetPageContentList(string friendlyId, Guid? parentId, bool includeDrafts)
         {
 
-            var listContent = GetPageContent(friendlyId, parentId, false, true);
-            listContent.IsDraft = false;
+            var listContent = GetPageContent(friendlyId, parentId, includeDrafts, true);
             var list = new List<PageContent>();
-            foreach (var item in _context.PageContent.Where(p => p.ParentId == listContent.Id))
+            foreach (var item in _context.PageContent.Where(p => p.ParentId == listContent.Id && p.IsDraft == includeDrafts))
             {
-
-                if (includeDrafts && item.IsDraft)
-                {
-                    //var content = GetPageContent(item.FriendlyId, item.ParentId, true);
-                    
-                    list.Add(item);
-                }
-                else
-                {
-                    if (!item.IsDraft)
-                    {
-                        list.Add(item);
-                    }
-                }
-
-
-
+                list.Add(item);
             }
-            if (includeDrafts)
-                foreach (var item in list.Where(p => p.IsDraft).ToArray())
-                {
-                    var nonDraftItem = list.FirstOrDefault(p => p.FriendlyId == item.FriendlyId && !p.IsDraft);
-                    if (nonDraftItem != null)
-                    {
-                        list.Remove(nonDraftItem);
-                    }
-                }
 
             listContent.Children = list.OrderBy(p => p.Order).ToList();
             return listContent;
         }
 
-        //public void SavePageContentListItem(string listFriendlyId, Guid itemId, string content)
+
+        public PageContent CreateDraft(Guid id)
+        {
+            // Grab all of the current data that is not a draft
+            var pageContent = _context.PageContent.First(p => p.Id == id && !p.IsDraft);
+            var draft = EnsureDraft(pageContent);
+            return draft;
+        }
+        // TODO right now this can only be called by admin
+        public PageContent GetPageContentById(Guid guid, bool draftVersion)
+        {
+            // Look for the draft version first
+            
+            var result = _context.PageContent.FirstOrDefault(p => p.ContentId == guid && p.IsDraft == draftVersion);
+            if (result != null)
+            {
+                return result;
+            }
+  
+            // Look for the non draft version
+            if (draftVersion)
+            result = _context.PageContent.FirstOrDefault(p => p.ContentId == guid && !p.IsDraft);
+
+            if (result == null)
+            {
+                var content = new PageContent()
+                {
+                    Id = guid,
+                    Content = string.Empty,
+                    IsDraft = false,
+                    Order = 0,
+                    ParentId = null,
+                    FriendlyId = guid.ToString(),
+                };
+                content.ContentId = content.Id;
+                _context.PageContent.Add(content);
+                return content;
+            }
+            return result;
+        }
+
+        //public PageContent PublishDrafts(Guid? id)
         //{
-
-        //    var contentItem = GetPageContentItem(itemId);
-        //    contentItem.ContentList = _context.PageContentList.FirstOrDefault(p => p.FriendlyId == listFriendlyId);
-        //    contentItem.Content = content;
-
+        //    // Grab all of the page content for this draft
+        //    var pageContent = _context.PageContent.FirstOrDefault(p => p.Id == id);
+        //    WalkContent(id,);
         //}
 
         public void MovePageContentUp(string listId, Guid itemId, Guid? parentId)
         {
             var list = GetPageContentList(listId, parentId, true);
-            var array = list.Children.OrderBy(p => p.Order).ToList();
-            var drafts = new List<PageContent>();
-            var newId = Guid.Empty;
-            foreach (var original in array)
-            {
-                var draft = EnsureDraft(original);
-                drafts.Add(draft);
-                if (original.Id == itemId)
-                {
-                    newId = draft.Id;
-                }
-            }
-            var item = drafts.FirstOrDefault(p => p.Id == newId);
+            var array = _context.PageContent.Where(p => p.ParentId == parentId && p.IsDraft).OrderBy(p => p.Order).ToList();
+            var drafts = new List<PageContent>(array);
+
+            var item = drafts.FirstOrDefault(p => p.Id == itemId);
             var index = drafts.IndexOf(item);
 
 
             drafts.RemoveAt(index);
-            drafts.Insert(index - 1, item);
+            drafts.Insert(index -1, item);
 
             for (int index1 = 0; index1 < drafts.Count; index1++)
             {
                 var i = drafts[index1];
 
                 i.Order = index1;
-                //i.IsDraft = true;
             }
 
         }
@@ -208,19 +207,10 @@ namespace MVCForum.Data.Repositories
         {
 
             var list = GetPageContentList(listId, parentId, true);
-            var array = list.Children.OrderBy(p => p.Order).ToList();
-            var drafts = new List<PageContent>();
-            var newId = Guid.Empty;
-            foreach (var original in array)
-            {
-                var draft = EnsureDraft(original);
-                drafts.Add(draft);
-                if (original.Id == itemId)
-                {
-                    newId = draft.Id;
-                }
-            }
-            var item = drafts.FirstOrDefault(p => p.Id == newId);
+            var array = _context.PageContent.Where(p => p.ParentId == parentId && p.IsDraft).OrderBy(p => p.Order).ToList();
+            var drafts = new List<PageContent>(array);
+
+            var item = drafts.FirstOrDefault(p => p.Id == itemId);
             var index = drafts.IndexOf(item);
 
 
@@ -232,7 +222,6 @@ namespace MVCForum.Data.Repositories
                 var i = drafts[index1];
 
                 i.Order = index1;
-                i.IsDraft = true;
             }
 
         }
@@ -246,8 +235,13 @@ namespace MVCForum.Data.Repositories
 
         public void PublishContent(Guid? id)
         {
-            WalkContent(null, PublishIfDraft);
-            WalkContent(id, PublishIfDraft);
+            // Publish the root item
+            var root = _context.PageContent.First(p => p.Id == id);
+            PublishIfDraft(root);
+            // Publish each child of that page
+            WalkContent(root.Id, PublishIfDraft);
+            //WalkContent(null, PublishIfDraft);
+
         }
 
         private void PublishIfDraft(PageContent item)
@@ -255,22 +249,17 @@ namespace MVCForum.Data.Repositories
             if (item.IsDraft)
             {
                 var originalContent =
-                    _context.PageContent.FirstOrDefault(
-                        p => p.FriendlyId == item.FriendlyId && p.ParentId == item.ParentId && p.IsDraft == false);
-                // If there isn't an original, make it the original
-                if (originalContent == null)
+                    _context.PageContent.FirstOrDefault(p => p.ContentId == item.ContentId && p.IsDraft == false);
+
+
+                // Remove the original content if any
+                if (originalContent != null)
                 {
-                    item.IsDraft = false;
+                    _context.PageContent.Remove(originalContent);
+    
                 }
-                else // if there is any original copy back to the original
-                {
-                    // Transfer draft stuff to original
-                    //originalContent.Id = item.Id;
-                    originalContent.Content = item.Content;
-                    originalContent.Order = item.Order;
-                    originalContent.IsDraft = false;
-                    _context.PageContent.Remove(item);
-                }
+                
+                item.IsDraft = false;
             }
         }
 
@@ -282,6 +271,14 @@ namespace MVCForum.Data.Repositories
 
                 return item;
             }
+            var existingDraft =
+                    _context.PageContent.FirstOrDefault(p => p.ContentId == item.ContentId && item.IsDraft);
+
+            if (existingDraft != null)
+            {
+                existingDraft.ContentId = item.ContentId;
+                return existingDraft;
+            }
 
             var draftVersion = new PageContent()
             {
@@ -291,13 +288,13 @@ namespace MVCForum.Data.Repositories
                 FriendlyId = item.FriendlyId,
                 IsDraft = true,
                 ParentId = item.ParentId,
+                ContentId = item.ContentId
             };
-
-            foreach (var child in _context.PageContent.Where(p => p.ParentId == item.Id))
+            foreach (var child in _context.PageContent.Where(p => p.ParentId == item.Id && !p.IsDraft))
             {
                 var draft = EnsureDraft(child);
-
                 draft.ParentId = draftVersion.Id;
+                draft.ContentId = child.ContentId;
             }
             _context.PageContent.Add(draftVersion);
             return draftVersion;
@@ -319,41 +316,23 @@ namespace MVCForum.Data.Repositories
         }
         public PageContent GetPageContent(string friendlyId, Guid? parentId, bool draftVersion = false, bool autoCreate = false)
         {
-            var pageContent = _context.PageContent.FirstOrDefault(p => p.FriendlyId == friendlyId && p.ParentId == parentId && p.IsDraft == draftVersion);
-
-            if (pageContent == null)
+            var result =  _context.PageContent.FirstOrDefault(
+                        p => p.FriendlyId == friendlyId && p.ParentId == parentId && p.IsDraft == draftVersion);
+            if (result == null)
             {
-                pageContent = new PageContent
+                var content = new PageContent()
                 {
-                    FriendlyId = friendlyId,
                     Content = string.Empty,
-                    ParentId = parentId
+                    IsDraft = draftVersion,
+                    Order = 0,
+                    ParentId = parentId,
+                    FriendlyId = friendlyId,
                 };
-
-                if (draftVersion)
-                {
-                    var nonDraftVersion =
-                          _context.PageContent
-                              .FirstOrDefault(p => p.FriendlyId == friendlyId && p.ParentId == parentId && !p.IsDraft);
-                    if (nonDraftVersion != null)
-                    {
-
-                        pageContent.Content = nonDraftVersion.Content;
-                        if (!autoCreate)
-                        {
-                            return nonDraftVersion;
-                        }
-                    }
-
-                }
-                if (!autoCreate)
-                {
-                    return pageContent;
-                }
-                pageContent.IsDraft = true;
-                _context.PageContent.Add(pageContent);
+                content.ContentId = content.Id;
+                _context.PageContent.Add(content);
+                return content;
             }
-            return pageContent;
+            return result;
         }
     }
 

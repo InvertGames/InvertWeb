@@ -12,16 +12,24 @@
                 </div>
 
                 <table class="table">
-                    <tr><td><strong>Buy In:</strong></td><td>$@(option.BuyInPrice)</td></tr>
-                    <tr><td>Per Month:</td><td>$@(option.RecurringPrice)</td></tr>
+                    <tr><td><strong>Price:</strong></td><td>$@(option.BuyInPrice)</td></tr>
                     @using (var list = Html.List(option.Id.ToString(), false))
                     {
                         foreach (PageContentViewModel item in list)
                         {
-                            <tr><td><strong>@Html.ModalProperty("Label")</strong></td><td>@Html.Property("Value") @item.DeleteLink("Delete")</td></tr>
+                            <tr><td>
+                                @if (list.CanEdit)
+                                {
+                                    <div>@item.AdminBar()</div>
+                                }
+                                <strong>@Html.ModalProperty("Label")</strong></td><td>@Html.Property("Value") </td></tr>
+                        }
+                        if (list.CanEdit)
+                        {
+                            <tr><td colspan="2">@list.AddNewLink</td></tr>
                         }
                     }
-
+                    
                 </table>
                 <div class="panel-footer">
                     <a href="@Url.Action("PurchaseProduct", "Market", new {productOptionsId = option.Id})" class="btn btn-success">Purchase Plan</a>

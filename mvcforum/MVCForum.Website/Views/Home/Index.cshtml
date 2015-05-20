@@ -1,6 +1,7 @@
 ﻿@using MVCForum.Domain.DomainModel
 @using MVCForum.Website.Application
 @using MVCForum.Website.Controllers
+@using MVCForum.Website.ViewModels
 @model MVCForum.Website.ViewModels.ViewPostViewModel
 @{
     ViewBag.Title = Html.Settings().PageTitle ?? Html.Settings().ForumName;
@@ -12,101 +13,75 @@
 }
 
 @section fullwidth {
-   @using (var parts = Html.List("HomeSections"))
-   {
-       foreach (PageContentViewModel part in parts)
-       {
-           var backgroundColor = Html.Property("BackgroundColor");
-           var backgroundImage = Html.Property("BackgroundImage");
-           var borderStyle = Html.Property("BorderStyle");
-           var padding = Html.Property("Padding");
-           if (part.IsEditable)
-           {
-            <div class="row" style="background-color: #f1f1f1; text-align: center;">
-                @part.AdminBar()
-                @*@Html.EditProperties("Edit")
-                    @part.DeleteLink("Delete")
-                    @part.MoveDownLink("Down")
-                    @part.MoveUpLink("Up")*@
-            </div>
-           }
+    @Html.Partial("SectionList", new PageSectionsListViewModel("HomeSections"))
 
-        <div class="row" style="border-top: @(borderStyle); background-image: url(@(backgroundImage)); background-color: @backgroundColor; padding-top: @(padding)px; padding-bottom: @(padding)px;">
 
-            <div class="container-fluid">
-                <div class="col-md-12">
-                    @Html.ModalProperty("Content")
+    @*<div class="container-fluid">
+            <div class="row">
+
+                <div class="row">
+                    <br />
+                    <h1>Featured Products</h1>
+                    <br />
                 </div>
 
-
-            </div>
-        </div>
-       }
-       if (parts.IsEditable)
-       {
-        @parts.AddNewLink
-       }
-
-   }
-    @*<div class="container-fluid">
-        <div class="row">
-
-            <div class="row">
-                <br />
-                <h1>Featured Products</h1>
-                <br />
-            </div>
-
-            @using (var list = Html.List("FeaturedProducts"))
-            {
-                foreach (PageContentViewModel item in list)
+                @using (var list = Html.List("FeaturedProducts"))
                 {
-                    <div class="col-md-4">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                @Html.EditProperties("Edit")
-                                @item.DeleteLink("Delete")
-                                <h2>@Html.ModalProperty("Title")</h2>@Html.ModalProperty("Content")
-                            </div>
-                            <div class="panel-footer clearfix">
-                                <div class="pull-right">
-                                    @{
-                    var productId = Html.Property("ProductId");
-                                    }
-                                    <a href="@Url.Action("ProductInfo", "Market", new {productId})" class="btn btn-primary">Learn More</a>
+                    foreach (PageContentViewModel item in list)
+                    {
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    @Html.EditProperties("Edit")
+                                    @item.DeleteLink("Delete")
+                                    <h2>@Html.ModalProperty("Title")</h2>@Html.ModalProperty("Content")
+                                </div>
+                                <div class="panel-footer clearfix">
+                                    <div class="pull-right">
+                                        @{
+                        var productId = Html.Property("ProductId");
+                                        }
+                                        <a href="@Url.Action("ProductInfo", "Market", new {productId})" class="btn btn-primary">Learn More</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                    @list.AddNewLink
                 }
-                @list.AddNewLink
+
+            </div>
+        </div>*@
+
+    <div class="row" style="border-top: solid 1px #f1f1f1; padding: 15px;">
+        <div class="container-fluid">
+            <div class="text-center">
+                <h2>Some Of Our Customers And Partners</h2>
+                <br/>
+            </div>
+            @using (var list = Html.List("Partners"))
+            {
+                foreach (PageContentViewModel content in list)
+                {
+
+                    <div class="col-md-3 col-sm-6">
+                        @if (list.PageContext.CanEdit)
+                        {
+                            @content.AdminBar()
+                        }
+                        <a href="@Html.Property("LinkUrl")">
+                            <img src="@Html.Property("LogoUrl")" class="img-responsive img-centered" alt="">
+                        </a>
+                    </div>
+
+                }
+                if (list.PageContext.CanEdit)
+                {
+                    @list.AddNewLink
+                }
             }
 
-        </div>
-    </div>*@
 
-    <div class="row" style="background-color: #f1f1f1; padding: 15px;">
-        <div class="container-fluid">
-            <div class="col-md-3 col-sm-6">
-                <a href="#">
-                    <img src="img/logos/envato.jpg" class="img-responsive img-centered" alt="">
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <a href="#">
-                    <img src="img/logos/designmodo.jpg" class="img-responsive img-centered" alt="">
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <a href="#">
-                    <img src="img/logos/themeforest.jpg" class="img-responsive img-centered" alt="">
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <a href="#">
-                    <img src="img/logos/creative-market.jpg" class="img-responsive img-centered" alt="">
-                </a>
-            </div>
         </div>
 
 

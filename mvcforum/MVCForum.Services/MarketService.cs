@@ -370,9 +370,20 @@ namespace MVCForum.Services
             return Repository.GetPageContent(friendlyId, parentId, draftVersion);
         }
 
+
+        public PageContent GetPageContentById(Guid guid, bool draftVersion)
+        {
+            return Repository.GetPageContentById(guid, draftVersion);
+        }
+
         public void PublishContent(Guid? contentId)
         {
             Repository.PublishContent(contentId);
+        }
+
+        public void CreateDraft(Guid rootid)
+        {
+            Repository.CreateDraft(rootid);
         }
 
 

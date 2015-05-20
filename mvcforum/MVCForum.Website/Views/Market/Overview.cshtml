@@ -1,8 +1,9 @@
 ﻿@using MVCForum.Website.Controllers
+@using MVCForum.Website.ViewModels
 @model MVCForum.Website.ViewModels.MarketProductViewModel
 @*@Html.Raw(AppHelpers.ConvertPostContent(Model.Description))*@
 <div class="container-fluid">
     @Html.MarkdownProperty("Description")
 </div>
 
-@Html.Partial("SectionList")
+@Html.Partial("SectionList", new PageSectionsListViewModel("OverviewSections"))

@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+<div class="col-md-5">
+    <div class="carousel-caption">
+        <h1>@Html.Property("Title")</h1>
+        <p class="lead">@Html.ModalProperty("Description") </p>
+        <a class="btn btn-large btn-primary" href="@Html.Property("LinkUrl")">@Html.Property("LinkText")</a>
+    </div>
+    <div class="col-md-7">
+        <img src="@Html.Property("ImageUrl")" width="900" style="height: 420px" />
+    </div>
+</div>

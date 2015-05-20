@@ -7,6 +7,19 @@ using Newtonsoft.Json;
 
 namespace MVCForum.Domain.DomainModel
 {
+    public class EmailSubscription : Entity
+    {
+        public EmailSubscription()
+        {
+            Id = GuidComb.GenerateComb();
+        }
+
+        public Guid Id { get; set; }
+
+        public string ListName { get; set; }
+        public string Email { get; set; }
+
+    }
     /// <summary>
     /// Status values returned when creating a user
     /// </summary>
@@ -245,9 +258,11 @@ namespace MVCForum.Domain.DomainModel
         public PageContent()
         {
             Id = GuidComb.GenerateComb();
+            ContentId = GuidComb.GenerateComb();
         }
 
         public Guid Id { get; set; }
+        public Guid ContentId { get; set; }
         public Guid? ParentId { get; set; }
 
         public string FriendlyId { get; set; }
