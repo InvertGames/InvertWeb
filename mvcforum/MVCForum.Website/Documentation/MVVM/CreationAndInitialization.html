@@ -1,0 +1,11 @@
+<link rel='stylesheet' type='text/css' href='content.css'>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/default.min.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<h1>Creation And Initialization</h1><pre><code class='csharp'>var player = this.CreatePlayer()</code></pre><h2>Creating a ViewModel with the Extension Method</h2><p>In uframe 1.6 there is an extension method for creating any viewmodel that will use the correct controller to create it.
+</p><pre><code class='csharp'>this.CreateViewModel<PlayerViewModel>()</code></pre><p>This method will resolve the controller and invoke the associated controller's 'Create' method.
+</p><p>It is important that you use this method because the controller will initialize the commands on the viewmodel to point to the correct handlers on itself.
+</p><br/><h2>Initialization Inside Controllers</h2><p>Typically you will use the relevant Controller's Initialize{ElementName} function to initialize a newly created ViewModel with default values and references.  It's a great place to subscribe to state changes and "scene property" changes, or possibly track a list of ViewModel instances when acting similarly to a manager.
+</p><br/><h2>Initialization Inside Views</h2><p>For convenience, you also have the option of Initializing a ViewModel from a particular View, by checking Initialize ViewModel on the View.  This is particularly useful when setting up a scene before runtime or creating prefabs.
+</p><br/><h2>Also See:</h2><a href='ViewModelManagers.html' target='content-frame'>View Model Managers</a>

@@ -1,0 +1,26 @@
+<link rel='stylesheet' type='text/css' href='content.css'>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/default.min.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<h1>Creating Services</h1><h2>Create A Project</h2><p>You need to create a new project to begin this journey.
+</p><p>Navigate to the project window and create an empty folder.
+</p><p>From here right click on the folder and choose uFrame->New Project
+</p><p>This will create a new project repository for you.  The project repository will hold references to all of your graphs.
+</p><h2>Create a new MVVM Graph with the name 'ANYTHING'</h2><p>Graphs are used to create various sections of your project.  Graphs can also share nodes between each other as long as they belong to the same project.
+</p><div class='img-container'><img src='http://i.imgur.com/MqXxE6h.png' /></div><h2>Set the project namespace to something unique</h2><div class='img-container'><img src='http://i.imgur.com/CBXSJbZ.png' /></div><h2>Create a 'Sub System' node with the name 'SystemA'</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><p>Then choose Add Subsystem</p><br/><a href='Subsystems.html' target='content-frame'>Subsystems</a>
+<h2>Create a 'Element' node with the name 'Game'</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><p>Then choose Add Element</p><br/><a href='Element.html' target='content-frame'>Element</a>
+<h2>Create a 'View' node with the name 'GameView'</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><p>Then choose Add View</p><br/><a href='ElementViews.html' target='content-frame'>Element Views</a>
+<h2>Create a connection from B to A.</h2><h2>Create a new Service Graph with the name 'DebugService'</h2><p>Graphs are used to create various sections of your project.  Graphs can also share nodes between each other as long as they belong to the same project.
+</p><div class='img-container'><img src='http://i.imgur.com/MqXxE6h.png' /></div><h2>Create a 'SimpleClass' node with the name 'LogEvent'</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><p>Then choose Add SimpleClass</p><br/><a href='SimpleClasses.html' target='content-frame'>Simple Classes</a>
+<h2>Create a property with the name 'Message' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><p>Then choose Add PropertiesChildItem</p><br/><h2>Create a handler with the name 'LogEvent' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><p>Then choose Add HandlersReference</p><br/><h2>Save & Compile the project.</h2><p>Saving and compiling is the process of taking the information you've created by graphs and putting it into code form.  The generated code consists of both designer files (always regenerated), and editable files (only generated if it doesnt exist so it doesn't destroy your implementations).
+</p><br/><div class='img-container'><img src='http://i.imgur.com/HY5sD9D.png' /></div><h2>Open DebugService.cs and implement the LogEventHandler method.</h2><p>Right-Click on the Node and choose Open->DebugService
+</p><div class='img-container'><img src='http://i.imgur.com/Vrdqgx4.png' /></div><h2>Now create the we need to create the kernel.</h2><div class='img-container'><img src='http://i.imgur.com/349glV8.png' /></div><a href='TheKernel.html' target='content-frame'>The Kernel</a>
+<div class='img-container'><img src='http://i.imgur.com/iprda4t.png' /></div><p>Now run the game from SceneA, select the gameobject and hit the LoadB button and UnLoadB button from the GameView's inspector.
+</p>

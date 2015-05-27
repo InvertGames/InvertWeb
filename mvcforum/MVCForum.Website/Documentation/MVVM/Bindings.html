@@ -1,0 +1,16 @@
+<link rel='stylesheet' type='text/css' href='content.css'>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/default.min.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<h1>Bindings</h1><h2>{Name} Changed</h2><p>
+</p><h2>{Name} State Changed</h2><p>Binding to a state property creates methods for each state, and in the designer code will property call the each state's method when it changes.
+</p><h2>{Name} Collection Changed</h2><p>Collection bindings bind to a collection giving you two methods, {CollectionName}Added, and {CollectionName}Removed, override these methods to execute something when the collection is modified.
+</p><h2>{Name} View Collection Changed</h2><p>The view collection changed binding automatically creates views for each element's viewmodel when created.
+</p><h2>{Name} Executed</h2><p>The executed binding is for listening to when a command is invoked on a view.  It will provide you with a method in the format {CommandName}Executed({CommandClass} data)
+</p><h2>{Name} To Input Field</h2><p>Binds a string property to an uGUI input field.  A field will be created on the view for specifying the uGUI field.
+</p><h2>{Name} To Button</h2><p>The ButtonToCommand binding will create a reference to a uGUI button on the view and automatically wire the click event to invoke the command.
+</p><h2>{Name} To Toggle</h2><p>Bind toggle to property will bind a boolean property directly to a uGUI toggle box.
+</p><h2>{Name} To Text</h2><p>Binds a string property to a uGUI text label.
+</p><h2>{Name} To Slider</h2><p>Binds a slider to a float value.
+</p>

@@ -143,9 +143,11 @@ namespace MVCForum.IOC
             container.BindInRequestScope<IMemberAPI, MemberAPI>();
             container.BindInRequestScope<ICategoryAPI, CategoryAPI>();
             container.BindInRequestScope<IVoteAPI, VoteAPI>();
-
+#if DEBUG
             string apiKey = "sk_test_DdJIac9GCGKRru97uUUEBrZe";
-
+#else
+            string apiKey = "sk_live_AvcuIzWZrowoGZ5biMYEGRCF";
+#endif
             container.BindInRequestScopeWith<StripeCustomerService, StripeCustomerService>(new InjectionConstructor(apiKey));
             container.BindInRequestScopeWith<StripePlanService, StripePlanService>(new InjectionConstructor(apiKey));
             container.BindInRequestScopeWith<StripeAccountService, StripeAccountService>(new InjectionConstructor(apiKey));

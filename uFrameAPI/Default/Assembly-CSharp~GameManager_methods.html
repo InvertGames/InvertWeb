@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!--DXMETADATA start type="MetaCharset" --><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"><!--DXMETADATA end-->
+    <meta http-equiv="X-UA-Compatible" value="IE=9" />
+
+    <!--DXMETADATA start type="IsTemplateFileFeatureEnabled" name="Responsive" format="<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />" --><!--DXMETADATA end-->
+
+    <!--DXMETADATA start type="Literal" condition="helpversion:value=3" value="<meta name=""Microsoft.Help.SelfBranded"" content=""true"" />" --><!--DXMETADATA end-->
+
+    <!--DXMETADATA start type="PageItemTitle" format="<title>%%PageItemTitle%% $$Methods$$</title>" --><title>GameManager Class Methods</title><!--DXMETADATA end-->
+    <!--DXMETADATA start type="PageItemTitle" format="<meta name=""Title"" content=""%%PageItemTitle%% $$Methods$$""/>" --><meta name="Title" content="GameManager Class Methods"/><!--DXMETADATA end-->    
+    
+    <script src="script/jquery-1.7.2.min.js" type="text/javascript" id="mshs_support_script"></script>
+    <script src="script/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+    <link rel="styleSheet" type="text/css" href="stylesheets/jquery-ui-1.8.18.custom.css" />
+    <link rel="styleSheet" type="text/css" href="stylesheets/jquery.qtip.css" />
+	
+    <!--DXMETADATA start type="Literal" condition="communityenabled" value="<link rel=""stylesheet"" type=""text/css"" href=""stylesheets/community.css"" />" --><!--DXMETADATA end-->
+	<!--DXMETADATA start type="Literal" condition="communityenabled" value="<script src=""script/community.js""></script>" --><!--DXMETADATA end -->
+
+    <link rel="styleSheet" type="text/css" href="stylesheets/dx.net.2012.css" data-mshv2-stylesheet="/stylesheets/dx.net.2012.mshv2.css" data-mshv1-stylesheet="/stylesheets/dx.net.2012.mshv1.css" />
+    <script src="script/dx.net.jqueryplugins.2012.min.js" type="text/javascript"></script>
+    <script src="script/dx.net.2012.js" type="text/javascript"></script>
+    
+    <!--DXMETADATA start type="TopicId" format="<meta name=""Microsoft.Help.Id"" content=""%%TopicId%%""/>" --><meta name="Microsoft.Help.Id" content="Assembly-CSharp~GameManager_methods"/><!--DXMETADATA end-->
+    <!--DXMETADATA start type="Synopsis" StripHtmlTags="True" MaxLength="250" format="<meta name=""Description"" content=""%%Synopsis%%"" />"--><meta name="Description" content="The Game Manager has the longest life-cycle of all the uFrame classes, it will remain throughout the entire lifecycle of a game/application. It uses the Unity &quot;DontDestroyOnLoad&quot; functionality allowing it to persist from scene to scene." /><!--DXMETADATA end-->
+    <!--DXMETADATA start type="TocParentId" format="<meta name=""Microsoft.Help.TocParent"" content=""%%TocParentId%%""/>" --><meta name="Microsoft.Help.TocParent" content="Assembly-CSharp~GameManager"/><!--DXMETADATA end-->
+    <meta name="Microsoft.Help.ContentType" content="Reference" /><meta name="Microsoft.Help.TocOrder" content="30"/>
+    <!--DXMETADATA start type="MshvKeywords" condition="helpversion:value=3" --><!--DXMETADATA end-->
+    <!--DXMETADATA start type="MshvMetaTags" condition="helpversion:value=3" --><!--DXMETADATA end-->
+    <!--DXMETADATA start type="Help3CatalogLocale" condition="helpversion:value=3" format="<meta name=""Microsoft.Help.Locale"" content=""%%Help3CatalogLocale%%"" />"--><!--DXMETADATA end-->
+    <!--DXMETADATA start type="Help3CatalogLocale" condition="helpversion:value=3" format="<meta name=""Microsoft.Help.TopicLocale"" content=""%%Help3CatalogLocale%%"" />"--><!--DXMETADATA end-->
+    
+    <!--DXMETADATA start type="Stylesheets" --><link rel="styleSheet" type="text/css" href="stylesheets/slimbox2.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/hs-jquery-common.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/hs-jquery-slimbox.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/hs-jquery-expand.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/hs-expandcollapse.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/hs-boxes.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/customstyles.css"></link><!--DXMETADATA end-->
+    <!--DXMETADATA start type="Scripts" --><script src="script/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="script/slimbox2.js" type="text/javascript"></script>
+    <script src="script/hs-jquery-common.js" type="text/javascript"></script>
+    <script src="script/jquery-expand.js" type="text/javascript"></script>
+    <script src="script/hs-expandcollapse.js" type="text/javascript"></script>
+    <script src="script/jquery.fitvids.js" type="text/javascript"></script>
+    <script src="script/swfobject.js" type="text/javascript"></script><!--DXMETADATA end-->
+
+    <!--DXMETADATA start type="DesignTime"--><!--DXMETADATA end-->
+    <!--DXMETADATA start type="IsNew" format="<script type=""text/javascript"">isNew = true;</script>" --><!--DXMETADATA end-->
+
+    <!--DXMETADATA start type="Scrap" condition="communityenabled" name="_COMMUNITY_PROPERTIES" --><!--DXMETADATA end -->
+
+    <!--DXMETADATA start type="CustomHeadContent" --><!--DXMETADATA end-->
+</head>
+
+<body>
+    <div id="BeforeHeaderContent">
+        
+    </div>
+    <div id="HeaderContent">
+        <!--DXMETADATA start type="Literal" condition="communityenabled" value="%%scrap:name=_COMMUNITY_RATING%%" --><!--DXMETADATA end -->
+            <!--DXMETADATA start type="LogoImage" --><!--DXMETADATA end-->
+            <div id="ProjectTitle"><!--DXMETADATA start type="ProjectTitle" -->Assembly-CSharp<!--DXMETADATA end--></div>
+        <div id="PageTitle"><div id="PageTitleText"><!--DXMETADATA start type="PageItemTitle" format="%%PageItemTitle%% $$Methods$$" -->GameManager Class Methods<!--DXMETADATA end--></div></div>
+    </div>
+    <div id="AfterHeaderContent">
+        <!-- Spacing --> <span id="ToggleAllSectionsLink" class="FunctionLink">
+                <label id="CollapseAllLabel"><!--DXMETADATA start type="Phrase" name="COLLAPSE_ALL" -->Collapse All<!--DXMETADATA end--></label>
+                <label id="ExpandAllLabel" style="display: none;"><!--DXMETADATA start type="Phrase" name="EXPAND_ALL" -->Expand All<!--DXMETADATA end--></label>
+            </span><!--DXMETADATA start type="Literal" condition="communityenabled" value="%%scrap:name=_COMMUNITY_DROPDOWN%%" --><!--DXMETADATA end --><span id="" class="PopupLink" data-popupcontentsource="#MemberFilterCheckboxes" data-popuptitle='<!--DXMETADATA start type="Phrase" name="Members_Filter" -->Members Options<!--DXMETADATA end -->'>
+                        <label id="ShowAllMembersLabel">
+                            <!--DXMETADATA start type="Phrase" name="MEMBERS_FILTER_SHOW_ALL" -->Members Options: Show All<!--DXMETADATA end -->
+                        </label>
+                        <label id="FilteredMembersLabel" style="display: none;">
+                            <!--DXMETADATA start type="Phrase" name="MEMBERS_FILTER_FILTERED" -->Members Options: Filtered<!--DXMETADATA end -->
+                        </label>
+                    </span>
+                    <div class="PopupContent" id="MemberFilterCheckboxes">
+                        <input id="InheritedCheckbox" type="checkbox" class="ToggleFilterCheckbox" checked="true" data-toggleclass="InheritedMember">
+                        <label class="MembersFilter" for="InheritedCheckbox">
+                            <!--DXMETADATA start type="Phrase" name="MEMBERS_FILTER_INHERITED" -->Include Inherited Members<!--DXMETADATA end -->
+                        </label>
+                        <br />
+                        <!--DXMETADATA start type="IncludeProtectedOrFriendMembers" format="<input id=""ProtectedCheckbox"" type=""checkbox"" class=""ToggleFilterCheckbox"" checked=""true"" data-toggleclass=""ProtectedMember"" />" --><input id="ProtectedCheckbox" type="checkbox" class="ToggleFilterCheckbox" checked="true" data-toggleclass="ProtectedMember" /><!--DXMETADATA end -->
+                        <!--DXMETADATA start type="IncludeProtectedOrFriendMembers" format="<label class=""MembersFilter"" for=""ProtectedCheckbox"">$$MEMBERS_FILTER_PROTECTED$$</label><br />" --><label class="MembersFilter" for="ProtectedCheckbox">Include Protected Members</label><br /><!--DXMETADATA end -->
+                    </div>
+    </div>
+    <!--DXMETADATA start type="Breadcrumbs" scrap="_BREADCRUMBS" --><div class="BreadcrumbsContainer"><table><tr><td>
+<a href="Assembly-CSharp~-_namespace.html">(Global) Namespace</a>
+ : GameManager Class</td></tr></table></div><!--DXMETADATA end -->
+    
+    
+    <div id="BodyContent">
+        <!--DXMETADATA start type="Scrap" name="_MEMBERS_LINK" format="<p>%%scrap%%</p>" --><p>For a list of all members of this type, see <a href="Assembly-CSharp~GameManager_members.html">GameManager members</a>.</p><!--DXMETADATA end -->
+
+            <a name="MethodsBookmark"></a>
+            <!--DXMETADATA start type="FilteredItemList" scrap="MEMBER_LIST" namespace="method" source="Item" filter="scope=public" format="%%scrap:name=_COLLAPSIBLE_HEADER,idprefix=publicMethods,caption=$$Public$$ $$Methods$$%%%%filtereditemlist%%<a href="#top">$$Top$$</a></div>" --><div class="SectionHeading" id="publicMethodsSectionHeading"><span class="SectionHeadingIcon"><!-- --></span><span class="SectionHeadingText">Public Methods</span></div><div id="publicMethodsSectionContent" class="SectionContent"><table class="FilteredItemListTable"><tr><th>&nbsp;</th><th>Name</th><th>Description</th></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~Awake.html">Awake</A></td><td class="MembersDescriptionCell"><P>The on awake method will determine if there is already an instance created, if it hasn't then it will become the instance used throughout the games life time. </P>
+<P>If the instances is already set, it will pass the current scene-manager to the currently running instance and the destroy itself. The running instance will then begin the uFrame boot process for that scene manager.</P> &nbsp;</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~BroadcastMessage.html">BroadcastMessage</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~CancelInvoke.html">CancelInvoke</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~CompareTag.html">CompareTag</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~Equals.html">Equals</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.Object</strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~ExecuteCommand.html">ExecuteCommand</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~GetComponent.html">GetComponent</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~GetComponentInChildren.html">GetComponentInChildren</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~GetComponentInParent.html">GetComponentInParent</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~GetComponents.html">GetComponents</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~GetComponentsInChildren.html">GetComponentsInChildren</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~GetComponentsInParent.html">GetComponentsInParent</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~GetHashCode.html">GetHashCode</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.Object</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~GetInstanceID.html">GetInstanceID</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.Object</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~Invoke.html">Invoke</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~InvokeRepeating.html">InvokeRepeating</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~IsInvoking.html">IsInvoking</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"><IMG alt="static (Shared in Visual Basic)" src="dotnetimages/static.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~Load.html">Load</A></td><td class="MembersDescriptionCell"><P>The load method is used internally in order to load and process any transition that has occured. This is currently invoked by the LevelLoaderView class which resides in the loading scene.</P>
+<DIV style="WIDTH: 100%">
+<TABLE class=hs-box>
+<TBODY>
+<TR>
+<TD class=hs-box-icon vAlign=top><IMG src="images/hs-tip.gif"></TD>
+<TD class=hs-box-content vAlign=top>If there is a custom loading screen without this view, it should invoked this in it's bind method.</TD></TR></TBODY></TABLE></DIV>
+<P>1st - It will grab any instance of LoadingScreenObject and cache it so they can be destroyed after loading. So anything in a loading screen that should be destroyed should use this component on their game object.</P>
+<P>2nd - It will process and load each scene passed to any of the transition methods.</P>
+<P>3rd - Yield until the scene manager is loaded, then properly executes its "Load" method on it for any scene specific loading to occur while the loading screen is still visible.</P>
+<P>Final Step - Destroy all the loading screen objects</P> &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"><IMG alt="static (Shared in Visual Basic)" src="dotnetimages/static.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~Log.html">Log</A></td><td class="MembersDescriptionCell">The log method is a wrapper around the UnityEngine.Debug.Log method that allows you to create debug messages with an on and off switch on the game manager's
+            inspector. &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~OnDestroy.html">OnDestroy</A></td><td class="MembersDescriptionCell">
+            When this is destroyed check if we are the "current instance" and set "Instance" to null.
+            Note: This should really never happen.  But in some test cases is necessary.
+             &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"><IMG alt="static (Shared in Visual Basic)" src="dotnetimages/static.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~ProgressUpdated.html">ProgressUpdated</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~RegisterSceneManager.html">RegisterSceneManager</A></td><td class="MembersDescriptionCell">During the Game-Managers load method it waits for a scene manager to register itself.  A scenemanager's awake method will invoke this function so the game
+            manager prepare it for loading. &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~Reset.html">Reset</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~SendMessage.html">SendMessage</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~SendMessageUpwards.html">SendMessageUpwards</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~Start.html">Start</A></td><td class="MembersDescriptionCell">
+            Checks if the gamemanager has already been loaded.  If so it will copy necessary info and destroy
+            itself.  This also calls "Transition" in order to load the "Start" scene manager of the scene.
+             &nbsp;</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~StartCoroutine.html">StartCoroutine</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~StartCoroutine_Auto.html">StartCoroutine_Auto</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~StopAllCoroutines.html">StopAllCoroutines</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~StopCoroutine.html">StopCoroutine</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~Subscribe.html">Subscribe</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"><IMG alt="static (Shared in Visual Basic)" src="dotnetimages/static.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~SwitchGameAndLevel.html">SwitchGameAndLevel</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; &nbsp;</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~ToString.html">ToString</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.Object</strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"><IMG alt="static (Shared in Visual Basic)" src="dotnetimages/static.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~Transition.html">Transition</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp;This method will transition a scene manager from on to the other, or load the first scene manager upon load. &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"><IMG alt="static (Shared in Visual Basic)" src="dotnetimages/static.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~TransitionLevel.html">TransitionLevel</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp;
+            Transitions to another scene and loads additional scene if specified.
+            game assuming that it will exist in the scene after loading is finished.
+             &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~GameManager~UnRegisterSceneManager.html">UnRegisterSceneManager</A></td><td class="MembersDescriptionCell">
+            Removes the Scene Manager from this manager.  This will only happen if a Game is destroyed
+             &nbsp;</td></tr>
+</table><a href="#top">Top</a></div><!--DXMETADATA end -->
+            <!--DXMETADATA start type="FilteredItemList" scrap="MEMBER_LIST" namespace="method" source="Item" filter="scope=protected+protected friend+friend" format="%%scrap:name=_COLLAPSIBLE_HEADER,idprefix=protectedMethods,caption=$$Protected$$ $$Methods$$%%%%filtereditemlist%%<a href="#top">$$Top$$</a></div>" --><!--DXMETADATA end -->
+            <!--DXMETADATA start type="FilteredItemList" scrap="MEMBER_LIST" namespace="method" source="Item" filter="scope=private" format="%%scrap:name=_COLLAPSIBLE_HEADER,idprefix=privateMethods,caption=$$Private$$ $$Methods$$%%%%filtereditemlist%%<a href="#top">$$Top$$</a></div>" --><!--DXMETADATA end -->
+
+            <!--DXMETADATA start type="FilteredItemList" condition="content:content=""%%IncludeExtensionMethods%%"",operator=""="",value=""True""" scrap="EXTENSIONMETHOD_LIST" namespace="method" source="Item" filter="scope=public,type=extension" format="%%scrap:name=_COLLAPSIBLE_HEADER,idprefix=extensionmethods,caption=$$Extension_Methods$$%%%%filtereditemlist%%<a href="#top">$$Top$$</a></div>" --><!--DXMETADATA end -->
+
+            <a name="seealsobookmark"></a>
+            <!--DXMETADATA start type="FilteredItemList" scrap="CATEGORIZED_LINKS" namespace="linkcategory" source="Item" filter="type=members" NoHeader="True" NoFooter="True" format="%%replaceinquotes:value=false%%%%scrap:name=_COLLAPSIBLE_HEADER,idprefix=seealso,caption=""$$See_Also$$%%designlist:tagidentifier=##SEEALSO,itemtype=See Also%%""%%%%filtereditemlist%%</div>"--><div class="SectionHeading" id="seealsoSectionHeading"><span class="SectionHeadingIcon"><!-- --></span><span class="SectionHeadingText">See Also</span></div><div id="seealsoSectionContent" class="SectionContent"><h4 class="subHeading">Reference</h4><p><a href="Assembly-CSharp~GameManager.html">GameManager Class</a>
+<br/><a href="Assembly-CSharp~-_namespace.html">(Global) Namespace</a>
+</p>
+</div><!--DXMETADATA end-->
+        
+    </div>
+    <div id="FooterContent">
+        <!--DXMETADATA start type="Scrap" condition="communityenabled" name="_COMMUNITY_FOOTER" --><!--DXMETADATA end -->
+<!--DXMETADATA start type="Variable" name="CopyrightNotice" format="<p>&nbsp;</p><p>&nbsp;</p><hr style=""height: 1px"" /><p>%%variable%%</p>" --><!--DXMETADATA end -->
+<!--DXMETADATA start type="Variable" name="FeedbackLink" format="" --><a href="mailto:support@company.com?subject=Documentation Feedback: Assembly-CSharp~GameManager.html">Send Feedback</a><!--DXMETADATA end-->
+    </div>
+    
+</body>
+</html>

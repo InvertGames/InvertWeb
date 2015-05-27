@@ -14,6 +14,7 @@ using Stripe;
 namespace MVCForum.Website.Controllers
 {
   
+    
     public class MarketController : PageEditController
     {
         public IMarketService MarketService { get; set; }
@@ -65,7 +66,7 @@ namespace MVCForum.Website.Controllers
          {
              return View("ProductInfo", GetProductViewModelByName(name).SetName("Screenshots"));
          }
-        [Route("{name}/purchase")]
+        [Route("{name}/purchase"),RequireHttps]
         public ActionResult Purchase(string name)
          {
              return View("ProductInfo", GetProductViewModelByName(name).SetName("Purchase"));
@@ -112,7 +113,7 @@ namespace MVCForum.Website.Controllers
             return vm;
         }
 
-        [Authorize]
+        [Authorize,RequireHttps]
         public ActionResult PurchaseProduct(Guid productOptionsId)
         {
             return View(new MarketProductPurchaseViewModel()

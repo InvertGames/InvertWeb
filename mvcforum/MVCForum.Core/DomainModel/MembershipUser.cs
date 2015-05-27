@@ -223,7 +223,7 @@ namespace MVCForum.Domain.DomainModel
         public string ProductType { get; set; }
         public virtual IList<MarketProductReview> Reviews { get; set; }
         public DateTime? ReleaseDate { get; set; }
-
+        public Guid? PurchaseRoleId { get; set; }
     }
 
     public class PageContent : Entity
@@ -384,6 +384,7 @@ namespace MVCForum.Domain.DomainModel
         public MarketProduct Product { get; set; }
         public string File { get; set; }
         public string Version { get; set; }
+        public int Downloads { get; set; }
 
         public string Url
         {

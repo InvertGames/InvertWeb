@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!--DXMETADATA start type="MetaCharset" --><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"><!--DXMETADATA end-->
+    <meta http-equiv="X-UA-Compatible" value="IE=9" />
+
+    <!--DXMETADATA start type="IsTemplateFileFeatureEnabled" name="Responsive" format="<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />" --><!--DXMETADATA end-->
+
+    <!--DXMETADATA start type="Literal" condition="helpversion:value=3" value="<meta name=""Microsoft.Help.SelfBranded"" content=""true"" />" --><!--DXMETADATA end-->
+
+    <!--DXMETADATA start type="PageItemTitle" format="<title>%%PageItemTitle%% $$Methods$$</title>" --><title>SceneManager Class Methods</title><!--DXMETADATA end-->
+    <!--DXMETADATA start type="PageItemTitle" format="<meta name=""Title"" content=""%%PageItemTitle%% $$Methods$$""/>" --><meta name="Title" content="SceneManager Class Methods"/><!--DXMETADATA end-->    
+    
+    <script src="script/jquery-1.7.2.min.js" type="text/javascript" id="mshs_support_script"></script>
+    <script src="script/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+    <link rel="styleSheet" type="text/css" href="stylesheets/jquery-ui-1.8.18.custom.css" />
+    <link rel="styleSheet" type="text/css" href="stylesheets/jquery.qtip.css" />
+	
+    <!--DXMETADATA start type="Literal" condition="communityenabled" value="<link rel=""stylesheet"" type=""text/css"" href=""stylesheets/community.css"" />" --><!--DXMETADATA end-->
+	<!--DXMETADATA start type="Literal" condition="communityenabled" value="<script src=""script/community.js""></script>" --><!--DXMETADATA end -->
+
+    <link rel="styleSheet" type="text/css" href="stylesheets/dx.net.2012.css" data-mshv2-stylesheet="/stylesheets/dx.net.2012.mshv2.css" data-mshv1-stylesheet="/stylesheets/dx.net.2012.mshv1.css" />
+    <script src="script/dx.net.jqueryplugins.2012.min.js" type="text/javascript"></script>
+    <script src="script/dx.net.2012.js" type="text/javascript"></script>
+    
+    <!--DXMETADATA start type="TopicId" format="<meta name=""Microsoft.Help.Id"" content=""%%TopicId%%""/>" --><meta name="Microsoft.Help.Id" content="Assembly-CSharp~SceneManager_methods"/><!--DXMETADATA end-->
+    <!--DXMETADATA start type="Synopsis" StripHtmlTags="True" MaxLength="250" format="<meta name=""Description"" content=""%%Synopsis%%"" />"--><meta name="Description" content="
+            The main entry point for a game that is managed and accessible via GameManager. Only one will
+            available at a time.  This class when derived form should setup the container and load anything needed to properly
+            run " /><!--DXMETADATA end-->
+    <!--DXMETADATA start type="TocParentId" format="<meta name=""Microsoft.Help.TocParent"" content=""%%TocParentId%%""/>" --><meta name="Microsoft.Help.TocParent" content="Assembly-CSharp~SceneManager"/><!--DXMETADATA end-->
+    <meta name="Microsoft.Help.ContentType" content="Reference" /><meta name="Microsoft.Help.TocOrder" content="30"/>
+    <!--DXMETADATA start type="MshvKeywords" condition="helpversion:value=3" --><!--DXMETADATA end-->
+    <!--DXMETADATA start type="MshvMetaTags" condition="helpversion:value=3" --><!--DXMETADATA end-->
+    <!--DXMETADATA start type="Help3CatalogLocale" condition="helpversion:value=3" format="<meta name=""Microsoft.Help.Locale"" content=""%%Help3CatalogLocale%%"" />"--><!--DXMETADATA end-->
+    <!--DXMETADATA start type="Help3CatalogLocale" condition="helpversion:value=3" format="<meta name=""Microsoft.Help.TopicLocale"" content=""%%Help3CatalogLocale%%"" />"--><!--DXMETADATA end-->
+    
+    <!--DXMETADATA start type="Stylesheets" --><link rel="styleSheet" type="text/css" href="stylesheets/slimbox2.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/hs-jquery-common.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/hs-jquery-slimbox.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/hs-jquery-expand.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/hs-expandcollapse.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/hs-boxes.css"></link>
+    <link rel="styleSheet" type="text/css" href="stylesheets/customstyles.css"></link><!--DXMETADATA end-->
+    <!--DXMETADATA start type="Scripts" --><script src="script/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="script/slimbox2.js" type="text/javascript"></script>
+    <script src="script/hs-jquery-common.js" type="text/javascript"></script>
+    <script src="script/jquery-expand.js" type="text/javascript"></script>
+    <script src="script/hs-expandcollapse.js" type="text/javascript"></script>
+    <script src="script/jquery.fitvids.js" type="text/javascript"></script>
+    <script src="script/swfobject.js" type="text/javascript"></script><!--DXMETADATA end-->
+
+    <!--DXMETADATA start type="DesignTime"--><!--DXMETADATA end-->
+    <!--DXMETADATA start type="IsNew" format="<script type=""text/javascript"">isNew = true;</script>" --><!--DXMETADATA end-->
+
+    <!--DXMETADATA start type="Scrap" condition="communityenabled" name="_COMMUNITY_PROPERTIES" --><!--DXMETADATA end -->
+
+    <!--DXMETADATA start type="CustomHeadContent" --><!--DXMETADATA end-->
+</head>
+
+<body>
+    <div id="BeforeHeaderContent">
+        
+    </div>
+    <div id="HeaderContent">
+        <!--DXMETADATA start type="Literal" condition="communityenabled" value="%%scrap:name=_COMMUNITY_RATING%%" --><!--DXMETADATA end -->
+            <!--DXMETADATA start type="LogoImage" --><!--DXMETADATA end-->
+            <div id="ProjectTitle"><!--DXMETADATA start type="ProjectTitle" -->Assembly-CSharp<!--DXMETADATA end--></div>
+        <div id="PageTitle"><div id="PageTitleText"><!--DXMETADATA start type="PageItemTitle" format="%%PageItemTitle%% $$Methods$$" -->SceneManager Class Methods<!--DXMETADATA end--></div></div>
+    </div>
+    <div id="AfterHeaderContent">
+        <!-- Spacing --> <span id="ToggleAllSectionsLink" class="FunctionLink">
+                <label id="CollapseAllLabel"><!--DXMETADATA start type="Phrase" name="COLLAPSE_ALL" -->Collapse All<!--DXMETADATA end--></label>
+                <label id="ExpandAllLabel" style="display: none;"><!--DXMETADATA start type="Phrase" name="EXPAND_ALL" -->Expand All<!--DXMETADATA end--></label>
+            </span><!--DXMETADATA start type="Literal" condition="communityenabled" value="%%scrap:name=_COMMUNITY_DROPDOWN%%" --><!--DXMETADATA end --><span id="" class="PopupLink" data-popupcontentsource="#MemberFilterCheckboxes" data-popuptitle='<!--DXMETADATA start type="Phrase" name="Members_Filter" -->Members Options<!--DXMETADATA end -->'>
+                        <label id="ShowAllMembersLabel">
+                            <!--DXMETADATA start type="Phrase" name="MEMBERS_FILTER_SHOW_ALL" -->Members Options: Show All<!--DXMETADATA end -->
+                        </label>
+                        <label id="FilteredMembersLabel" style="display: none;">
+                            <!--DXMETADATA start type="Phrase" name="MEMBERS_FILTER_FILTERED" -->Members Options: Filtered<!--DXMETADATA end -->
+                        </label>
+                    </span>
+                    <div class="PopupContent" id="MemberFilterCheckboxes">
+                        <input id="InheritedCheckbox" type="checkbox" class="ToggleFilterCheckbox" checked="true" data-toggleclass="InheritedMember">
+                        <label class="MembersFilter" for="InheritedCheckbox">
+                            <!--DXMETADATA start type="Phrase" name="MEMBERS_FILTER_INHERITED" -->Include Inherited Members<!--DXMETADATA end -->
+                        </label>
+                        <br />
+                        <!--DXMETADATA start type="IncludeProtectedOrFriendMembers" format="<input id=""ProtectedCheckbox"" type=""checkbox"" class=""ToggleFilterCheckbox"" checked=""true"" data-toggleclass=""ProtectedMember"" />" --><input id="ProtectedCheckbox" type="checkbox" class="ToggleFilterCheckbox" checked="true" data-toggleclass="ProtectedMember" /><!--DXMETADATA end -->
+                        <!--DXMETADATA start type="IncludeProtectedOrFriendMembers" format="<label class=""MembersFilter"" for=""ProtectedCheckbox"">$$MEMBERS_FILTER_PROTECTED$$</label><br />" --><label class="MembersFilter" for="ProtectedCheckbox">Include Protected Members</label><br /><!--DXMETADATA end -->
+                    </div>
+    </div>
+    <!--DXMETADATA start type="Breadcrumbs" scrap="_BREADCRUMBS" --><div class="BreadcrumbsContainer"><table><tr><td>
+<a href="Assembly-CSharp~-_namespace.html">(Global) Namespace</a>
+ : SceneManager Class</td></tr></table></div><!--DXMETADATA end -->
+    
+    
+    <div id="BodyContent">
+        <!--DXMETADATA start type="Scrap" name="_MEMBERS_LINK" format="<p>%%scrap%%</p>" --><p>For a list of all members of this type, see <a href="Assembly-CSharp~SceneManager_members.html">SceneManager members</a>.</p><!--DXMETADATA end -->
+
+            <a name="MethodsBookmark"></a>
+            <!--DXMETADATA start type="FilteredItemList" scrap="MEMBER_LIST" namespace="method" source="Item" filter="scope=public" format="%%scrap:name=_COLLAPSIBLE_HEADER,idprefix=publicMethods,caption=$$Public$$ $$Methods$$%%%%filtereditemlist%%<a href="#top">$$Top$$</a></div>" --><div class="SectionHeading" id="publicMethodsSectionHeading"><span class="SectionHeadingIcon"><!-- --></span><span class="SectionHeadingText">Public Methods</span></div><div id="publicMethodsSectionContent" class="SectionContent"><table class="FilteredItemListTable"><tr><th>&nbsp;</th><th>Name</th><th>Description</th></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~BroadcastMessage.html">BroadcastMessage</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~CancelInvoke.html">CancelInvoke</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~CompareTag.html">CompareTag</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~CreateInstanceViewModel.html">CreateInstanceViewModel&lt;TViewModel&gt;</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~ViewContainer~CreateView.html">CreateView</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from <a href="Assembly-CSharp~ViewContainer.html">ViewContainer</a></strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~Equals.html">Equals</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.Object</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~GetComponent.html">GetComponent</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~GetComponentInChildren.html">GetComponentInChildren</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~GetComponentInParent.html">GetComponentInParent</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~GetComponents.html">GetComponents</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~GetComponentsInChildren.html">GetComponentsInChildren</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~GetComponentsInParent.html">GetComponentsInParent</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~GetHashCode.html">GetHashCode</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.Object</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~GetInstanceID.html">GetInstanceID</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.Object</strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~Initialize.html">Initialize</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~ViewContainer~InstantiateView.html">InstantiateView</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp;
+            Instantiates a view.
+             (Inherited from <a href="Assembly-CSharp~ViewContainer.html">ViewContainer</a></strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~Invoke.html">Invoke</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~InvokeRepeating.html">InvokeRepeating</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~IsInvoking.html">IsInvoking</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~Load.html">Load</A></td><td class="MembersDescriptionCell">
+            This method should do any set up necessary to load the controller and is invoked when you call
+            GameStateManager.SwitchGame().  This should call StartCoroutine(Controller.Load) on any
+            regular controller in the scene.
+             &nbsp;</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~ViewContainer~LoadAdditive.html">LoadAdditive</A></td><td class="MembersDescriptionCell"> (Inherited from <a href="Assembly-CSharp~ViewContainer.html">ViewContainer</a></strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~LoadState.html">LoadState</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~OnLoaded.html">OnLoaded</A></td><td class="MembersDescriptionCell">
+            This method is called when the load function has completed
+             &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~OnLoading.html">OnLoading</A></td><td class="MembersDescriptionCell">
+            This method is called when this controller has started loading
+             &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~RegisterView.html">RegisterView</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~Reload.html">Reload</A></td><td class="MembersDescriptionCell">
+            This method simply starts the load method as a coroutine and should be overriden
+            to add any reload logic that is necessary
+             &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~RequestViewModel.html">RequestViewModel</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~SaveState.html">SaveState</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~SendMessage.html">SendMessage</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~SendMessageUpwards.html">SendMessageUpwards</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.Component</strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~Setup.html">Setup</A></td><td class="MembersDescriptionCell">
+            This method is called by the GameManager in order to register any dependencies.  It is one of the first things 
+            to be invoked.  This method is called before the "Load" method.
+             &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~SetupViewModel.html">SetupViewModel&lt;TViewModel&gt;</A></td><td class="MembersDescriptionCell">
+            Used by the SceneManager when creating an instance before the scene loads.  This allows a view-model instance to be ready
+            before a view-initializes it. This is used by the uFrame generators to initialize single isntance view-models.
+             &nbsp;</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~StartCoroutine.html">StartCoroutine</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~StartCoroutine_Auto.html">StartCoroutine_Auto</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~StopAllCoroutines.html">StopAllCoroutines</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~StopCoroutine.html">StopCoroutine</A></td><td class="MembersDescriptionCell">Overloaded.&nbsp; (Inherited from UnityEngine.MonoBehaviour</strong>)</td></tr>
+<tr class="InheritedMember"><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~ToString.html">ToString</A></td><td class="MembersDescriptionCell"> (Inherited from UnityEngine.Object</strong>)</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~Unload.html">Unload</A></td><td class="MembersDescriptionCell">
+            This method should be used to property unload a scene when transitioning to another scene.
+             &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Public Method" src="dotnetimages/publicMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~UnRegisterView.html">UnRegisterView</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+</table><a href="#top">Top</a></div><!--DXMETADATA end -->
+            <!--DXMETADATA start type="FilteredItemList" scrap="MEMBER_LIST" namespace="method" source="Item" filter="scope=protected+protected friend+friend" format="%%scrap:name=_COLLAPSIBLE_HEADER,idprefix=protectedMethods,caption=$$Protected$$ $$Methods$$%%%%filtereditemlist%%<a href="#top">$$Top$$</a></div>" --><div class="SectionHeading" id="protectedMethodsSectionHeading"><span class="SectionHeadingIcon"><!-- --></span><span class="SectionHeadingText">Protected Methods</span></div><div id="protectedMethodsSectionContent" class="SectionContent"><table class="FilteredItemListTable"><tr><th>&nbsp;</th><th>Name</th><th>Description</th></tr>
+<tr><td class="ImageCell"><img alt="Protected Method" src="dotnetimages/protectedMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~Awake.html">Awake</A></td><td class="MembersDescriptionCell">
+            The awake method of this scenemanager simply registers itself with the GameManager
+             &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Protected Method" src="dotnetimages/protectedMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~OnDestroy.html">OnDestroy</A></td><td class="MembersDescriptionCell">
+            When this scene manager is destroy it is removed from the gamemanager.
+             &nbsp;</td></tr>
+<tr><td class="ImageCell"><img alt="Protected Method" src="dotnetimages/protectedMethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManager~ViewNotFoundOnLoad.html">ViewNotFoundOnLoad</A></td><td class="MembersDescriptionCell"> &nbsp;</td></tr>
+</table><a href="#top">Top</a></div><!--DXMETADATA end -->
+            <!--DXMETADATA start type="FilteredItemList" scrap="MEMBER_LIST" namespace="method" source="Item" filter="scope=private" format="%%scrap:name=_COLLAPSIBLE_HEADER,idprefix=privateMethods,caption=$$Private$$ $$Methods$$%%%%filtereditemlist%%<a href="#top">$$Top$$</a></div>" --><!--DXMETADATA end -->
+
+            <!--DXMETADATA start type="FilteredItemList" condition="content:content=""%%IncludeExtensionMethods%%"",operator=""="",value=""True""" scrap="EXTENSIONMETHOD_LIST" namespace="method" source="Item" filter="scope=public,type=extension" format="%%scrap:name=_COLLAPSIBLE_HEADER,idprefix=extensionmethods,caption=$$Extension_Methods$$%%%%filtereditemlist%%<a href="#top">$$Top$$</a></div>" --><div class="SectionHeading" id="extensionmethodsSectionHeading"><span class="SectionHeadingIcon"><!-- --></span><span class="SectionHeadingText">Extension Methods</span></div><div id="extensionmethodsSectionContent" class="SectionContent"><table class="FilteredItemListTable"><tr><th>&nbsp;</th><th>Name</th><th>Description</th></tr>
+<tr><td class="ImageCell"><img alt="Public Extension Method" src="dotnetimages/extensionmethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManagerExtensions~FromJson.html">FromJson</A></td><td class="MembersDescriptionCell"></td></tr>
+<tr><td class="ImageCell"><img alt="Public Extension Method" src="dotnetimages/extensionmethod.png"></td><td class='MembersLinkCell'><A HREF="Assembly-CSharp~SceneManagerExtensions~ToJson.html">ToJson</A></td><td class="MembersDescriptionCell"></td></tr>
+</table><a href="#top">Top</a></div><!--DXMETADATA end -->
+
+            <a name="seealsobookmark"></a>
+            <!--DXMETADATA start type="FilteredItemList" scrap="CATEGORIZED_LINKS" namespace="linkcategory" source="Item" filter="type=members" NoHeader="True" NoFooter="True" format="%%replaceinquotes:value=false%%%%scrap:name=_COLLAPSIBLE_HEADER,idprefix=seealso,caption=""$$See_Also$$%%designlist:tagidentifier=##SEEALSO,itemtype=See Also%%""%%%%filtereditemlist%%</div>"--><div class="SectionHeading" id="seealsoSectionHeading"><span class="SectionHeadingIcon"><!-- --></span><span class="SectionHeadingText">See Also</span></div><div id="seealsoSectionContent" class="SectionContent"><h4 class="subHeading">Reference</h4><p><a href="Assembly-CSharp~SceneManager.html">SceneManager Class</a>
+<br/><a href="Assembly-CSharp~-_namespace.html">(Global) Namespace</a>
+</p>
+</div><!--DXMETADATA end-->
+        
+    </div>
+    <div id="FooterContent">
+        <!--DXMETADATA start type="Scrap" condition="communityenabled" name="_COMMUNITY_FOOTER" --><!--DXMETADATA end -->
+<!--DXMETADATA start type="Variable" name="CopyrightNotice" format="<p>&nbsp;</p><p>&nbsp;</p><hr style=""height: 1px"" /><p>%%variable%%</p>" --><!--DXMETADATA end -->
+<!--DXMETADATA start type="Variable" name="FeedbackLink" format="" --><a href="mailto:support@company.com?subject=Documentation Feedback: Assembly-CSharp~SceneManager.html">Send Feedback</a><!--DXMETADATA end-->
+    </div>
+    
+</body>
+</html>

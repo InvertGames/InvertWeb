@@ -1271,7 +1271,14 @@ namespace MVCForum.Website.Controllers
         public ActionResult Downloads()
         {
             var vm = new DownloadsViewModel();
-            vm.Downloads = MarketService.GetUserDownloads(MembershipService.GetUser(Username));
+            try
+            {
+                vm.Downloads = MarketService.GetUserDownloads(MembershipService.GetUser(Username));
+            } catch (Exception ex)
+            {
+                vm.Downloads = new MarketProductDownload[] {};
+            }
+            
             return View(vm);
         }
         [Authorize]
@@ -1339,14 +1346,21 @@ namespace MVCForum.Website.Controllers
         }
 
         
-        [Authorize]
+        [Authorize, RequireHttps]
         public ActionResult Purchases()
         {
             var vm = new PurchasesViewModel();
             var currentUser = MembershipService.GetUser(Username);
-
-            vm.Payments = MarketService.GetCharges(currentUser).ToArray();
-            vm.Subscriptions = MarketService.GetUserSubscriptions(currentUser).ToArray();
+            try
+            {
+                vm.Payments = MarketService.GetCharges(currentUser).ToArray();
+                vm.Subscriptions = MarketService.GetUserSubscriptions(currentUser).ToArray();    
+            } catch (Exception ex)
+            {
+                vm.Payments = new PaymentInfo[] {};
+                vm.Subscriptions = new SubscriptionInfo[] {};
+            }
+            
 
             return View(vm);
         }

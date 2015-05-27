@@ -1,0 +1,11 @@
+<link rel='stylesheet' type='text/css' href='content.css'>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/default.min.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<h1>The Kernel</h1><p>The uFrame Kernel is an essential piece of uFrame, it handles loading scenes, systems and services.  The kernel is nothing more than a prefab with these types of components attached to it in an organized manner.
+</p><div class='img-container'><img src='http://i.imgur.com/5Rg2X25.png' /></div><p>In the image above you can see the scene 'BasicsProjectKernelScene'.  This scene will always always contain the 'BasicsProjectKernel' prefab and any other things that need to live throughout the entire lifecycle of your application.
+</p><p>Important Note: All SystemLoaders, Services, and SceneLoaders are MonoBehaviours attached their corresponding child game-objects in the kernel prefab.
+</p><div class='note'><b>Note: </b>Whenever a scene begins, uFrame will ensure that the kernel is loaded, if it hasen't been loaded it will delay its loading mechanism until the kernel has been loaded. This is necessary because you might initialize ViewModels, deserialize them...etc so the view should not bind until that data is ready.</div><br/><h2>Scaffolding The Kernel</h2><p>For convenience uFrame 1.6 makes the process of creating the kernel very easy and straightforward.  By pressing the Scaffold/Update Kernel button it will create a scene, and a prefab with all of the types created by the uFrame designer.  You can freely modify the kernel, and updating it will only add anything that is not there.
+</p><br/><h2>Boot Order</h2><div class='img-container'><img src='http://i.imgur.com/L5CC8q8.png' /></div><h2>The Game Ready Event</h2><p>Once the kernal has loaded, it will publish the event 'GameReadyEvent'.  This event ensures that everything is loaded and bindings have properly taken place on views.
+</p>

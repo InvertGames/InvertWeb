@@ -1,0 +1,335 @@
+<link rel='stylesheet' type='text/css' href='content.css'>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/default.min.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<h1>Change Log</h1><p>[u]Frame Release Notes
+</p><p>
+</p><p>Be sure to subscribe to our newsletter @ invertgamestudios.com for updates, notifications, and cool info.
+</p><p>
+</p><p>
+</p><p>
+</p><p>Editor and Project:
+</p><p>
+</p><p>1.5.1
+</p><p>
+</p><p>Lots of bug fixes
+</p><p>
+</p><p>Fixed: Unity-5 Fix: Deprecated WWW call in UniRx throws Exception on Unity 5
+</p><p>
+</p><p>Fixed: Renaming .asset file for external graphs doesn't rename the node itself
+</p><p>
+</p><p>Fixed: (Render Settings on GameManager is back) Render Settings from target scene are not applied due to LoadLevelAdditive in LevelLoaderView 
+</p><p>
+</p><p>Fixed: Situational: SetupBindings() not called for all Views
+</p><p>
+</p><p>Fixed: Create{Element}View binding will generate the same return statement twice.
+</p><p>
+</p><p>Fixed: Double-click on main node of external graph: InvalidOperationException: Operation is not valid due to the current state of the object
+</p><p>
+</p><p>Fixed: No default state for the statemachine results into broken inspector.
+</p><p>
+</p><p>Fixed: "Generate Comments" toggle on ProjectRepository doesn't work ( Removed it, will be back in a future version)
+</p><p>
+</p><p>Fixed: Need way to order the Instantiation of ViewModels defined as Instances. ( Right-click move-up/down)
+</p><p>
+</p><p>Fixed: Instantiating Prefab with a 4.6 UI RectTransform causes warning about possible scale issues, when it sets the parent transform.
+</p><p>
+</p><p>Fixed: Scene Manager Unloaded Method is called twice
+</p><p>
+</p><p>Fixed: .Remove() on a collection item deletes references to parent elements
+</p><p>
+</p><p>Fixed: Inherited views creating duplicate initialize fields causing "Hides Inheirted member" error.
+</p><p>
+</p><p>Fixed: When views are instantiated from prefabs there is a strange bug that happens only when the game is ran for the second (or higher) time. uFrame doesn't initialize VM properties correctly then, instead views are created with default values (nulls).
+</p><p>
+</p><p>Fixed: Remove generated RequireComponent(typeof(MyViewComponent)) from Views.designer.cs
+</p><p>
+</p><p>Fixed: uFrame GameManager will always return null ActiveSceneManager on Unity4.6b21, causing uFrame to be useless.
+</p><p>
+</p><p>Fixed: If a computed property doesn't have any child properties, it wouldn't setup the dependant for the property.
+</p><p>
+</p><p>Fixed: ParentView on a view now searches up the transform tree to find the nearest parent view
+</p><p>
+</p><p>
+</p><p>
+</p><p>1.5
+</p><p>
+</p><p>uFrame 1.5 is out. Even thought is a minor version step, there are a lot of new exciting features,
+</p><p>
+</p><p> changes and bugfixes. This version addresses almost all of the issues in 1.4. Let's see what's new:
+</p><p>
+</p><p>
+</p><p>
+</p><p>1.5 brings a completely new theme, with new cool UI features that make editor more responsive.
+</p><p>
+</p><p> Not only it looks more professional, but the usability is greatly improved, for example
+</p><p>
+</p><p> highlighted connections or handy Inputs and Outputs for the diagram items.
+</p><p>
+</p><p>
+</p><p>
+</p><p>Thanks to the new project system, you can now seprate your project into as many graphs as you want, keeping it
+</p><p>
+</p><p> all under control. New workflow features, project level namespaces, and even code generation settings have arrived!
+</p><p>
+</p><p>
+</p><p>
+</p><p>Framework:
+</p><p>
+</p><p>
+</p><p>
+</p><p>  RX
+</p><p>
+</p><p>    In 1.5 you will be able to unleash the power of Reactive Extensions!
+</p><p>
+</p><p>     UniRX implementation of RX is now shipped with uFrame.
+</p><p>
+</p><p>     Almost everything now is observable: viewmodels, properties, commands, collections and more!
+</p><p>
+</p><p>     Reactive extension methods are integrated seamlessly into your code and definitely will save you
+</p><p>
+</p><p>     incredible amount of time.
+</p><p>
+</p><p>     Binding have been completely reworked to follow the RX model.
+</p><p>
+</p><p>
+</p><p>
+</p><p>  Computed Properties
+</p><p>
+</p><p>    1.5 introduces computed properties. They are just properties which depend on other properties.
+</p><p>
+</p><p>     Simple and powerful. You can express dependency from the same element or from child elements.
+</p><p>
+</p><p>     They can be dependent on regular properties, scene properties or other computed properties.
+</p><p>
+</p><p>     They can serve as triggers for state machines.
+</p><p>
+</p><p>     In your code you can easily modify all the dependencies by simply overriding a special method.
+</p><p>
+</p><p>
+</p><p>
+</p><p>  Reactive State Machines:
+</p><p>
+</p><p>    1.5 brings brand new Reactive State Machines directly into your diagrams.
+</p><p>
+</p><p>     You can rapidly design states, transitions and triggers.
+</p><p>
+</p><p>     Then you can generate view bindings for the states with a few mouse clicks. Finally
+</p><p>
+</p><p>     you can easily setup any additional logic in the code.
+</p><p>
+</p><p>     uFrame State Machines do not use any dirty checks! This can save a lot of performance
+</p><p>
+</p><p>     to let other amazing things run inside your game.
+</p><p>
+</p><p>     You can easily debug your states right in the diagram or from the View Inspector.
+</p><p>
+</p><p>
+</p><p>
+</p><p>  Class Nodes:
+</p><p>
+</p><p>    Now you can easily create regular classes right inside of your diagram.
+</p><p>
+</p><p>     You can use those as property types or command argument types
+</p><p>
+</p><p>     Generated class automagically implements INotifyPropertyChanged interface, which makes it
+</p><p>
+</p><p>     compatible with other cool assets, libraries and frameworks
+</p><p>
+</p><p>
+</p><p>
+</p><p>    Moreover, you can now use any type which does not inherit from Unity Object as a type for ViewModel property
+</p><p>
+</p><p>     or command argument.
+</p><p>
+</p><p>
+</p><p>
+</p><p>  Registered Instances:
+</p><p>
+</p><p>    Subsystems now can export instances of ViewModels which will be shared around you application.
+</p><p>
+</p><p>     No more problems with transferring small pieces of data around your scenes. It's all done automagically
+</p><p>
+</p><p>     and only requires a few click in the diagram editor!
+</p><p>
+</p><p>
+</p><p>
+</p><p>    It also plays nicely with the inheritance, allowing you to
+</p><p>
+</p><p>     substitute certain instances with different implementations.
+</p><p>
+</p><p>
+</p><p>
+</p><p>    Finally, you can register several instances under different names,
+</p><p>
+</p><p>     and instantly get access to those in your controllers!
+</p><p>
+</p><p>
+</p><p>
+</p><p>Major Changes:
+</p><p>
+</p><p>
+</p><p>
+</p><p>  SIE
+</p><p>
+</p><p>
+</p><p>
+</p><p>    No more single instance elements!
+</p><p>
+</p><p>     Since you can now register any ViewModel instance in the subsystem,
+</p><p>
+</p><p>     you have ultimate control over your shared instances. That's why Single Instance Elements are removed from uFrame.
+</p><p>
+</p><p>     This also brings consistency into controller code, as now every command receives a sender.
+</p><p>
+</p><p>
+</p><p>
+</p><p>  Scene Transitions:
+</p><p>
+</p><p>    Scene transitions have been reworked to become as user-friendly as possible.
+</p><p>
+</p><p>     You can still use inspector to define linear transition logic.
+</p><p>
+</p><p>     But as soon as it comes to transitions based on command arguments / shared instances data,
+</p><p>
+</p><p>     you can easily do it in the code, by just overriding a couple of methods.
+</p><p>
+</p><p>     You can set scenes and scene manager settings with any condition you want.
+</p><p>
+</p><p>
+</p><p>
+</p><p>  Scene Persistence:
+</p><p>
+</p><p>    Save'n'Load functionality was greatly solidified. Now every user has an ability
+</p><p>
+</p><p>     to implement saving and loading without worrying too much about the low-level functionality.
+</p><p>
+</p><p>     ViewModel saving/loading is already there. But you also have an ability persist some of your view data
+</p><p>
+</p><p>     like transforms, states and so on.
+</p><p>
+</p><p>     You can access Read and Write methods in your View and operate over any data you want.
+</p><p>
+</p><p>
+</p><p>
+</p><p>  2-Way-Bindings
+</p><p>
+</p><p>    2-Way-Bindings were completely reworked and are now called Scene Properties.
+</p><p>
+</p><p>
+</p><p>
+</p><p>    Those little handy things allow you to access specific View information, like positions and distances.
+</p><p>
+</p><p>     Scene properties rely heavily on Observables. This means you get exceptional control over you performance.
+</p><p>
+</p><p>     You define how and when those things are calculated. The rest is automagically done by uFrame.
+</p><p>
+</p><p>
+</p><p>
+</p><p>  1.5 includes lots of other changes and bug fixes. And even more will come in the future versions. So stay tuned!
+</p><p>
+</p><p>
+</p><p>
+</p><p>1.41 ---
+</p><p>
+</p><p>Important Note: Element Inheritance,Property Types,Collections Types, Command Types and View links may be broken.  Double-check that they are correctly wired together.
+</p><p>
+</p><p>Added: Computed properties on view-models and controllers. Right-Click and choose "Computed By->{PropertyName}" on a Element Property.
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>1.406 8/13/2014
+</p><p>
+</p><p>Added: Scrollbar on Binding's window.
+</p><p>
+</p><p>Fixed: Initialize{ElementName} not being called when using {ElementName}Controller.Create{ElementName}();
+</p><p>
+</p><p>Fixed: Removed "YUPYUPYUP" debug log message when removing a binding :)
+</p><p>
+</p><p>Fixed: When transitioning to and from another scene single instance view-models wern't resetting.
+</p><p>
+</p><p>Fixed: Default Identifier for multiple single instance elements that where derived from a specific type was causing issues.
+</p><p>
+</p><p>Fixed: Settings Colors where off when creating a new diagram
+</p><p>
+</p><p>Added: When creating an new node it auto selects it for editing.
+</p><p>
+</p><p>Added: When creating an item it auto selects it for editing.
+</p><p>
+</p><p>Added: Keyboard shortcuts for Saving, Adding nodes, deleting nodes, and deleting items.
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>
+</p><p>1.401 8/5/2014
+</p><p>
+</p><p>Fixed: Scaling the diagram down caused element properties to exceed the width of the box.
+</p><p>
+</p><p>Fixed: Unlinking of ViewComponents not working.
+</p><p>
+</p><p>Fixed: Two-Way Properties on views not generating correctly.
+</p><p>
+</p><p>
+</p><p>
+</p><p>1.4 8/5/2014
+</p><p>
+</p><p>Important: When importing the new package ( you  may need to remove the old first. ) Be sure to open your diagram and click on 'Save & Compile'.
+</p><p>
+</p><p>Important: see upgrading to 1.4 tutorial http://invertgamestudios.com/home/video-tutorials/upgrading-to-1-4
+</p><p>
+</p><p>Note: uFrame Playmaker Plugin is obsolete.
+</p><p>
+</p><p>   After making a very tough decision to deprecate the Playmaker plugin we felt with the new features it could be drastically optimized and more seemless. 
+</p><p>
+</p><p>   If you are currently dependent on the old playmaker plugin and still want to upgrade you'll need to map View-Model properties directly to fsm's manually when properties change.  
+</p><p>
+</p><p>   We feel that having a diagram node for FSM templates and using links to keep things synchronized will drastically improve the workflow when working with Playmaker.
+</p><p>
+</p><p>
+</p><p>
+</p><p>Feature: View-Model property editing at run-time.
+</p><p>
+</p><p>Feature: View Bindings in diagram.
+</p><p>
+</p><p>  This feature drastically increases the workflow of uFrame. You now longer have to worry about checking bindings. Just add the binding in the diagram and it will insert the code directly into the view code.
+</p><p>
+</p><p>Feature: Two-Way Properties in views.
+</p><p>
+</p><p>Feature: Add properties from any component in the project directly onto a view in the designer. This will automatically wire the properties up and create the View-Model serialization code for you.
+</p><p>
+</p><p>Feature: Scene State Saving and Loading with new generic serialization classes (Currently in beta).
+</p><p>
+</p><p>Feature: View Properties for data persistance and Element References.
+</p><p>
+</p><p>Feature: See all registered ViewModels in the SceneContext under the SceneManager inspector at run-time.
+</p><p>
+</p><p>Feature: Visibility into the dependency container VIA GameManager Inspector
+</p><p>
+</p><p>Feature: Code Generators now generate serialization code for ViewModels using uFrames new generic serializer implementation.
+</p><p>
+</p><p>Feature: Generic Scene State Serialization (Beta)
+</p><p>
+</p><p>Fixed: ArgumentException: Getting control 2's position in a group with only 2 controls when doing KeyDown error on rename.
+</p><p>
+</p><p>Change: View-Models now contain a reference to a controller. This removes the responsibility from the controller and makes the framework work with View-Models and controllers in a more cohesive manner.
+</p><p>
+</p><p>Change: Moved Controller WireCommands to ViewModels
+</p><p>
+</p><p>Fix: When an element property is on a element with a short name the delete button can't be clicked.
+</p><p>
+</p><p>Fix: UnityVS plugin now uses "Visual Studio Tools/Generate Project Files"
+</p><p>
+</p><p>
+</p><p>
+</p><p>For Support Questions Contact:
+</p><p>
+</p><p>
+</p><p>
+</p><p>Micah Osborne
+</p><p>
+</p><p>invertgamestudios@gmail.com
+</p>

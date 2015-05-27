@@ -1,0 +1,31 @@
+html , body {
+	margin: 0;
+	padding: 0;
+	font-family: verdana;
+	background-color: #f1f1f1;
+	
+}
+h1, h2, h3 {
+   color: #454577;
+}
+.table-of-contents, .toc {
+	border-right: solid 1px black;
+	float: left;
+	height: 100%;	
+	width: 25% !important;
+	margin: 0;
+	padding: 0;
+	border: none;	background-color: #343467;
+}
+
+.content-area {
+border: none;
+	float: left;
+	height: 100%;
+	width: 75% !important;
+	box-sizing: border-box;
+	
+	margin: 0;
+
+	
+}

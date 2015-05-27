@@ -8,30 +8,31 @@
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4>@(option.PlanName)</h4>
+                    <h4 style="font-weight: bolder">@(option.PlanName)</h4>
                 </div>
 
                 <table class="table">
-                    <tr><td><strong>Price:</strong></td><td>$@(option.BuyInPrice)</td></tr>
+                    <tr><td style="text-align: center; font-size: 35px">$@(option.BuyInPrice)</td></tr>
                     @using (var list = Html.List(option.Id.ToString(), false))
                     {
                         foreach (PageContentViewModel item in list)
                         {
-                            <tr><td>
+                            <tr><td style="text-align: center !important;">
                                 @if (list.CanEdit)
                                 {
                                     <div>@item.AdminBar()</div>
                                 }
-                                <strong>@Html.ModalProperty("Label")</strong></td><td>@Html.Property("Value") </td></tr>
+                              @Html.ModalProperty("Label")</td>
+                    </tr>
                         }
                         if (list.CanEdit)
                         {
-                            <tr><td colspan="2">@list.AddNewLink</td></tr>
+                            <tr><td >@list.AddNewLink</td></tr>
                         }
                     }
                     
                 </table>
-                <div class="panel-footer">
+                <div class="panel-footer" style="text-align: right;">
                     <a href="@Url.Action("PurchaseProduct", "Market", new {productOptionsId = option.Id})" class="btn btn-success">Purchase Plan</a>
                 </div>
             </div>

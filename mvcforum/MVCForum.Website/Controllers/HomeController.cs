@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using MVCForum.Domain.Constants;
 using MVCForum.Domain.DomainModel;
@@ -19,17 +20,18 @@ namespace MVCForum.Website.Controllers
         private readonly ITopicService _topicService;
         private readonly ICategoryService _categoryService;
         private readonly IActivityService _activityService;
+        private readonly IEmailService _emailService;
 
         private MembershipUser LoggedOnUser;
         private MembershipRole UsersRole;
 
-        public HomeController(IPageContentService pageContentService, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IActivityService activityService, IMembershipService membershipService,
+        public HomeController(IEmailService emailService,IPageContentService pageContentService, ILoggingService loggingService, IUnitOfWorkManager unitOfWorkManager, IActivityService activityService, IMembershipService membershipService,
             ITopicService topicService, ILocalizationService localizationService, IRoleService roleService,
             ISettingsService settingsService, ICategoryService categoryService)
             : base(pageContentService, loggingService, unitOfWorkManager, membershipService, localizationService, roleService, settingsService)
         {
             PageContentService = pageContentService;
-
+            _emailService = emailService;
             _topicService = topicService;
             _categoryService = categoryService;
             _activityService = activityService;
@@ -265,6 +267,11 @@ namespace MVCForum.Website.Controllers
                     permissions.Add(category, permissionSet);
                 }
 
+
+                sitemap.Add(new SitemapEntry() { LastUpdated = DateTime.Now - new TimeSpan(1,0,0,0),Name = "uFrame MVVM", Url = "/mvvm/overview"});
+                sitemap.Add(new SitemapEntry() { LastUpdated = DateTime.Now - new TimeSpan(1,0,0,0),Name = "uFrame ECS", Url = "/ecs/overview"});
+                sitemap.Add(new SitemapEntry() { LastUpdated = DateTime.Now - new TimeSpan(1,0,0,0),Name = "uFrame Architect", Url = "/architect/overview"});
+
                 // ##### TOPICS
                 // Now loop through the topics and remove any that user does not have permission for
                 foreach (var topic in allTopics)
@@ -337,6 +344,20 @@ namespace MVCForum.Website.Controllers
         public ActionResult ContactUsForm(string name, string email, string message, string phone = null)
         {
             Guid = new Guid("AA6496B6-D0E1-43E7-8F6B-E091A9B5B9B7");
+            var sb = new StringBuilder();
+            sb.AppendFormat("Name: {0}",name).AppendLine();
+            sb.AppendFormat("Email: {0}", email).AppendLine();
+            sb.AppendFormat("Phone: {0}", phone).AppendLine();
+            sb.AppendFormat("Message: {0}", message).AppendLine();
+            var template = _emailService.EmailTemplate("invertgamestudios@gmail.com", sb.ToString());
+            _emailService.SendMail(new Email()
+            {
+                Body = template,
+                EmailFrom = "auto@invertgamestudios.com",
+                EmailTo = "invertgamestudios@gmail.com",
+                NameTo = "Invert",
+                Subject = "Invert Contact Us Form"
+            });
             //ViewBag.Success = "Message successfully sent. Please allow use up to 3 days to respond.";
 
             return View("ContactUs");

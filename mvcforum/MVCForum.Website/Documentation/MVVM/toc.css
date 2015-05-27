@@ -1,0 +1,30 @@
+html , body {
+	margin: 0;
+	padding: 0;
+	font-family: verdana;
+background-color: #343467;
+	padding: 5px;
+}
+i
+h1, h2, h3 {
+   color: #454577;
+}
+.table-of-contents{
+	border-right: solid 1px black;
+	float: left;
+	height: 100%;	
+	width: 25% !important;
+	margin: 0;
+	padding: 0;
+	border: none;	
+}
+.toc {
+
+}
+.page-toc a {
+	color: white;
+}
+.page-toc {
+
+	padding: 4px;
+}

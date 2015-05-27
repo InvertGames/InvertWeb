@@ -14,8 +14,10 @@ namespace MVCForum.Services
 {
     public class MarketService : IMarketService
     {
-        public MarketService(IActivationService activationServce, StripeChargeService chargeService, IUnitOfWorkManager workManager, StripeSubscriptionService subscriptionService, StripePlanService planService, IMembershipService membership, IMarketRepository marketRepository, StripeCustomerService customerService)
+        public MarketService(ILoggingService logService, IRoleService roleService, IActivationService activationServce, StripeChargeService chargeService, IUnitOfWorkManager workManager, StripeSubscriptionService subscriptionService, StripePlanService planService, IMembershipService membership, IMarketRepository marketRepository, StripeCustomerService customerService)
         {
+            LogService = logService;
+            RoleService = roleService;
             ActivationServce = activationServce;
             ChargeService = chargeService;
             WorkManager = workManager;
@@ -26,6 +28,9 @@ namespace MVCForum.Services
             ChargeService = chargeService;
             CustomerService = customerService;
         }
+
+        public ILoggingService LogService { get; set; }
+        public IRoleService RoleService { get; set; }
         public StripeCustomerService CustomerService { get; set; }
         public IUnitOfWorkManager WorkManager { get; set; }
         public StripeSubscriptionService SubscriptionService { get; set; }
@@ -133,7 +138,23 @@ namespace MVCForum.Services
                     stripeCustomer = CustomerService.Get(user.StripeCustomerId);
 
                 }
-
+                if (product.PurchaseRoleId != null)
+                {
+                    var role = RoleService.GetRole(product.PurchaseRoleId.Value);
+                  
+                    if (!user.Roles.Contains(role))
+                    {
+                        user.Roles.Add(role);    
+                    }
+               
+                    
+                }
+                // Mark the user as a verified customer
+                var verifiedRole = RoleService.GetRole("Verified");
+                if (!user.Roles.Contains(verifiedRole))
+                {
+                    user.Roles.Add(verifiedRole);
+                }
                 // Now make the initial buy-in payment
                 var stripeCharge = new StripeChargeCreateOptions();
                 stripeCharge.CustomerId = stripeCustomer.Id;
@@ -143,14 +164,19 @@ namespace MVCForum.Services
                 stripeCharge.Currency = "usd";
                 // Process the Payment
                 var charge = ChargeService.Create(stripeCharge);
-                // Now set up the subscription if possible
-                if (!string.IsNullOrEmpty(purchaseOption.StripePlanId))
+                if (charge.Paid)
                 {
-                    var subscription = SubscriptionService.Create(stripeCustomer.Id, purchaseOption.StripePlanId, new StripeSubscriptionCreateOptions()
+
+                    // Now set up the subscription if possible
+                    if (!string.IsNullOrEmpty(purchaseOption.StripePlanId))
                     {
-                        Quantity = numberOfLicenses,
-                    });
+                        var subscription = SubscriptionService.Create(stripeCustomer.Id, purchaseOption.StripePlanId, new StripeSubscriptionCreateOptions()
+                        {
+                            Quantity = numberOfLicenses,
+                        });
+                    }
                 }
+                
 
                 unitOfWork.Commit();
             }
@@ -317,14 +343,35 @@ namespace MVCForum.Services
 
         public void EventReceived(StripeEvent stripeEvent)
         {
+            LogService.Error("STRIPE_EVENT:" + stripeEvent.UserId + ":" + stripeEvent.Type+": " +stripeEvent.Request);
             switch (stripeEvent.Type)
             {
                 case "charge.updated":
                 case "charge.captured":
                 case "charge.succeeded":
                 case "charge.refunded":  // take a look at all the types here: https://stripe.com/docs/api#event_types
-                    var stripeCharge = Mapper<StripeCharge>.MapFromJson(stripeEvent.Data.Object.ToString());
-
+                    var stripeCharge = Mapper<StripeCharge>.MapFromJson(stripeEvent.Data.Object.ToString()) as StripeCharge;
+                    if (stripeCharge != null)
+                    {
+                        if (stripeCharge.Refunded)
+                        {
+                            // Remove from role
+                        }
+                        else if (stripeCharge.Paid)
+                        {
+                            // Add to role
+                            
+                            // Mark the user as a verified customer
+                            // TODO IMPLEMENT WEB HOOKS CALL BACKS
+                            //var verifiedRole = RoleService.GetRole("Verified");
+                            //if (!user.Roles.Contains(verifiedRole))
+                            //{
+                            //    user.Roles.Add(verifiedRole);
+                            //}
+                            
+                        }
+                    }
+                    
                     break;
                 case "customer.subscription.trial_will_end":
                     var subscription = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString());
