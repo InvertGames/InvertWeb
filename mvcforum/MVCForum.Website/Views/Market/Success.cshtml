@@ -1,5 +1,8 @@
-﻿@model dynamic
-
-@{
-    Layout = null;
+﻿
+@section title {
+    <h1>Purchase Successfull</h1>
 }
+
+<h2>Thank you for your purchase.</h2>
+<p>You can download your content from <a href="@Html.Action("Downloads", "Members")">your downloads.</a>
+</p>

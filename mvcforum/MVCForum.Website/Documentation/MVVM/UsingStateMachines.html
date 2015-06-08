@@ -8,30 +8,28 @@
 </p><p>From here right click on the folder and choose uFrame->New Project
 </p><p>This will create a new project repository for you.  The project repository will hold references to all of your graphs.
 </p><h2>Create a new MVVM Graph with the name 'ANYTHING'</h2><p>Graphs are used to create various sections of your project.  Graphs can also share nodes between each other as long as they belong to the same project.
-</p><div class='img-container'><img src='http://i.imgur.com/MqXxE6h.png' /></div><h2>Set the project namespace to something unique</h2><div class='img-container'><img src='http://i.imgur.com/CBXSJbZ.png' /></div><h2>Create a 'Sub System' node with the name 'SystemA'</h2><p>To create a node you need to right click on an empty space on the graph.
-</p><p>Then choose Add Subsystem</p><br/><a href='Subsystems.html' target='content-frame'>Subsystems</a>
-<h2>Create a 'Element' node with the name 'Game'</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><div class='img-container'><img src='http://i.imgur.com/MqXxE6h.png' /></div><h2>Create a 'Element' node with the name 'Game'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add Element</p><br/><a href='Element.html' target='content-frame'>Element</a>
 <h2>Create a 'View' node with the name 'GameView'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add View</p><br/><a href='ElementViews.html' target='content-frame'>Element Views</a>
 <h2>Create a connection from B to A.</h2><h2>Create a 'State Machine' node with the name 'GameFlow'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add StateMachine</p><br/><a href='StateMachines.html' target='content-frame'>State Machines</a>
-<h2>Create a transition with the name 'BeginGame' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
+<h2>Create a transition with the name 'BeginGame'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add TransitionsChildItem</p><br/><p>We need to register a transition to the state machine node.
-</p><div class='img-container'><img src='http://i.imgur.com/swPtoys.png' /></div><h2>Create a command with the name 'Play' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><div class='img-container'><img src='http://i.imgur.com/swPtoys.png' /></div><h2>Create a command with the name 'Play'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add CommandsChildItem</p><br/><p>Now we need to add a command that will trigger the transition.
 </p><h2>Create a connection from B to A.</h2><p>Creating this connection means that when the command is invoked it will trigger the transition automatically.
-</p><div class='img-container'><img src='http://i.imgur.com/LEMP06i.png' /></div><h2>Create a property with the name 'GameFlow' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><div class='img-container'><img src='http://i.imgur.com/LEMP06i.png' /></div><h2>Create a property with the name 'GameFlow'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add PropertiesChildItem</p><br/><p>State machines live on the view-model. So we need to create a property on our element node for the state machine.
 </p><h2>Create a connection from B to A.</h2><div class='img-container'><img src='http://i.imgur.com/LEMP06i.png' /></div><h2>Create a 'State' node with the name 'MainMenu'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add State</p><br/><a href='State.html' target='content-frame'>State</a>
 <h2>Create a 'State' node with the name 'PlayingGame'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add State</p><br/><a href='State.html' target='content-frame'>State</a>
-<h2>Create a state transition with the name 'BeginGame' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
+<h2>Create a state transition with the name 'BeginGame'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add StateTransitionsReference</p><br/><p>Now we need to add the transition to the MainMenu state.
-</p><h2>Create a connection from B to A.</h2><h2>Create a connection from B to A.</h2><h2>Create a binding with the name 'GameFlow State Changed' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><h2>Create a connection from B to A.</h2><h2>Create a connection from B to A.</h2><h2>Create a binding with the name 'GameFlow State Changed'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add BindingsReference</p><br/><div class='img-container'><img src='http://i.imgur.com/uHAfHEM.png' /></div><h2>Save & Compile the project.</h2><p>Saving and compiling is the process of taking the information you've created by graphs and putting it into code form.  The generated code consists of both designer files (always regenerated), and editable files (only generated if it doesnt exist so it doesn't destroy your implementations).
-</p><br/><div class='img-container'><img src='http://i.imgur.com/HY5sD9D.png' /></div><h2>Now create the we need to create the kernel.</h2><div class='img-container'><img src='http://i.imgur.com/349glV8.png' /></div><a href='TheKernel.html' target='content-frame'>The Kernel</a>
+</p><br/><div class='img-container'><img src='http://i.imgur.com/HY5sD9D.png' /></div><h2>Now we need to scaffold/update the kernel.</h2><div class='img-container'><img src='http://i.imgur.com/349glV8.png' /></div><a href='TheKernel.html' target='content-frame'>The Kernel</a>
 <h2>Now add the view to the scene.</h2><p>Create an empty gameObject underneath the _SceneARoot game object.  When creating scene types, everything should be a descendent of this root game object, this allows them to be destroyed by uFrame when needed.
 </p><p>On this empty game object click 'Add Component' in the inspector. Then add the 'view' component to it.
 </p><div class='img-container'><img src='http://i.imgur.com/3pKo4yL.png' /></div>

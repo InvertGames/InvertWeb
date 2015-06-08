@@ -1888,6 +1888,7 @@
     <Content Include="Views\Home\ContactUs.cshtml" />
     <Content Include="Views\Shared\SlideA.cshtml" />
     <Content Include="Views\Docs\Index.cshtml" />
+    <Content Include="Views\Members\Slack.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\AdminMarket\" />

@@ -382,10 +382,11 @@ namespace MVCForum.Domain.DomainModel
         }
         public Guid Id { get; set; }
         public MarketProduct Product { get; set; }
+        public DateTime? ReleaseDate { get; set; }
         public string File { get; set; }
         public string Version { get; set; }
         public int Downloads { get; set; }
-
+        public string RoleName { get; set; }
         public string Url
         {
             get { return string.Format("~/members/download/{0}", Id.ToString()); }

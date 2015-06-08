@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using MVCForum.Domain.Constants;
 using MVCForum.Domain.DomainModel;
 using MVCForum.Domain.Interfaces.Services;
@@ -106,9 +107,20 @@ namespace MVCForum.Website.ViewModels
 
     }
 
+    public class UploadProductDownloadViewModel
+    {   
+        public HttpPostedFileBase File { get; set; }
+        public SelectList Products { get; set; }
+        public IEnumerable<MembershipRole> Roles { get; set; }
+
+        public Guid SelectedProduct { get; set; }
+        public Guid[] SelectedRoles { get; set; }
+
+    }
     public class DownloadsViewModel
     {
         public IEnumerable<MarketProductDownload> Downloads { get; set; }
+        public UploadProductDownloadViewModel UploadVM { get; set; }
     }
     public class PurchasesViewModel
     {

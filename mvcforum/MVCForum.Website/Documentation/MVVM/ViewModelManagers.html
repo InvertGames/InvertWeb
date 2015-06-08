@@ -5,4 +5,4 @@
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <h1>View Model Managers</h1><p>By default uFrame keeps up with viewmodels for us.  It maintains a manager for each type of viewmodel you create.
 </p><p>To access these managers, you can inject them into controllers and services using the following code.
-</p><br/><pre><code class='csharp'>[Inject] public IViewModelManager<MyViewModel> MyViewModelsManager { get; set; }</code></pre><br/><div class='note'><b>Note: </b>Important Note: By default every element controller already generates manager properties just like the above example for the associated element's viewmodel.</div>
+</p><br/><pre><code class='csharp'>[Inject] public IViewModelManager&lt;MyViewModel&gt; MyViewModelsManager { get; set; }</code></pre><br/><div class='note'><b>Note: </b>Important Note: By default every element controller already generates manager properties just like the above example for the associated element's viewmodel.</div>

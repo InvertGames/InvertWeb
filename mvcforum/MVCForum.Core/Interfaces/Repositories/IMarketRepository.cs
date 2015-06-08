@@ -23,6 +23,7 @@ namespace MVCForum.Domain.Interfaces.Repositories
 
         IEnumerable<MarketProduct> GetProductsByStripePlanId(string planId);
         MarketProduct GetByName(string name);
+        IEnumerable<MarketProductDownload> GetDownloadsByRole(MembershipRole role);
     }
 
     public interface IPageContentRepository

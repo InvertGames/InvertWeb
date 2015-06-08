@@ -1268,6 +1268,66 @@ namespace MVCForum.Website.Controllers
             }
         }
         [Authorize]
+        public ActionResult Download(Guid fileId)
+        {
+            using (var work = UnitOfWorkManager.NewUnitOfWork())
+            {
+                var userDownloads = MarketService.GetUserDownloads(MembershipService.GetUser(Username));
+                var download = userDownloads.FirstOrDefault(p => p.Id == fileId);
+                if (download != null)
+                {
+                    download.Downloads++;
+                }
+                try
+                {
+                    work.Commit();
+                }
+                catch
+                {
+                    work.Rollback();
+                }
+                if (download != null)
+                {
+                    return File(download.File, "application/unknown", Path.GetFileName(download.File));
+                }
+            }
+           return new HttpNotFoundResult("Unauthorized Access");
+        }
+
+        public ActionResult SlackInvite()
+        {
+            Guid = new Guid("AA6496B6-D0E1-43E7-8F6B-E091A9B5B9B7");
+            var sb = new StringBuilder();
+            var user = MembershipService.GetUser(Username);
+            sb.AppendFormat("Email: {0}", user.Email);
+
+            if (user.UnityInvoice.Count > 0 || user.Roles.Contains(RoleService.GetRole("Verified")))
+            {
+                sb.AppendLine().AppendFormat("Verified");
+                var template = _emailService.EmailTemplate(user.Email, sb.ToString());
+                _emailService.SendMail(new Email()
+                {
+                    Body = template,
+                    EmailFrom = "auto@invertgamestudios.com",
+                    EmailTo = "invertgamestudios@gmail.com",
+                    NameTo = "Invert",
+                    Subject = "New Slack Signup"
+                });
+                ViewBag.Message = "Your invitation will be sent in the next 24 hours.";
+
+            }
+            else
+            {
+                ViewBag.Message =
+                    "You don't have any registered purchases.  If you have purchased from Unity, make sure you link your unity invoice to your account.";
+            }
+
+            //ViewBag.Success = "Message successfully sent. Please allow use up to 3 days to respond.";
+
+            return View("Slack");
+        }
+
+        [Authorize]
         public ActionResult Downloads()
         {
             var vm = new DownloadsViewModel();
@@ -1327,7 +1387,18 @@ namespace MVCForum.Website.Controllers
                     var user = MembershipService.GetUser(Username);
          
                     MembershipService.StoreUnityInvoice(user, invoice);
+                    var role = RoleService.GetRole(invoice.Package);
+                    if (role == null)
+                    {
+                        role = new MembershipRole()
+                        {
+                            RoleName = invoice.Package,
+
+                        };
+                        RoleService.CreateRole(role);
+                    }
                     user.Roles.Add(RoleService.GetRole("Verified"));
+                    user.Roles.Add(role);
                     
                     try
                     {
@@ -1626,5 +1697,17 @@ namespace MVCForum.Website.Controllers
             }
         }
 
+        //public ActionResult UploadProductDownload()
+        //{
+            
+        //    var vm = new UploadProductDownloadViewModel();
+
+            
+        //}
+        //[HttpPost]
+        //public ActionResult UploadProductDownload(UploadProductDownloadViewModel vm)
+        //{
+                
+        //}
     }
 }

@@ -94,6 +94,12 @@ namespace MVCForum.Data.Repositories
                .Include(p => p.Videos)
                .FirstOrDefault(p => p.Name == name);
         }
+
+        public IEnumerable<MarketProductDownload> GetDownloadsByRole( MembershipRole role)
+        {
+            //foreach (var item in role.CategoryPermissionForRole) { }
+            return _context.MarketProductDownload.Include(x=>x.Product).Where(p => p.RoleName == role.RoleName);
+        }
     }
 
     public class PageContentRepository : IPageContentRepository

@@ -14,7 +14,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
+    <title>Invert Game Studios</title>
     <meta name="description" content="@ViewBag.MetaDesc" />
     @RenderSection("SocialMeta", false)
     @ViewBag.Canonical
@@ -144,6 +144,10 @@
                                 </li>
                                 <li>
                                     <a href="@Url.Action("Purchases", "Members")">Purchases</a>
+                                </li>
+                                 <li class="divider"></li>
+                                <li>
+                                    <a href="@Url.Action("SlackInvite", "Members")">Get Invited To Slack!</a>
                                 </li>
                                 <li>@Html.ActionLink(Html.LanguageString("LogOn.LogOff"), "LogOff", "Members")</li>
                             }

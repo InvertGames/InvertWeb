@@ -17,7 +17,7 @@
         @Html.HiddenFor(p => p.MarketProductPurchaseOptionId)
         <div class="form-group ">
             <div class="col-md-1">
-                <label>Quantity:</label>
+                <label># Seats:</label>
                 @Html.TextBox("quantity", Model.NumberOfSeats)
                 @Html.ValidationMessageFor(model => model.ErrorMessage, "", new { @class = "text-danger" })
 
@@ -115,7 +115,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
+        @*<div class="panel panel-default">
             <div class="panel-heading">
                 <h3>Terms And Conditions</h3>
                 <p>Please read the terms and conditions.</p>
@@ -129,12 +129,12 @@
                 <div class="row col-md-offset-0"><input type="checkbox" onclick="if ($(this).val()) $('#complete').removeAttr('disabled'); else $('#complete').addAttr('disabled'); " /> I Agree to the terms and conditions.</div>
 
             </div>
-        </div>
+        </div>*@
 
 
         <div class="form-group">
             <div class="col-md-10">
-                <input id="complete" type="submit" value="Complete Purchase" class="btn btn-success btn-lg" disabled="disabled" />
+                <input id="complete" type="submit" value="Complete Purchase" class="btn btn-success btn-lg"  />
             </div>
         </div>
     </div>

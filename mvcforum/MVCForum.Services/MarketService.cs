@@ -163,9 +163,9 @@ namespace MVCForum.Services
                 stripeCharge.Metadata = new Dictionary<string, string> { { "MarketProductId", product.Id.ToString() } };
                 stripeCharge.Currency = "usd";
                 // Process the Payment
-                var charge = ChargeService.Create(stripeCharge);
-                if (charge.Paid)
-                {
+                //var charge = ChargeService.Create(stripeCharge);
+                //if (charge.Paid)
+                //{
 
                     // Now set up the subscription if possible
                     if (!string.IsNullOrEmpty(purchaseOption.StripePlanId))
@@ -175,7 +175,7 @@ namespace MVCForum.Services
                             Quantity = numberOfLicenses,
                         });
                     }
-                }
+                //}
                 
 
                 unitOfWork.Commit();
@@ -209,10 +209,11 @@ namespace MVCForum.Services
 
         public IEnumerable<PaymentInfo> GetCharges(MembershipUser user)
         {
-
+            yield break;
             var charges = ChargeService.List(new StripeChargeListOptions()
             {
-                CustomerId = user.StripeCustomerId
+                CustomerId = user.StripeCustomerId,
+
             });
             foreach (var charge in charges)
             {
@@ -320,6 +321,7 @@ namespace MVCForum.Services
         public IEnumerable<MarketProduct> GetUserOwnedProducts(MembershipUser user)
         {
             var products = new List<MarketProduct>();
+
             foreach (var item in GetUserSubscriptions(user))
             {
                 products.AddRange(Market.GetProductsByStripePlanId(item.PlanId));
@@ -338,7 +340,18 @@ namespace MVCForum.Services
 
         public IEnumerable<MarketProductDownload> GetUserDownloads(MembershipUser user)
         {
-            return GetUserOwnedProducts(user).SelectMany(p => p.Downloads);
+            foreach (var role in user.Roles)
+            {
+
+                foreach (var item in Market.GetDownloadsByRole(role))
+                {
+                    yield return item;
+                }
+            }
+            foreach (var item in GetUserOwnedProducts(user).SelectMany(p => p.Downloads))
+            {
+                yield return item;
+            }
         }
 
         public void EventReceived(StripeEvent stripeEvent)

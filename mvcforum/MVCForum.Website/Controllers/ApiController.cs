@@ -11,6 +11,7 @@ using MVCForum.Domain.Interfaces.UnitOfWork;
 
 namespace MVCForum.Website.Controllers
 {
+    [RequireHttps]   
     public class ApiV1Controller : Controller
     {
         public IMarketService Market { get; set; }
@@ -23,14 +24,12 @@ namespace MVCForum.Website.Controllers
             UnitOfWorkManager = unitOfWorkManager;
             Membership = membership;
         }
-
         public ActionResult Login(string username, string password)
         {
             
             if (Membership.ValidateUser(username, password, 5))
             {
                 var user = Membership.GetUser(username);
-                
                 return Content(Token(user));
             }
             return Json(false);

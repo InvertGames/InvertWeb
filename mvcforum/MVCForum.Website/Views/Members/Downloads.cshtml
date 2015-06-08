@@ -9,19 +9,36 @@
 
 <table class="table table-striped">
     <thead>
-        <tr><th>Product</th><th>Version</th><th></th></tr>
+    <tr><th>Release Date</th><th>Product</th><th>Version</th></tr>
     </thead>
- 
-        @foreach (var item in Model.Downloads)
-        {
-            <tr>
-                <td>@item.Product.Name</td>
-                <td>@item.Version</td>
-                <td></td>
-                <td><a class="btn btn-primary" href="@Url.Content(item.Url)">Download</a></td>
-            </tr>
-            
-        }
-        
+
+    @foreach (var item in Model.Downloads.OrderBy(p=>p.ReleaseDate))
+    {
+        <tr>
+            <td>@item.ReleaseDate</td>
+            <td>@item.Product.Title</td>
+            <td>@item.Version</td>
+            <td><a class="btn btn-primary" href="@Url.Action("Download", "Members", new { fileId = item.Id })">Download</a></td>
+        </tr>
+
+    }
+
 
 </table>
+
+@if (Model.UploadVM != null)
+{
+    using (var form = Html.BeginForm("UploadProductDownload", "Members", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <label>File</label>
+        <input type="file" name="File" id="File"/>
+        <label>For Product</label>
+        @Html.DropDownListFor(p=>p.UploadVM.SelectedProduct,Model.UploadVM.Products)
+        <label>Allowed Roles</label>
+        foreach (var item in Model.UploadVM.Roles)
+        {
+            <input type="checkbox" name="SelectedRoles" value="@item.Id">@item.RoleName
+        }
+        <input type="submit" />
+    }
+}

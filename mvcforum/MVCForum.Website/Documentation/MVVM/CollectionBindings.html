@@ -8,20 +8,18 @@
 </p><p>From here right click on the folder and choose uFrame->New Project
 </p><p>This will create a new project repository for you.  The project repository will hold references to all of your graphs.
 </p><h2>Create a new MVVM Graph with the name 'ANYTHING'</h2><p>Graphs are used to create various sections of your project.  Graphs can also share nodes between each other as long as they belong to the same project.
-</p><div class='img-container'><img src='http://i.imgur.com/MqXxE6h.png' /></div><h2>Set the project namespace to something unique</h2><div class='img-container'><img src='http://i.imgur.com/CBXSJbZ.png' /></div><h2>Create a 'Sub System' node with the name 'SystemA'</h2><p>To create a node you need to right click on an empty space on the graph.
-</p><p>Then choose Add Subsystem</p><br/><a href='Subsystems.html' target='content-frame'>Subsystems</a>
-<h2>Create a 'Element' node with the name 'Player'</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><div class='img-container'><img src='http://i.imgur.com/MqXxE6h.png' /></div><h2>Create a 'Element' node with the name 'Player'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add Element</p><div class='img-container'><img src='http://i.imgur.com/lEnVVQj.png' /></div><div class='img-container'><img src='http://i.imgur.com/SJ0zI8w.png' /></div><br/><a href='Element.html' target='content-frame'>Element</a>
 <h2>Create a 'View' node with the name 'PlayerView'</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add View</p><div class='img-container'><img src='http://i.imgur.com/H1OzzfC.png' /></div><br/><a href='ElementViews.html' target='content-frame'>Element Views</a>
-<h2>Create a connection from B to A.</h2><p>Creating this connection means that the view will visually present the data on the player to the user in the 3d world.
+<h2>Create a connection from Player to PlayerView's Element input slot.</h2><p>Creating this connection means that the view will visually present the data on the player to the user in the 3d world.
 </p><p>You can always create multiple views to seperate different presentations of the same data.  For instance, you could also create a PlayerUIView, which deals strictly with showing inventory, stats,...etc
-</p><br/><div class='img-container'><img src='http://i.imgur.com/scVtfd9.png' /></div><h2>Create a property with the name 'FirstName' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
-</p><p>Then choose Add PropertiesChildItem</p><br/><h2>Create a property with the name 'LastName' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
-</p><p>Then choose Add PropertiesChildItem</p><br/><h2>Create a command with the name 'LoadName' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
-</p><p>Then choose Add CommandsChildItem</p><br/><h2>Create a property binding with the name 'FirstName Changed' on the 'the node' Node.</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><br/><div class='img-container'><img src='http://i.imgur.com/scVtfd9.png' /></div><h2>Create a property with the name 'FirstName' on the 'Player' node</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><p>Then choose Add PropertiesChildItem</p><br/><h2>Create a property with the name 'LastName' on the 'Player' node</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><p>Then choose Add PropertiesChildItem</p><br/><h2>Create a command with the name 'LoadName' on the 'Player' node</h2><p>To create a node you need to right click on an empty space on the graph.
+</p><p>Then choose Add CommandsChildItem</p><br/><h2>Create a property binding with the name 'FirstName Changed' on the 'PlayerView' node</h2><p>To create a node you need to right click on an empty space on the graph.
 </p><p>Then choose Add BindingsReference</p><br/><h2>Save & Compile the project.</h2><p>Saving and compiling is the process of taking the information you've created by graphs and putting it into code form.  The generated code consists of both designer files (always regenerated), and editable files (only generated if it doesnt exist so it doesn't destroy your implementations).
-</p><br/><div class='img-container'><img src='http://i.imgur.com/HY5sD9D.png' /></div><h2>Now create the we need to create the kernel.</h2><div class='img-container'><img src='http://i.imgur.com/349glV8.png' /></div><a href='TheKernel.html' target='content-frame'>The Kernel</a>
+</p><br/><div class='img-container'><img src='http://i.imgur.com/HY5sD9D.png' /></div><h2>Now we need to scaffold/update the kernel.</h2><div class='img-container'><img src='http://i.imgur.com/349glV8.png' /></div><a href='TheKernel.html' target='content-frame'>The Kernel</a>
 <h2>Open PlayerView.cs and implement the FirstName Changed method.</h2><p>Right-Click on the Node and choose Open->View.cs
 </p><div class='img-container'><img src='http://i.imgur.com/hOKFYMk.png' /></div><h2>Open PlayerController.cs and implement the LoadName method.</h2><p>Right-Click on the Node and choose Open->Controller.cs
 </p><div class='img-container'><img src='http://i.imgur.com/qVU7Jb4.png' /></div>
