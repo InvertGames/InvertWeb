@@ -19,15 +19,16 @@
     @foreach (var item in Model.Subscriptions)
     {
         <tr>
+            
             <td>@item.StartedOn</td>
             <td>@item.Name</td>
-            
-            <td>$@item.Amount Per Month</td>
+
+            <td>$@item.Amount Per Year</td>
             <td>@item.Status</td>
             <td>@item.Id</td>
             <td>
-                <a class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel?  You will have to pay the buy-in price again to restart your subscription.')" 
-                   href="@Url.Action("CancelSubscription","Members")/@item.Id">Cancel Subscription</a>
+                <a class="btn btn-danger" onclick=" return confirm('Are you sure you want to cancel?  You will have to pay the buy-in price again to restart your subscription.') "
+                   href="@Url.Action("CancelSubscription", "Members")/@item.Id">Cancel Subscription</a>
             </td>
         </tr>
     } 
@@ -71,6 +72,7 @@
                 }
                 @item.FailureMessage
             </td>
+            <td>@(item.IsRefunded.HasValue && item.IsRefunded.Value ? "YES" : "NO")</td>
             <td>@(item.Paid.HasValue && item.Paid == true ? "Yes" : "No")</td>
             <td>$@item.Total</td>
 

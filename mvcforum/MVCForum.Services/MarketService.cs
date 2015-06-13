@@ -136,18 +136,41 @@ namespace MVCForum.Services
                 else
                 {
                     stripeCustomer = CustomerService.Get(user.StripeCustomerId);
+                    if (!string.IsNullOrEmpty(purchaseOption.StripePlanId))
+                    {
+                        var subscription = SubscriptionService.Create(stripeCustomer.Id, purchaseOption.StripePlanId, new StripeSubscriptionCreateOptions()
+                       {
+                           Quantity = numberOfLicenses,
+                           Card = new StripeCreditCardOptions()
+                               {
+                                   CardName = cardInfo.CardName,
+                                   CardNumber = cardInfo.CardNumber,
+                                   CardAddressCity = cardInfo.CardCity,
+                                   CardAddressCountry = cardInfo.Country,
+                                   CardAddressLine1 = cardInfo.AddressLine1,
+                                   CardAddressLine2 = cardInfo.AddressLine2,
+                                   CardAddressState = cardInfo.State,
+                                   CardExpirationYear = cardInfo.ExpYear,
+                                   CardExpirationMonth = cardInfo.ExpMonth,
+                                   CardAddressZip = cardInfo.Zip,
+                                   CardCvc = cardInfo.Cvv,
+                               },
+                       });
+
+                    }
+
 
                 }
                 if (product.PurchaseRoleId != null)
                 {
                     var role = RoleService.GetRole(product.PurchaseRoleId.Value);
-                  
+
                     if (!user.Roles.Contains(role))
                     {
-                        user.Roles.Add(role);    
+                        user.Roles.Add(role);
                     }
-               
-                    
+
+
                 }
                 // Mark the user as a verified customer
                 var verifiedRole = RoleService.GetRole("Verified");
@@ -156,27 +179,27 @@ namespace MVCForum.Services
                     user.Roles.Add(verifiedRole);
                 }
                 // Now make the initial buy-in payment
-                var stripeCharge = new StripeChargeCreateOptions();
-                stripeCharge.CustomerId = stripeCustomer.Id;
-                stripeCharge.Capture = true;
-                stripeCharge.Amount = Convert.ToInt32(purchaseOption.BuyInPrice * 100);
-                stripeCharge.Metadata = new Dictionary<string, string> { { "MarketProductId", product.Id.ToString() } };
-                stripeCharge.Currency = "usd";
-                // Process the Payment
-                //var charge = ChargeService.Create(stripeCharge);
-                //if (charge.Paid)
-                //{
+                //var stripeCharge = new StripeChargeCreateOptions();
+                //stripeCharge.CustomerId = stripeCustomer.Id;
+                //stripeCharge.Capture = true;
+                //stripeCharge.Amount = Convert.ToInt32(purchaseOption.BuyInPrice * 100);
+                //stripeCharge.Metadata = new Dictionary<string, string> { { "MarketProductId", product.Id.ToString() } };
+                //stripeCharge.Currency = "usd";
+                //// Process the Payment
+                ////var charge = ChargeService.Create(stripeCharge);
+                ////if (charge.Paid)
+                ////{
 
-                    // Now set up the subscription if possible
-                    if (!string.IsNullOrEmpty(purchaseOption.StripePlanId))
-                    {
-                        var subscription = SubscriptionService.Create(stripeCustomer.Id, purchaseOption.StripePlanId, new StripeSubscriptionCreateOptions()
-                        {
-                            Quantity = numberOfLicenses,
-                        });
-                    }
-                //}
-                
+                //    // Now set up the subscription if possible
+                //    if (!string.IsNullOrEmpty(purchaseOption.StripePlanId))
+                //    {
+                //        var subscription = SubscriptionService.Create(stripeCustomer.Id, purchaseOption.StripePlanId, new StripeSubscriptionCreateOptions()
+                //        {
+                //            Quantity = numberOfLicenses,
+                //        });
+                //    }
+                ////}
+
 
                 unitOfWork.Commit();
             }
@@ -209,7 +232,10 @@ namespace MVCForum.Services
 
         public IEnumerable<PaymentInfo> GetCharges(MembershipUser user)
         {
-            yield break;
+            if (user.StripeCustomerId == null)
+            {
+                yield break;
+            }
             var charges = ChargeService.List(new StripeChargeListOptions()
             {
                 CustomerId = user.StripeCustomerId,
@@ -356,7 +382,7 @@ namespace MVCForum.Services
 
         public void EventReceived(StripeEvent stripeEvent)
         {
-            LogService.Error("STRIPE_EVENT:" + stripeEvent.UserId + ":" + stripeEvent.Type+": " +stripeEvent.Request);
+            LogService.Error("STRIPE_EVENT:" + stripeEvent.UserId + ":" + stripeEvent.Type + ": " + stripeEvent.Request);
             switch (stripeEvent.Type)
             {
                 case "charge.updated":
@@ -373,7 +399,7 @@ namespace MVCForum.Services
                         else if (stripeCharge.Paid)
                         {
                             // Add to role
-                            
+
                             // Mark the user as a verified customer
                             // TODO IMPLEMENT WEB HOOKS CALL BACKS
                             //var verifiedRole = RoleService.GetRole("Verified");
@@ -381,10 +407,10 @@ namespace MVCForum.Services
                             //{
                             //    user.Roles.Add(verifiedRole);
                             //}
-                            
+
                         }
                     }
-                    
+
                     break;
                 case "customer.subscription.trial_will_end":
                     var subscription = Mapper<StripeSubscription>.MapFromJson(stripeEvent.Data.Object.ToString());
