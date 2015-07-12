@@ -1378,7 +1378,7 @@ namespace MVCForum.Website.Controllers
                 if (invoice == null)
                 {
                     ViewBag.Error = "Sorry, but the invoice was not found.";
-                    return View();
+                    return AddUnityInvoice();
                 }
                 using (var work = UnitOfWorkManager.NewUnitOfWork())
                 {
