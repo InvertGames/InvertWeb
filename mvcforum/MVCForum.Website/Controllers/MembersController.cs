@@ -1293,7 +1293,7 @@ namespace MVCForum.Website.Controllers
             }
            return new HttpNotFoundResult("Unauthorized Access");
         }
-
+        [Authorize]
         public ActionResult SlackInvite()
         {
             Guid = new Guid("AA6496B6-D0E1-43E7-8F6B-E091A9B5B9B7");
@@ -1314,7 +1314,6 @@ namespace MVCForum.Website.Controllers
                     Subject = "New Slack Signup"
                 });
                 ViewBag.Message = "Your invitation will be sent in the next 24 hours.";
-
             }
             else
             {

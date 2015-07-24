@@ -19,7 +19,7 @@
             @Html.LanguageString("Facebook.Error.EnabledButNotAddedKeys")
         }
 
-        @if (!string.IsNullOrEmpty(ConfigUtils.GetAppSetting("TwitterAppId")) && !string.IsNullOrEmpty(ConfigUtils.GetAppSetting("TwitterAppSecret")))
+        @*@if (!string.IsNullOrEmpty(ConfigUtils.GetAppSetting("TwitterAppId")) && !string.IsNullOrEmpty(ConfigUtils.GetAppSetting("TwitterAppSecret")))
         {
             <a class="btn btn-large facebookloginbutton" href="@Url.Action("LogonTwitter", "Members")">
                 <img src="@Url.Content("~/Content/Images/social-icons/twitter.png")" class="socialicon" alt="@Html.LanguageString("Members.LogonTwitterButton")" />
@@ -38,7 +38,7 @@
         <a class="btn btn-large yahoologinbutton" href="@Url.Action("LogonYahoo", "Members")">
             <img src="@Url.Content("~/Content/Images/social-icons/yahoo.png")" class="socialicon" alt="@Html.LanguageString("Members.LogonYahooButton")" />
             @Html.LanguageString("Members.LogonYahooButton")
-        </a>
+        </a>*@
 
     </div>
     }

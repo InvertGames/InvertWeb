@@ -1,5 +1,5 @@
 ﻿/*--- Bootstrap Overides ---*/
-.container-fluid { max-width: 1000px; margin-left: auto; margin-right: auto; }
+.container-fluid { max-width: 1200px; margin-left: auto; margin-right: auto; }
 .navbar .brand { padding-top: 5px; padding-bottom: 3px; }
 input.btn, button.btn { font-weight: normal; }
 .navbar { background-color: #232323; margin-bottom: 15px; }
@@ -110,7 +110,7 @@ input.btn, button.btn { font-weight: normal; }
 /* --- Set main body styles --- */
 html { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
 input[type=submit] { -webkit-appearance: none; }
-body { font-family: 'MVCforumLight', Calibri, Arial, Helvetica, sans-serif; color: #626262; }
+body { font-family: Calibri, Arial, Helvetica, sans-serif !important; color: #626262; }
 
 /* ---- Generic Link Styles ---- */
 a, a:visited { color: #2470BB; }
@@ -151,7 +151,7 @@ p a:hover { text-decoration: none; }
 .languageselector {}
 .languageselector select { width: 98%;}
 
-hr.thin { margin: 14px 0; }
+hr.thin { margin: 5px 0; }
 .span9 hr.thin:last-child { display: none; }
 
 /*--- Padded Row ---*/
@@ -247,8 +247,8 @@ select { }
 .topicrow:after { clear: both; }
 .topicrowdetails { }
 .topicrowdetails .tagsinput { margin: 0; padding: 0; }
-.topicrowdetails h3 { margin: 0 0 12px 0; line-height: 25px; }
-.topicrowdetails h3 a, .topicrowdetails h3 a:visited { color: #4891DC; font-size: 26px; }
+.topicrowdetails h3 { margin: 0 0 4px 0; line-height: 25px; }
+.topicrowdetails h3 a, .topicrowdetails h3 a:visited { color: #4169e1; font-size: 14px;font-weight: bold; }
 
 .topicstats { text-align: center; }
 .statsblock { font-size: 14px; font-weight: bold; padding: 6px 0 2px 0; color: #fff; border-top: 2px solid #a8a7a7; height: 45px; width: 40px; float: left; background: none repeat scroll 0 0 #BFBFBF; }
@@ -354,9 +354,9 @@ p.lastedited { font-size: 11px; font-style: italic; color: #595959; }
 
 /*--- TAGS ---*/
 div.tagsinput { background: #FFF; padding: 10px 0 0 0; overflow-y: auto; }
-div.tagsinput span.tag { border: 1px solid #a5d24a; -moz-border-radius: 2px; -webkit-border-radius: 2px; display: block; float: left; padding: 2px 5px; text-decoration: none; background: #cde69c; color: #638421; margin-right: 5px; margin-bottom: 5px; }
-div.tagsinput span.tag:hover { background-color: #c3dc91; }
-div.tagsinput span.tag a { font-weight: bold; color: #82ad2b; text-decoration: none; font-size: 11px; }
+div.tagsinput span.tag { border: 1px solid #ccc; -moz-border-radius: 2px; -webkit-border-radius: 2px; display: block; float: left; padding: 2px; text-decoration: none; background: #f1f1f1; margin-right: 3px; margin-bottom:3px; }
+div.tagsinput span.tag:hover { background-color: #ccc; }
+div.tagsinput span.tag a { font-weight: bold; color: #ccc; text-decoration: none; font-size: 11px;color: #555 !important; }
 div.tagsinput input { width: 80px; margin: 0px; font-family: helvetica; font-size: 13px; padding: 5px; background: transparent; color: #000; outline: 0px; margin-right: 5px; margin-bottom: 5px; }
 div.tagsinput div { display: block; float: left; }
 .tags_clear { clear: both; width: 100%; height: 0px; }
@@ -569,12 +569,12 @@ ul.tagCloud li span.tagCount { float: left; padding: 0 2px; width: auto; display
 .categoryindex { }
 .categoryindex .categorydetails { padding-bottom: 17px; margin-bottom: 7px; border-bottom: 1px solid #eeeeee; }
 .categoryindex .categorydetails h2 { padding: 0 0 0 0; margin: 0 0 0 0; }
-.categoryindex .categorydetails p { padding: 0 0 8px 0; margin: 0 0 0 0; font-size: 15px; }
-.categoryindex .categorydetailsfooter { font-size: 12px; padding-top: 5px; padding-bottom: 0; }
+.categoryindex .categorydetails p { padding: 0 0 2px 0; margin: 0 0 0 0; font-size: 15px; }
+.categoryindex .categorydetailsfooter { font-size: 14px; padding-top: 1px; padding-bottom: 0; }
 .categoryindex .categorydetailsfooter .catrss { text-align: left; }
-.categoryindex .categorydetailsfooter .catrss .rsssubscribe { margin-bottom: 20px; float: none; margin: 0; }
-.categoryindex .categorydetailsfooter .catdiscussions { text-align: center; }
-.categoryindex .categorydetailsfooter .catcomments { text-align: center; }
+/*.categoryindex .categorydetailsfooter .catrss .rsssubscribe { margin-bottom: 20px; float: none; margin: 0; }*/
+.categoryindex .categorydetailsfooter .catdiscussions { text-align: left; }
+.categoryindex .categorydetailsfooter .catcomments { text-align: left; }
 .categoryindex .categorydetailsfooter .catmostrecent { text-align: right; }
 
 /*--- Pager ---*/

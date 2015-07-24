@@ -49,6 +49,7 @@
    
     <div class="col-md-8 categoryheading">
         <h2>@Html.Raw(@Model.Category.Name)</h2>
+        <p>@Html.Raw(AppHelpers.ConvertPostContent(Model.Category.Description))</p>
     </div>
     <div class="col-md-4 categoryrss">
         @if (Html.Settings().EnableRSSFeeds)
@@ -68,7 +69,7 @@
 
 </div>
 
-<p>@Html.Raw(AppHelpers.ConvertPostContent(Model.Category.Description))</p>
+
 
 @if (Model.Topics.TotalCount > 0)
 {

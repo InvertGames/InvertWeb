@@ -2,6 +2,7 @@
 
 
 @section fullwidth {
+    <div class="container-fluid">
     <div class="page-header">
 
         <div class="row">
@@ -13,15 +14,16 @@
 
     </div>
 
-
-        <div class='col-md-3'>
-            @(new MvcHtmlString(File.ReadAllText(Server.MapPath(string.Format("~/Documentation/{0}/toc.html",Model.Name)))))
-            @*<iframe src="/Documentation/@(Model.Name)/toc.html" style='width: 100%; height: 100%;'></iframe>*@
-        </div>
+    <link rel="stylesheet" type="text/css" href="/Documentation/MVVM/content.css">
+    <div class='col-md-3'>
+        @(new MvcHtmlString(File.ReadAllText(Server.MapPath(string.Format("~/Documentation/{0}/toc.html", Model.Name)))))
+        @*<iframe src="/Documentation/@(Model.Name)/toc.html" style='width: 100%; height: 100%;'></iframe>*@
+    </div>
     <div class='col-md-9'>
         @(new MvcHtmlString(File.ReadAllText(Server.MapPath(string.Format("~/Documentation/{0}/{1}.html", Model.Name, Model.Page)))))
         @*<iframe name='content-frame' id='content-frame' src="/Documentation/@(Model.Name)/@Page.html" style='width: 100%; height: 100%;'></iframe>*@
     </div>
+</div>
 
 
 }
