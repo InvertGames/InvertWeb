@@ -18,22 +18,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using uFrame.IOC;
+using uFrame.Kernel;
+using uFrame.MVVM;
+using uFrame.MVVM.Bindings;
+using uFrame.Serialization;
 using UnityEngine;
 using UniRx;
 
 
-public partial class PlayerViewModelBase : ViewModel {
-    
-    private Signal&lt;HitCommand&gt; _Hit;
-    
-    public virtual Signal&lt;HitCommand&gt; Hit {
-        get {
-            return _Hit;
-        }
-        set {
-            _Hit = value;
-        }
-    }
+public partial class PlayerViewModelBase : uFrame.MVVM.ViewModel {
     
     public override void Bind() {
         base.Bind();
@@ -54,13 +48,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using uFrame.MVVM;
+using uFrame.Kernel;
 using UniRx;
+using uFrame.Serialization;
+using uFrame.IOC;
 
 
-public class PlayerControllerBase : Controller {
-    
-    public virtual void Hit(PlayerViewModel viewModel) {
-    }
+public class PlayerControllerBase : uFrame.MVVM.Controller {
 }
 </code></pre><br/><br/><h3>Also See</h3><a href='Controllers.html' target='content-frame'>Controllers</a>
 <a href='CreationAndInitialization.html' target='content-frame'>Creation And Initialization</a>

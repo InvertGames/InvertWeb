@@ -144,7 +144,8 @@ namespace MVCForum.IOC
             container.BindInRequestScope<ICategoryAPI, CategoryAPI>();
             container.BindInRequestScope<IVoteAPI, VoteAPI>();
 #if DEBUG
-            string apiKey = "sk_test_DdJIac9GCGKRru97uUUEBrZe";
+            //string apiKey = "sk_test_DdJIac9GCGKRru97uUUEBrZe";
+            string apiKey = "sk_live_AvcuIzWZrowoGZ5biMYEGRCF";
 #else
             string apiKey = "sk_live_AvcuIzWZrowoGZ5biMYEGRCF";
 #endif

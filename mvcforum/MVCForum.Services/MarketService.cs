@@ -136,6 +136,13 @@ namespace MVCForum.Services
                 else
                 {
                     stripeCustomer = CustomerService.Get(user.StripeCustomerId);
+                    if (!string.IsNullOrEmpty(purchaseOption.StripePlanId))
+                    {
+                        var subscription = SubscriptionService.Create(stripeCustomer.Id, purchaseOption.StripePlanId, new StripeSubscriptionCreateOptions()
+                        {
+                            Quantity = numberOfLicenses,
+                        });
+                    }
 
                 }
                 if (product.PurchaseRoleId != null)
@@ -155,28 +162,17 @@ namespace MVCForum.Services
                 {
                     user.Roles.Add(verifiedRole);
                 }
-                // Now make the initial buy-in payment
-                var stripeCharge = new StripeChargeCreateOptions();
-                stripeCharge.CustomerId = stripeCustomer.Id;
-                stripeCharge.Capture = true;
-                stripeCharge.Amount = Convert.ToInt32(purchaseOption.BuyInPrice * 100);
-                stripeCharge.Metadata = new Dictionary<string, string> { { "MarketProductId", product.Id.ToString() } };
-                stripeCharge.Currency = "usd";
-                // Process the Payment
-                //var charge = ChargeService.Create(stripeCharge);
-                //if (charge.Paid)
+                //// Now make the initial buy-in payment
+                //if (purchaseOption.BuyInPrice > 0)
                 //{
-
-                    // Now set up the subscription if possible
-                    if (!string.IsNullOrEmpty(purchaseOption.StripePlanId))
-                    {
-                        var subscription = SubscriptionService.Create(stripeCustomer.Id, purchaseOption.StripePlanId, new StripeSubscriptionCreateOptions()
-                        {
-                            Quantity = numberOfLicenses,
-                        });
-                    }
+                //    var stripeCharge = new StripeChargeCreateOptions();
+                //    stripeCharge.CustomerId = stripeCustomer.Id;
+                //    stripeCharge.Capture = true;
+                //    stripeCharge.Amount = Convert.ToInt32(purchaseOption.BuyInPrice * 100);
+                //    stripeCharge.Metadata = new Dictionary<string, string> { { "MarketProductId", product.Id.ToString() } };
+                //    stripeCharge.Currency = "usd";
                 //}
-                
+
 
                 unitOfWork.Commit();
             }

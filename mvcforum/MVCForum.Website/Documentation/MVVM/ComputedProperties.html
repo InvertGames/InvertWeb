@@ -18,11 +18,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using uFrame.IOC;
+using uFrame.Kernel;
+using uFrame.MVVM;
+using uFrame.MVVM.Bindings;
+using uFrame.Serialization;
 using UnityEngine;
 using UniRx;
 
 
-public partial class PlayerViewModelBase : ViewModel {
+public partial class PlayerViewModelBase : uFrame.MVVM.ViewModel {
 }
 </code></pre><h3>ResetIsDead</h3><p>Usually fine without overriding, used to set up the computed observable
 </p><h3>ComputeIsDead</h3><p>A "getter" used to compute the property, based on dependents

@@ -822,6 +822,7 @@
     <Content Include="Documentation\MVVM\ImportantNotes.html" />
     <Content Include="Documentation\MVVM\index.html" />
     <Content Include="Documentation\MVVM\Instances.html" />
+    <Content Include="Documentation\MVVM\InteractiveTutorials%28Experimental%29.html" />
     <Content Include="Documentation\MVVM\InteractiveTutorials.html" />
     <Content Include="Documentation\MVVM\LoadingAndUnloadingScenes.html" />
     <Content Include="Documentation\MVVM\MVVM.html" />

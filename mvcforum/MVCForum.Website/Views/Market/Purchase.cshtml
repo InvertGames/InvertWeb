@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <h3>@Model.Title Licensing</h3>
     <hr />
-    @foreach (var option in Model.PurchaseOptions)
+    @foreach (var option in Model.PurchaseOptions.OrderBy(p=>p.BuyInPrice))
     {
         <div class="col-md-4">
             <div class="panel panel-default">

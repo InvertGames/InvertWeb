@@ -6,25 +6,30 @@
 @section title {
     @Html.ModalProperty("DownladsTitle")
 }
+@foreach (var group in Model.Downloads.GroupBy(p => p.RoleName))
+{
+    <h2>@group.Key</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Release Date</th><th>Product</th><th>Filename</th><th>Version</th></tr>
+        </thead>
 
-<table class="table table-striped">
-    <thead>
-    <tr><th>Release Date</th><th>Product</th><th>Version</th></tr>
-    </thead>
+        @foreach (var item in group.OrderBy(p => p.ReleaseDate))
+        {
+            <tr>
+                <td>@item.ReleaseDate</td>
+                <td>@item.Product.Title</td>
+                <td>@Path.GetFileName(item.File)</td>
+                <td>@item.Version</td>
+                <td><a class="btn btn-primary" href="@Url.Action("Download", "Members", new { fileId = item.Id })">Download</a></td>
+            </tr>
 
-    @foreach (var item in Model.Downloads.OrderBy(p=>p.ReleaseDate))
-    {
-        <tr>
-            <td>@item.ReleaseDate</td>
-            <td>@item.Product.Title</td>
-            <td>@item.Version</td>
-            <td><a class="btn btn-primary" href="@Url.Action("Download", "Members", new { fileId = item.Id })">Download</a></td>
-        </tr>
-
-    }
+        }
 
 
-</table>
+    </table>
+}
+
 
 @if (Model.UploadVM != null)
 {

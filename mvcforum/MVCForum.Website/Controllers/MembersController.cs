@@ -1332,7 +1332,9 @@ namespace MVCForum.Website.Controllers
             var vm = new DownloadsViewModel();
             try
             {
-                vm.Downloads = MarketService.GetUserDownloads(MembershipService.GetUser(Username));
+                vm.Downloads = MarketService.GetUserDownloads(MembershipService.GetUser(Username))
+                    .OrderByDescending(_=>_.ReleaseDate)
+                    ;
             } catch (Exception ex)
             {
                 vm.Downloads = new MarketProductDownload[] {};
@@ -1395,6 +1397,13 @@ namespace MVCForum.Website.Controllers
 
                         };
                         RoleService.CreateRole(role);
+                    }
+                    if (invoice.Package == "uFrame Game Framework" || invoice.Package == "uFrame MVVM")
+                    {
+                        if (invoice.Date < new DateTime(2015, 10, 1))
+                        {
+                            user.Roles.Add(RoleService.GetRole("uFrame ECS Indie"));
+                        }
                     }
                     user.Roles.Add(RoleService.GetRole("Verified"));
                     user.Roles.Add(role);
