@@ -23,7 +23,7 @@
             </div>
         }
 
-        var view = Html.Selection("ItemView", "Default", "50-50","40-60","Carousel", "NewsLetter", "Testimonials", "Boxes").ToHtmlString().Trim();
+        var view = Html.Selection("ItemView", "Default", "50-50", "40-60", "Carousel", "NewsLetter", "Testimonials", "Boxes", "GitHubMarkdown").ToHtmlString().Trim();
         <div class="row" style="border-top: @(borderStyle); background-image: url(@(backgroundImage)); background-color: @backgroundColor; padding-top: @(padding)px; padding-bottom: @(padding)px;">
 
             @if (view == "Default")
@@ -87,6 +87,23 @@
                     <div class="clearfix"></div>
                 }
             }
+            else if (view == "GitHubMarkdown")
+            {
+                <div class="container-fluid">
+                    <div class="row">
+                        @try
+                        {
+                            @Html.Raw(AppHelpers.ConvertPostContent(AppHelpers.ReplaceMarkdownUrls(new WebClient()
+                                .DownloadString(Html.Property("Url")),Html.Property("LinkPrefix"))))
+                        }
+                        catch (Exception ex)
+                        {
+                            
+                        }
+                        
+                    </div>
+                </div>
+            }
             else if (view == "50-50")
             {
                 <div class="container-fluid">
@@ -108,23 +125,23 @@
             }
             else if (view == "40-60")
             {
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        
-                                    </div>
-                                    <div class="col-md-4" style="color: #444 !important;">
-                                        <h1 style="color: #111;">@Html.ModalProperty("Title")</h1>
-                                        @Html.MarkdownProperty("Content")
-                                    </div>
-                                    <div class="col-md-8">
-                                        @{
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                        </div>
+                        <div class="col-md-4" style="color: #444 !important;">
+                            <h1 style="color: #111;">@Html.ModalProperty("Title")</h1>
+                            @Html.MarkdownProperty("Content")
+                        </div>
+                        <div class="col-md-8">
+                            @{
                 var youtubeUrl = Html.Property("ImageUrl");
-                                        }
-                                        <img class="img-responsive" src="@youtubeUrl" width="700" height="450" alt="">
-                                    </div>
-                                </div>
-                            </div>
+                            }
+                            <img class="img-responsive" src="@youtubeUrl" width="700" height="450" alt="">
+                        </div>
+                    </div>
+                </div>
             }
             else if (view == "Testimonials")
             {
@@ -173,22 +190,22 @@
                             {
                                 <div class="col-md-4">
                                     <div class="panel panel-default">
-                                   
+
                                         <div class="panel-body">
                                             @if (list.PageContext.CanEdit)
-                                            {    
-                                                
+                                            {
+
                                                 <div class="panel-heading">
-                                                      @item.AdminBar()
-                                                 </div>
-                                               
+                                                    @item.AdminBar()
+                                                </div>
+
                                             }
                                             <h3>@Html.ModalProperty("Title")</h3>
                                             <p>@Html.ModalProperty("Desription")</p>
-                                            <br/>
+                                            <br />
                                             <a href="@Html.Property("LinkUrl")" class="btn btn-primary btn-large">Learn More</a>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
 

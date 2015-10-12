@@ -215,7 +215,7 @@ namespace MVCForum.Website.Controllers
                 Reviews = product.Reviews,
                 Images = product.Images,
                 ReleaseDate = product.ReleaseDate,
-                PriceLow = product.PurchaseOptions.Min(p=>p.BuyInPrice),
+                //PriceLow = product.PurchaseOptions.Min(p=>p.BuyInPrice),
                 ProductName = product.Name
             };
             return vm;

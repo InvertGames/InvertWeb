@@ -2,10 +2,45 @@
 @model MVCForum.Website.ViewModels.MarketProductViewModel
 <div class="container-fluid">
     <h3>@Model.Title Licensing</h3>
-    <hr />
+    <hr/>
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 style="font-weight: bolder">Demo Version</h4>
+            </div>
+
+            <table class="table">
+                <tr><td style="text-align: center; font-size: 35px">FREE</td></tr>
+                @using (var list = Html.List(Model.ProductId + "DEMOVERSION", false))
+                {
+                    foreach (PageContentViewModel item in list)
+                    {
+                        <tr>
+                            <td style="text-align: center !important;">
+                                @if (list.CanEdit)
+                                {
+                                    <div>@item.AdminBar()</div>
+                                }
+                                @Html.ModalProperty("Label")
+                            </td>
+                        </tr>
+                    }
+                    if (list.CanEdit)
+                    {
+                        <tr><td>@list.AddNewLink</td></tr>
+                    }
+                }
+
+            </table>
+            <div class="panel-footer" style="text-align: right;">
+                <a href="@Html.Property("DemoDownloadLink")" class="btn btn-success">Download</a>
+            </div>
+        </div>
+    </div>
+
     @foreach (var option in Model.PurchaseOptions.OrderBy(p=>p.BuyInPrice))
     {
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 style="font-weight: bolder">@(option.PlanName)</h4>

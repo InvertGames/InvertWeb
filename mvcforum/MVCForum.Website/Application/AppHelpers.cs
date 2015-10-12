@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
@@ -230,6 +231,17 @@ namespace MVCForum.Website.Application
         public static HtmlString Tabs(this HtmlHelper helper, string friendlyId)
         {
             return helper.Partial("_Tabs", friendlyId);
+        }
+
+        public static string ReplaceMarkdownUrls(string content, string prefix)
+        {
+            return Regex.Replace(content, @"\((.*?)\)", new MatchEvaluator(m =>
+            {
+                var value = m.Groups[1].Value;
+                if (value.StartsWith("http"))
+                    return m.Value;
+                return string.Format("({0}{1})", prefix, value);
+            }));
         }
         public static string ConvertPostContent(string post)
         {

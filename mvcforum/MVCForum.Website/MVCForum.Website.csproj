@@ -200,6 +200,9 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Octokit">
+      <HintPath>..\packages\Octokit.0.16.0\lib\net45\Octokit.dll</HintPath>
+    </Reference>
     <Reference Include="SquishIt.Framework, Version=0.9.5.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\SquishIt.0.9.5.4\lib\SquishIt.Framework.dll</HintPath>
@@ -341,6 +344,7 @@
     <Compile Include="Controllers\DocsController.cs" />
     <Compile Include="Controllers\DocumentationController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
+    <Compile Include="Controllers\GitController.cs" />
     <Compile Include="Controllers\InstallController.cs" />
     <Compile Include="Controllers\MarketController.cs" />
     <Compile Include="Controllers\PageContentController.cs" />
@@ -1901,6 +1905,7 @@
     <Folder Include="Views\Documentation\" />
     <Folder Include="Views\EditablePageContext\" />
     <Folder Include="Views\Extensions\" />
+    <Folder Include="Views\Git\" />
     <Folder Include="Views\PageContent\" />
     <Folder Include="Views\Stripe\" />
   </ItemGroup>
