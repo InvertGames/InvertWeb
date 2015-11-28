@@ -66,7 +66,7 @@ namespace MVCForum.Website.Controllers
             _bannedWordService = bannedWordService;
 
             LoggedOnUser = UserIsAuthenticated ? MembershipService.GetUser(Username) : null;
-            UsersRole = LoggedOnUser == null ? RoleService.GetRole(AppConstants.GuestRoleName) : LoggedOnUser.Roles.FirstOrDefault();
+            UsersRole = LoggedOnUser == null ? roleService.GetRole(AppConstants.GuestRoleName) : LoggedOnUser.Roles.FirstOrDefault();
         }
 
         #region Common Methods
